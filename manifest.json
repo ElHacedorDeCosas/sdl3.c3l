@@ -1,0 +1,51 @@
+{
+  "provides" : "sdl3",
+  "sources" : [ "src/**" ],
+  "targets" : {
+    "linux-x64" : {
+      "link-args" : [],
+      "dependencies" : [],
+      "linked-libraries" : [ "SDL3" ]
+    },
+    "macos-aarch64" : {
+      "link-args" : [],
+      "dependencies" : [],
+      "linked-libraries" : []
+    },
+    "macos-x64" : {
+      "link-args" : [],
+      "dependencies" : [],
+      "linked-libraries" : []
+    },
+    "netbsd-x64" : {
+      "link-args" : [],
+      "dependencies" : [],
+      "linked-libraries" : []
+    },
+    "openbsd-x64" : {
+      "link-args" : [],
+      "dependencies" : [],
+      "linked-libraries" : []
+    },
+    "wasm32" : {
+      "link-args" : [],
+      "dependencies" : [],
+      "linked-libraries" : []
+    },
+    "wasm64" : {
+      "link-args" : [],
+      "dependencies" : [],
+      "linked-libraries" : []
+    },
+    "windows-aarch64" : {
+      "link-args" : [],
+      "dependencies" : [],
+      "linked-libraries" : []
+    },
+    "windows-x64" : {
+      "link-args" : [],
+      "dependencies" : [],
+      "linked-libraries" : []
+    },
+  }
+}

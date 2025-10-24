@@ -1,0 +1,44 @@
+<*
+ SDL Dialog
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryDialog
+ TODO: add missing documentation
+*>
+module sdl::dialog;
+
+import sdl::properties;
+
+struct SDLDialogFileFilter
+{
+	ZString name;
+	ZString pattern;
+}
+
+alias SDLDialogFileCallback = fn void(void* userdata, ZString* filelist, int filter);
+
+extern fn void show_open_file_dialog(SDLDialogFileCallback callback, void* userdata, SDLWindow* window, SDLDialogFileFilter* filters, int nfilters, ZString default_location, bool allow_many) @extern("SDL_ShowOpenFileDialog");
+extern fn void show_save_file_dialog(SDLDialogFileCallback callback, void* userdata, SDLWindow* window, SDL_DialogFileFilter* filters, int nfilters, ZString default_location) @extern("SDL_ShowSaveFileDialog");
+extern fn void show_open_folder_dialog(SDLDialogFileCallback callback, void* userdata, SDLWindow* window, ZString default_location, bool allow_many) @extern("SDL_ShowOpenFolderDialog");
+
+enum SDLFileDialogType
+{
+	SDL_FILEDIALOG_OPENFILE,
+	SDL_FILEDIALOG_SAVEFILE,
+	SDL_FILEDIALOG_OPENFOLDER
+}
+
+extern fn void show_file_dialog_with_properties(SDLFileDialogType type, SDLDialogFileCallback callback, void* userdata, SDLPropFileDialog props) @extern("SDL_ShowFileDialogWithProperties");
+
+enum SDLPropFileDialog : const SDLPropertiesID
+{
+	FILTERS_POINTER    = "SDL.filedialog.filters",
+	NFILTERS_NUMBER    = "SDL.filedialog.nfilters",
+	WINDOW_POINTER     = "SDL.filedialog.window",
+	LOCATION_STRING    = "SDL.filedialog.location",
+	MANY_BOOLEAN       = "SDL.filedialog.many",
+	TITLE_STRING       = "SDL.filedialog.title",
+	ACCEPT_STRING      = "SDL.filedialog.accept",
+	CANCEL_STRING      = "SDL.filedialog.cancel",
+}
+
+

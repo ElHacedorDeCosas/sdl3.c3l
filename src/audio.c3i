@@ -1,0 +1,1055 @@
+<*
+ Audio functionality for the SDL library.
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryAudio
+ TODO: add missing documentation
+*>
+module sdl::audio;
+
+import sdl::properties;
+
+<*
+ Mask of bits in an SDL_AudioFormat that contains the format bit size.
+ This macro is available since SDL 3.2.0.
+
+ Generally one should use SDL_AUDIO_BITSIZE instead of this macro directly.
+*>
+const AUDIO_MASK_BITSIZE = 0xFFu;
+
+<*
+ Mask of bits in an SDL_AudioFormat that contain the floating point flag.
+ This macro is available since SDL 3.2.0.
+
+ Generally one should use SDL_AUDIO_ISFLOAT instead of this macro directly.
+*>
+const AUDIO_MASK_FLOAT = 1u << 8;
+
+<*
+ Mask of bits in an SDL_AudioFormat that contain the bigendian flag.
+ This macro is available since SDL 3.2.0.
+
+ Generally one should use SDL_AUDIO_ISBIGENDIAN or SDL_AUDIO_ISLITTLEENDIAN
+ instead of this macro directly.
+*>
+const AUDIO_MASK_BIG_ENDIAN = 1u << 12;
+
+<*
+ Mask of bits in an SDL_AudioFormat that contain the signed data flag.
+ This macro is available since SDL 3.2.0.
+
+ Generally one should use SDL_AUDIO_ISSIGNED instead of this macro directly.
+*>
+const AUDIO_MASK_SIGNED = 1u << 15;
+
+<*
+ Define an SDL_AudioFormat value.
+ This macro is available since SDL 3.2.0.
+
+ SDL does not support custom audio formats, so this macro is not of much use
+ externally, but it can be illustrative as to what the various bits of an
+ SDL_AudioFormat mean.
+
+ For example, SDL_AUDIO_S32LE looks like this:
+
+ ```c
+ SDL_DEFINE_AUDIO_FORMAT(1, 0, 0, 32)
+ ```
+ threadsafety: It is safe to call this macro from any thread.
+
+ @param signed : `1 for signed data, 0 for unsigned data.`
+ @param bigendian : `1 for bigendian data, 0 for littleendian data.`
+ @param flt : `1 for floating point data, 0 for integer data.`
+ @param size : `number of bits per sample.`
+ @return `a format value in the style of SDL_AudioFormat.`
+*>
+macro define_audio_format(signed, bigendian, flt, size)
+{
+	return (ushort)signed << 15 | (ushort)bigendian << 12 | (ushort)flt << 8 | (size & AUDIO_MASK_BITSIZE);
+}
+
+<*
+ Audio format.
+ This enum is available since SDL 3.2.0.
+*>
+enum SDLAudioFormat : const uint
+{
+	UNKNOWN   = 0x0000u,  // Unspecified audio format
+	U8        = 0x0008u,  // Unsigned 8-bit samples
+	// SDL_DEFINE_AUDIO_FORMAT(0, 0, 0, 8),
+	S8        = 0x8008u,  // Signed 8-bit samples
+	// SDL_DEFINE_AUDIO_FORMAT(1, 0, 0, 8),
+	S16LE     = 0x8010u,  // Signed 16-bit samples
+	// SDL_DEFINE_AUDIO_FORMAT(1, 0, 0, 16), 
+	S16BE     = 0x9010u,  // As above, but big-endian byte order
+	// SDL_DEFINE_AUDIO_FORMAT(1, 1, 0, 16), 
+	S32LE     = 0x8020u,  // 32-bit integer samples
+	// SDL_DEFINE_AUDIO_FORMAT(1, 0, 0, 32), 
+	S32BE     = 0x9020u,  // As above, but big-endian byte order
+	// SDL_DEFINE_AUDIO_FORMAT(1, 1, 0, 32), 
+	F32LE     = 0x8120u,  // 32-bit floating point samples
+	// SDL_DEFINE_AUDIO_FORMAT(1, 0, 1, 32),
+	F32BE     = 0x9120u,  // As above, but big-endian byte order
+	// SDL_DEFINE_AUDIO_FORMAT(1, 1, 1, 32), 
+
+	// These represent the current system's byteorder.
+	S16       = env::BIG_ENDIAN ? (int)SDLAudioFormat.S16BE : (int)SDLAudioFormat.S16LE,
+	S32       = env::BIG_ENDIAN ? (int)SDLAudioFormat.S32BE : (int)SDLAudioFormat.S32LE,
+	F32       = env::BIG_ENDIAN ? (int)SDLAudioFormat.F32BE : (int)SDLAudioFormat.F32LE,
+}
+
+<*
+ Retrieve the size, in bits, from an SDL_AudioFormat.
+ This macro is available since SDL 3.2.0.
+
+ For example, `SDL_AUDIO_BITSIZE(SDL_AUDIO_S16)` returns 16.
+
+ threadsafety: It is safe to call this macro from any thread.
+
+ @param x : `an SDL_AudioFormat value.`
+ @return `data size in bits.`
+*>
+macro audio_bitsize(x) => x & AUDIO_MASK_BITSIZE;
+
+<*
+ Retrieve the size, in bytes, from an SDL_AudioFormat.
+ This macro is available since SDL 3.2.0.
+
+ For example, `SDL_AUDIO_BYTESIZE(SDL_AUDIO_S16)` returns 2.
+ 
+ threadsafety: It is safe to call this macro from any thread.
+
+ @param x : `an SDL_AudioFormat value.`
+ @return `data size in bytes.`
+*>
+macro audio_bytesize(x) => audio_bitsize(x) / 8;
+
+<*
+ Determine if an SDL_AudioFormat represents floating point data.
+ This macro is available since SDL 3.2.0.
+
+ For example, `SDL_AUDIO_ISFLOAT(SDL_AUDIO_S16)` returns 0.
+ 
+ threadsafety: It is safe to call this macro from any thread.
+
+ @param x : `an SDL_AudioFormat value.`
+ @return `non-zero if format is floating point, zero otherwise.`
+*>
+macro audio_is_float(x) => x & AUDIO_MASK_FLOAT;
+
+<*
+ Determine if an SDL_AudioFormat represents bigendian data.
+ This macro is available since SDL 3.2.0.
+
+ For example, `SDL_AUDIO_ISBIGENDIAN(SDL_AUDIO_S16LE)` returns 0.
+
+ threadsafety: It is safe to call this macro from any thread.
+
+ @param x : `an SDL_AudioFormat value.`
+ @return `non-zero if format is bigendian, zero otherwise.`
+*>
+macro audio_is_bigendian(x) => x & AUDIO_MASK_BIG_ENDIAN;
+
+<*
+ Determine if an SDL_AudioFormat represents littleendian data.
+ This macro is available since SDL 3.2.0.
+
+ For example, `SDL_AUDIO_ISLITTLEENDIAN(SDL_AUDIO_S16BE)` returns 0.
+ 
+ threadsafety: It is safe to call this macro from any thread.
+
+ @param x : `an SDL_AudioFormat value.`
+ @return `non-zero if format is littleendian, zero otherwise.`
+*>
+macro audio_is_littleendian(x) => !audio_is_bigendian(x);
+
+<*
+ Determine if an SDL_AudioFormat represents signed data.
+ This macro is available since SDL 3.2.0.
+
+ For example, `SDL_AUDIO_ISSIGNED(SDL_AUDIO_U8)` returns 0.
+ 
+ threadsafety: It is safe to call this macro from any thread.
+
+ @param x : `an SDL_AudioFormat value.`
+ @return `non-zero if format is signed, zero otherwise.`
+*>
+macro audio_is_signed(x) => x & AUDIO_MASK_SIGNED;
+
+<*
+ Determine if an SDL_AudioFormat represents integer data.
+ This macro is available since SDL 3.2.0.
+
+ For example, `SDL_AUDIO_ISINT(SDL_AUDIO_F32)` returns 0.
+ 
+ threadsafety: It is safe to call this macro from any thread.
+
+ @param x : `an SDL_AudioFormat value.`
+ @return `non-zero if format is integer, zero otherwise.`
+*>
+macro audio_is_int(x) => !audio_is_float(x);
+
+<*
+ Determine if an SDL_AudioFormat represents unsigned data.
+ This macro is available since SDL 3.2.0.
+
+ For example, `SDL_AUDIO_ISUNSIGNED(SDL_AUDIO_S16)` returns 0.
+ 
+ threadsafety: It is safe to call this macro from any thread.
+
+ @param x : `an SDL_AudioFormat value.`
+ @return `non-zero if format is unsigned, zero otherwise.`
+*>
+macro audio_is_unsigned(x) => !audio_is_signed(x);
+
+<*
+ SDL Audio Device instance IDs.
+ This datatype is available since SDL 3.2.0.
+
+ Zero is used to signify an invalid/null device.
+*>
+typedef SDLAudioDeviceID = uint;
+
+<*
+ A value used to request a default playback audio device.
+ This macro is available since SDL 3.2.0.
+
+ Several functions that require an SDL_AudioDeviceID will accept this value
+ to signify the app just wants the system to choose a default device instead
+ of the app providing a specific one.
+*>
+const SDLAudioDeviceID AUDIO_DEVICE_DEFAULT_PLAYBACK = 0xFFFFFFFF;
+
+<*
+ A value used to request a default recording audio device.
+ This macro is available since SDL 3.2.0.
+
+ Several functions that require an SDL_AudioDeviceID will accept this value
+ to signify the app just wants the system to choose a default device instead
+ of the app providing a specific one.
+*>
+const SDLAudioDeviceID AUDIO_DEVICE_DEFAULT_RECORDING = 0xFFFFFFFE;
+
+<*
+ Format specifier for audio data.
+ This struct is available since SDL 3.2.0.
+*>
+struct SDLAudioSpec
+{
+	SDLAudioFormat format;       // Audio data format */
+	CInt channels;               // Number of channels: 1 mono, 2 stereo, etc */
+	CInt freq;                   // sample rate: sample frames per second */
+} 
+
+<*
+ Calculate the size of each audio frame (in bytes) from an SDL_AudioSpec.
+ This macro is available since SDL 3.2.0.
+
+ This reports on the size of an audio sample frame: stereo Sint16 data (2
+ channels of 2 bytes each) would be 4 bytes per frame, for example.
+ 
+ threadsafety: It is safe to call this macro from any thread.
+
+ @param x : `an SDL_AudioSpec to query.`
+ @return `the number of bytes used per sample frame.`
+*>
+macro SDLAudioSpec.framesize(x) 
+{
+	return audio_byte_size(x.format) * x.channels;
+}
+
+<*
+ The opaque handle that represents an audio stream.
+ This struct is available since SDL 3.2.0.
+
+ SDL_AudioStream is an audio conversion interface.
+
+ - It can handle resampling data in chunks without generating artifacts,
+   when it doesn't have the complete buffer available.
+ - It can handle incoming data in any variable size.
+ - It can handle input/output format changes on the fly.
+ - It can remap audio channels between inputs and outputs.
+ - You push data as you have it, and pull it when you need it
+ - It can also function as a basic audio data queue even if you just have
+   sound that needs to pass from one place to another.
+ - You can hook callbacks up to them when more data is added or requested,
+   to manage data on-the-fly.
+
+ Audio streams are the core of the SDL3 audio interface. You create one or
+ more of them, bind them to an opened audio device, and feed data to them
+ (or for recording, consume data from them).
+*>
+typedef SDLAudioStream = void;
+
+<*
+ Use this function to get the number of built-in audio drivers.
+ This function is available since SDL 3.2.0.
+
+ This function returns a hardcoded number. This never returns a negative
+ value; if there are no drivers compiled into this build of SDL, this
+ function returns zero. The presence of a driver in this list does not mean
+ it will function, it just means SDL is capable of interacting with that
+ interface. For example, a build of SDL might have esound support, but if
+ there's no esound server available, SDL's esound driver would fail if used.
+
+ By default, SDL tries all drivers, in its preferred order, until one is
+ found to be usable.
+ 
+ threadsafety: It is safe to call this function from any thread.
+
+ @return `the number of built-in audio drivers.`
+*>
+extern fn int get_num_audio_drivers() @extern("SDL_GetNumAudioDrivers");
+
+<*
+ Use this function to get the name of a built in audio driver.
+ This function is available since SDL 3.2.0.
+
+ The list of audio drivers is given in the order that they are normally
+ initialized by default; the drivers that seem more reasonable to choose
+ first (as far as the SDL developers believe) are earlier in the list.
+
+ The names of drivers are all simple, low-ASCII identifiers, like "alsa",
+ "coreaudio" or "wasapi". These never have Unicode characters, and are not
+ meant to be proper names.
+ 
+ threadsafety: It is safe to call this function from any thread.
+
+ @param index : `the index of the audio driver; the value ranges from 0 to SDL_GetNumAudioDrivers() - 1.`
+ @return `the name of the audio driver at the requested index, or NULL if an invalid index was specified.`
+*>
+extern fn ZString get_audio_driver(int index) @extern("SDL_GetAudioDriver");
+
+<*
+ Get the name of the current audio driver.
+ This function is available since SDL 3.2.0.
+
+ The names of drivers are all simple, low-ASCII identifiers, like "alsa",
+ "coreaudio" or "wasapi". These never have Unicode characters, and are not
+ meant to be proper names.
+ 
+ threadsafety: It is safe to call this function from any thread.
+
+ @return `the name of the current audio driver or NULL if no driver has been initialized.`
+
+*>
+extern fn ZString get_current_audio_driver() @extern("SDL_GetCurrentAudioDriver");
+
+<*
+ Get a list of currently-connected audio playback devices.
+ This function is available since SDL 3.2.0.
+
+ This returns of list of available devices that play sound, perhaps to
+ speakers or headphones ("playback" devices). If you want devices that
+ record audio, like a microphone ("recording" devices), use
+ SDL_GetAudioRecordingDevices() instead.
+
+ This only returns a list of physical devices; it will not have any device
+ IDs returned by SDL_OpenAudioDevice().
+
+ If this function returns NULL, to signify an error, `*count` will be set to
+ zero.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param count : `a pointer filled in with the number of devices returned, may be NULL.`
+ @return `a 0 terminated array of device instance IDs or NULL on error; call SDL_GetError() for more information. This should be freed with SDL_free() when it is no longer needed.`
+*>
+extern fn SDLAudioDeviceID* get_audio_playback_devices(int* count) @extern("SDL_GetAudioPlaybackDevices");
+
+<*
+ Get a list of currently-connected audio recording devices.
+ This function is available since SDL 3.2.0.
+
+ This returns of list of available devices that record audio, like a
+ microphone ("recording" devices). If you want devices that play sound,
+ perhaps to speakers or headphones ("playback" devices), use
+ SDL_GetAudioPlaybackDevices() instead.
+
+ This only returns a list of physical devices; it will not have any device
+ IDs returned by SDL_OpenAudioDevice().
+
+ If this function returns NULL, to signify an error, `*count` will be set to
+ zero.
+ 
+ threadsafety: It is safe to call this function from any thread.
+
+ @param count : `a pointer filled in with the number of devices returned, may be NULL.`
+ @return `a 0 terminated array of device instance IDs, or NULL on failure; call SDL_GetError() for more information. This should be freed with SDL_free() when it is no longer needed.`
+*>
+extern fn SDLAudioDeviceID* get_audio_recording_devices(int* count) @extern("SDL_GetAudioRecordingDevices");
+
+<*
+ Get the human-readable name of a specific audio device.
+ This function is available since SDL 3.2.0.
+ 
+ threadsafety: It is safe to call this function from any thread.
+
+ @param devid : `the instance ID of the device to query.`
+ @return `the name of the audio device, or NULL on failure; call SDL_GetError() for more information.`
+*>
+extern fn ZString SDLAudioDeviceID.get_name(devid) @extern("SDL_GetAudioDeviceName");
+
+<*
+ Get the current audio format of a specific audio device.
+ This function is available since SDL 3.2.0.
+
+ For an opened device, this will report the format the device is currently
+ using. If the device isn't yet opened, this will report the device's
+ preferred format (or a reasonable default if this can't be determined).
+
+ You may also specify SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK or
+ SDL_AUDIO_DEVICE_DEFAULT_RECORDING here, which is useful for getting a
+ reasonable recommendation before opening the system-recommended default
+ device.
+
+ You can also use this to request the current device buffer size. This is
+ specified in sample frames and represents the amount of data SDL will feed
+ to the physical hardware in each chunk. This can be converted to
+ milliseconds of audio with the following equation:
+
+ `ms = (int) ((((Sint64) frames) * 1000) / spec.freq);`
+
+ Buffer size is only important if you need low-level control over the audio
+ playback timing. Most apps do not need this.
+ 
+ threadsafety: It is safe to call this function from any thread.
+
+ @param devid : `the instance ID of the device to query.`
+ @param spec : `on return, will be filled with device details.`
+ @param sample_frames : `pointer to store device buffer size, in sample frames. Can be NULL.`
+ @return `true on success or false on failure; call SDL_GetError() for more information.`
+*>
+extern fn bool SDLAudioDeviceID.get_format(devid, SDLAudioSpec* spec, int* sample_frames) @extern("SDL_GetAudioDeviceFormat");
+
+<*
+ Get the current channel map of an audio device.
+ This function is available since SDL 3.2.0.
+
+ Channel maps are optional; most things do not need them, instead passing
+ data in the [order that SDL expects](CategoryAudio#channel-layouts).
+
+ Audio devices usually have no remapping applied. This is represented by
+ returning NULL, and does not signify an error.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param devid : `the instance ID of the device to query.`
+ @param count : `On output, set to number of channels in the map. Can be NULL.`
+ @return `an array of the current channel mapping, with as many elements as the current output spec's channels, or NULL if default. This should be freed with SDL_free() when it is no longer needed.`
+*>
+extern fn int* SDLAudioDeviceID.get_channel_map(devid, int* count) @extern("SDL_GetAudioDeviceChannelMap");
+
+<*
+ Open a specific audio device.
+ This function is available since SDL 3.2.0.
+
+ You can open both playback and recording devices through this function.
+ Playback devices will take data from bound audio streams, mix it, and send
+ it to the hardware. Recording devices will feed any bound audio streams
+ with a copy of any incoming data.
+
+ An opened audio device starts out with no audio streams bound. To start
+ audio playing, bind a stream and supply audio data to it. Unlike SDL2,
+ there is no audio callback; you only bind audio streams and make sure they
+ have data flowing into them (however, you can simulate SDL2's semantics
+ fairly closely by using SDL_OpenAudioDeviceStream instead of this
+ function).
+
+ If you don't care about opening a specific device, pass a `devid` of either
+ `SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK` or
+ `SDL_AUDIO_DEVICE_DEFAULT_RECORDING`. In this case, SDL will try to pick
+ the most reasonable default, and may also switch between physical devices
+ seamlessly later, if the most reasonable default changes during the
+ lifetime of this opened device (user changed the default in the OS's system
+ preferences, the default got unplugged so the system jumped to a new
+ default, the user plugged in headphones on a mobile device, etc). Unless
+ you have a good reason to choose a specific device, this is probably what
+ you want.
+
+ You may request a specific format for the audio device, but there is no
+ promise the device will honor that request for several reasons. As such,
+ it's only meant to be a hint as to what data your app will provide. Audio
+ streams will accept data in whatever format you specify and manage
+ conversion for you as appropriate. SDL_GetAudioDeviceFormat can tell you
+ the preferred format for the device before opening and the actual format
+ the device is using after opening.
+
+ It's legal to open the same device ID more than once; each successful open
+ will generate a new logical SDL_AudioDeviceID that is managed separately
+ from others on the same physical device. This allows libraries to open a
+ device separately from the main app and bind its own streams without
+ conflicting.
+
+ It is also legal to open a device ID returned by a previous call to this
+ function; doing so just creates another logical device on the same physical
+ device. This may be useful for making logical groupings of audio streams.
+
+ This function returns the opened device ID on success. This is a new,
+ unique SDL_AudioDeviceID that represents a logical device.
+
+ Some backends might offer arbitrary devices (for example, a networked audio
+ protocol that can connect to an arbitrary server). For these, as a change
+ from SDL2, you should open a default device ID and use an SDL hint to
+ specify the target if you care, or otherwise let the backend figure out a
+ reasonable default. Most backends don't offer anything like this, and often
+ this would be an end user setting an environment variable for their custom
+ need, and not something an application should specifically manage.
+
+ When done with an audio device, possibly at the end of the app's life, one
+ should call SDL_CloseAudioDevice() on the returned device id.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param devid : `the device instance id to open, or SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK or SDL_AUDIO_DEVICE_DEFAULT_RECORDING for the most reasonable default device.`
+ @param spec : `the requested device configuration. Can be NULL to use reasonable defaults.`
+ @return `the device ID on success or 0 on failure; call SDL_GetError() for more information.`
+*>
+extern fn SDLAudioDeviceID SDLAudioDeviceID.open(devid, SDLAudioSpec* spec) @extern("SDL_OpenAudioDevice");
+
+<*
+ Determine if an audio device is physical (instead of logical).
+ This function is available since SDL 3.2.0.
+
+ An SDL_AudioDeviceID that represents physical hardware is a physical
+ device; there is one for each piece of hardware that SDL can see. Logical
+ devices are created by calling SDL_OpenAudioDevice or
+ SDL_OpenAudioDeviceStream, and while each is associated with a physical
+ device, there can be any number of logical devices on one physical device.
+
+ For the most part, logical and physical IDs are interchangeable--if you try
+ to open a logical device, SDL understands to assign that effort to the
+ underlying physical device, etc. However, it might be useful to know if an
+ arbitrary device ID is physical or logical. This function reports which.
+
+ This function may return either true or false for invalid device IDs.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param devid : `the device ID to query.`
+ @return `true if devid is a physical device, false if it is logical.`
+*>
+extern fn bool SDLAudioDeviceID.is_physical(devid) @extern("SDL_IsAudioDevicePhysical");
+
+<*
+ Determine if an audio device is a playback device (instead of recording).
+ This function is available since SDL 3.2.0.
+
+ This function may return either true or false for invalid device IDs.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param devid : `the device ID to query.`
+ @return `true if devid is a playback device, false if it is recording.`
+*>
+extern fn bool SDLAudioDeviceID.is_playback(devid) @extern("SDL_IsAudioDevicePlayback");
+
+<*
+ Use this function to pause audio playback on a specified device.
+ This function is available since SDL 3.2.0.
+
+ This function pauses audio processing for a given device. Any bound audio
+ streams will not progress, and no audio will be generated. Pausing one
+ device does not prevent other unpaused devices from running.
+
+ Unlike in SDL2, audio devices start in an _unpaused_ state, since an app
+ has to bind a stream before any audio will flow. Pausing a paused device is
+ a legal no-op.
+
+ Pausing a device can be useful to halt all audio without unbinding all the
+ audio streams. This might be useful while a game is paused, or a level is
+ loading, etc.
+
+ Physical devices can not be paused or unpaused, only logical devices
+ created through SDL_OpenAudioDevice() can be.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param devid : `a device opened by SDL_OpenAudioDevice().`
+ @return `true on success or false on failure; call SDL_GetError() for more information.`
+*>
+extern fn bool SDLAudioDeviceID.pause(devid) @extern("SDL_PauseAudioDevice");
+
+
+extern fn bool SDLAudioDeviceID.resume(devid) @extern("SDL_ResumeAudioDevice");
+extern fn bool SDLAudioDeviceID.paused(devid) @extern("SDL_AudioDevicePaused");
+extern fn float SDLAudioDeviceID.get_gain(devid) @extern("SDL_GetAudioDeviceGain");
+extern fn bool SDLAudioDeviceID.set_gain(devid, float gain) @extern("SDL_SetAudioDeviceGain");
+extern fn void SDLAudioDeviceID.close(devid) @extern("SDL_CloseAudioDevice");
+extern fn bool bind_audio_streams(SDLAudioDeviceID devid, SDLAudioStream** streams, int num_streams) @extern("SDL_BindAudioStreams");
+extern fn bool bind_audio_stream(SDLAudioDeviceID devid, SDLAudioStream* stream) @extern("SDL_BindAudioStream");
+extern fn void unbind_audio_streams(SDLAudioStream** streams, int num_streams) @extern("SDL_UnbindAudioStreams");
+extern fn void unbind_audio_stream(SDLAudioStream* stream) @extern("SDL_UnbindAudioStream");
+extern fn SDLAudioDeviceID SDLAudioStream.get_device(&stream) @extern("SDL_GetAudioStreamDevice");
+extern fn SDLAudioStream* create_audio_stream(SDLAudioSpec* src_spec, SDLAudioSpec* dst_spec) @extern("SDL_CreateAudioStream");
+extern fn SDLPropertiesID SDLAudioStream.get_properties(&stream) @extern("SDL_GetAudioStreamProperties");
+extern fn bool SDLAudioStream.get_format(&stream, SDLAudioSpec* src_spec, SDLAudioSpec* dst_spec) @extern("SDL_GetAudioStreamFormat");
+extern fn bool SDLAudioStream.set_format(&stream, SDLAudioSpec* src_spec, SDLAudioSpec* dst_spec) @extern("SDL_SetAudioStreamFormat");
+extern fn float SDLAudioStream.get_frequency_ratio(&stream) @extern("SDL_GetAudioStreamFrequencyRatio");
+extern fn bool SDLAudioStream.set_frequency_ratio(&stream, float ratio) @extern("SDL_SetAudioStreamFrequencyRatio");
+extern fn float SDLAudioStream.get_gain(&stream) @extern("SDL_GetAudioStreamGain");
+extern fn bool SDLAudioStream.set_gain(&stream, float gain) @extern("SDL_SetAudioStreamGain");
+extern fn int* SDLAudioStream.get_input_channel_map(&stream, int* count) @extern("SDL_GetAudioStreamInputChannelMap");
+extern fn int* SDLAudioStream.get_output_channel_map(&stream, int* count) @extern("SDL_GetAudioStreamOutputChannelMap");
+extern fn bool SDLAudioStream.set_input_channel_map(&stream, int* chmap, int count) @extern("SDL_SetAudioStreamInputChannelMap");
+extern fn bool SDLAudioStream.set_output_channel_map(&stream, int* chmap, int count) @extern("SDL_SetAudioStreamOutputChannelMap");
+extern fn bool SDLAudioStream.put_data(&stream, void* buf, int len) @extern("SDL_PutAudioStreamData");
+extern fn int SDLAudioStream.get_data(&stream, void* buf, int len) @extern("SDL_GetAudioStreamData");
+extern fn int SDLAudioStream.get_available(&stream) @extern("SDL_GetAudioStreamAvailable");
+extern fn int SDLAudioStream.get_queued(&stream) @extern("SDL_GetAudioStreamQueued");
+extern fn bool SDLAudioStream.flush(&stream) @extern("SDL_FlushAudioStream");
+extern fn bool SDLAudioStream.clear(&stream) @extern("SDL_ClearAudioStream");
+extern fn bool SDLAudioStream.pause_device(&stream) @extern("SDL_PauseAudioStreamDevice");
+extern fn bool SDLAudioStream.resume_device(&stream) @extern("SDL_ResumeAudioStreamDevice");
+extern fn bool SDLAudioStream.device_paused(&stream) @extern("SDL_AudioStreamDevicePaused");
+extern fn bool SDLAudioStream.lock(&stream) @extern("SDL_LockAudioStream");
+extern fn bool SDLAudioStream.unlock(&stream) @extern("SDL_UnlockAudioStream");
+
+<*
+ A callback that fires when data passes through an SDL_AudioStream.
+ This datatype is available since SDL 3.2.0.
+
+ Apps can (optionally) register a callback with an audio stream that is
+ called when data is added with SDL_PutAudioStreamData, or requested with
+ SDL_GetAudioStreamData.
+
+ Two values are offered here: one is the amount of additional data needed to
+ satisfy the immediate request (which might be zero if the stream already
+ has enough data queued) and the other is the total amount being requested.
+ In a Get call triggering a Put callback, these values can be different. In
+ a Put call triggering a Get callback, these values are always the same.
+
+ Byte counts might be slightly overestimated due to buffering or resampling,
+ and may change from call to call.
+
+ This callback is not required to do anything. Generally this is useful for
+ adding/reading data on demand, and the app will often put/get data as
+ appropriate, but the system goes on with the data currently available to it
+ if this callback does nothing.
+
+ threadsafety: This callbacks may run from any thread, so if you need to
+               protect shared data, you should use SDL_LockAudioStream to
+               serialize access; this lock will be held before your callback
+               is called, so your callback does not need to manage the lock explicitly.
+               
+ -param userdata : `an opaque pointer provided by the app for their personal use.`
+ -param stream : `the SDL audio stream associated with this callback.`
+ -param additional_amount : `the amount of data, in bytes, that is needed right now.`
+ -param total_amount : `the total amount of data requested, in bytes, that is requested or available.`
+*>
+alias SDLAudioStreamCallback = fn void(void* userdata, SDLAudioStream* stream, CInt additional_amount, CInt total_amount);
+
+<*
+ Set a callback that runs when data is requested from an audio stream.
+ This function is available since SDL 3.2.0.
+
+ This callback is called _before_ data is obtained from the stream, giving
+ the callback the chance to add more on-demand.
+
+ The callback can (optionally) call SDL_PutAudioStreamData() to add more
+ audio to the stream during this call; if needed, the request that triggered
+ this callback will obtain the new data immediately.
+
+ The callback's `additional_amount` argument is roughly how many bytes of
+ _unconverted_ data (in the stream's input format) is needed by the caller,
+ although this may overestimate a little for safety. This takes into account
+ how much is already in the stream and only asks for any extra necessary to
+ resolve the request, which means the callback may be asked for zero bytes,
+ and a different amount on each call.
+
+ The callback is not required to supply exact amounts; it is allowed to
+ supply too much or too little or none at all. The caller will get what's
+ available, up to the amount they requested, regardless of this callback's
+ outcome.
+
+ Clearing or flushing an audio stream does not call this callback.
+
+ This function obtains the stream's lock, which means any existing callback
+ (get or put) in progress will finish running before setting the new
+ callback.
+
+ Setting a NULL function turns off the callback.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param stream : `the audio stream to set the new callback on.`
+ @param callback : `the new callback function to call when data is requested from the stream.`
+ @param userdata : `an opaque pointer provided to the callback for its own personal use.`
+ @return `true on success or false on failure; call SDL_GetError() for more information. This only fails if stream is NULL.`
+*>
+extern fn bool SDLAudioStream.set_get_callback(&stream, SDLAudioStreamCallback callback, void* userdata) @extern("SDL_SetAudioStreamGetCallback");
+
+<*
+ Set a callback that runs when data is added to an audio stream.
+ This function is available since SDL 3.2.0.
+
+ This callback is called _after_ the data is added to the stream, giving the
+ callback the chance to obtain it immediately.
+
+ The callback can (optionally) call SDL_GetAudioStreamData() to obtain audio
+ from the stream during this call.
+
+ The callback's `additional_amount` argument is how many bytes of
+ _converted_ data (in the stream's output format) was provided by the
+ caller, although this may underestimate a little for safety. This value
+ might be less than what is currently available in the stream, if data was
+ already there, and might be less than the caller provided if the stream
+ needs to keep a buffer to aid in resampling. Which means the callback may
+ be provided with zero bytes, and a different amount on each call.
+
+ The callback may call SDL_GetAudioStreamAvailable to see the total amount
+ currently available to read from the stream, instead of the total provided
+ by the current call.
+
+ The callback is not required to obtain all data. It is allowed to read less
+ or none at all. Anything not read now simply remains in the stream for
+ later access.
+
+ Clearing or flushing an audio stream does not call this callback.
+
+ This function obtains the stream's lock, which means any existing callback
+ (get or put) in progress will finish running before setting the new
+ callback.
+
+ Setting a NULL function turns off the callback.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param stream : `the audio stream to set the new callback on.`
+ @param callback : `the new callback function to call when data is added to the stream.`
+ @param userdata : `an opaque pointer provided to the callback for its own personal use.`
+ @return `true on success or false on failure; call SDL_GetError() for more information. This only fails if stream is NULL.`
+*>
+extern fn bool SDLAudioStream.set_put_callback(&stream, SDLAudioStreamCallback callback, void* userdata) @extern("SDL_SetAudioStreamPutCallback");
+
+<*
+ Free an audio stream.
+ This function is available since SDL 3.2.0.
+
+ This will release all allocated data, including any audio that is still
+ queued. You do not need to manually clear the stream first.
+
+ If this stream was bound to an audio device, it is unbound during this
+ call. If this stream was created with SDL_OpenAudioDeviceStream, the audio
+ device that was opened alongside this stream's creation will be closed,
+ too.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param stream : `the audio stream to destroy.`
+*>
+extern fn void SDLAudioStream.destroy(&stream) @extern("SDL_DestroyAudioStream");
+
+<*
+ Convenience function for straightforward audio init for the common case.
+ This function is available since SDL 3.2.0.
+
+ If all your app intends to do is provide a single source of PCM audio, this
+ function allows you to do all your audio setup in a single call.
+
+ This is also intended to be a clean means to migrate apps from SDL2.
+
+ This function will open an audio device, create a stream and bind it.
+ Unlike other methods of setup, the audio device will be closed when this
+ stream is destroyed, so the app can treat the returned SDL_AudioStream as
+ the only object needed to manage audio playback.
+
+ Also unlike other functions, the audio device begins paused. This is to map
+ more closely to SDL2-style behavior, since there is no extra step here to
+ bind a stream to begin audio flowing. The audio device should be resumed
+ with SDL_ResumeAudioStreamDevice().
+
+ This function works with both playback and recording devices.
+
+ The `spec` parameter represents the app's side of the audio stream. That
+ is, for recording audio, this will be the output format, and for playing
+ audio, this will be the input format. If spec is NULL, the system will
+ choose the format, and the app can use SDL_GetAudioStreamFormat() to obtain
+ this information later.
+
+ If you don't care about opening a specific audio device, you can (and
+ probably _should_), use SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK for playback and
+ SDL_AUDIO_DEVICE_DEFAULT_RECORDING for recording.
+
+ One can optionally provide a callback function; if NULL, the app is
+ expected to queue audio data for playback (or unqueue audio data if
+ capturing). Otherwise, the callback will begin to fire once the device is
+ unpaused.
+
+ Destroying the returned stream with SDL_DestroyAudioStream will also close
+ the audio device associated with this stream.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param devid : `an audio device to open, or SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK or SDL_AUDIO_DEVICE_DEFAULT_RECORDING.`
+ @param spec : `the audio stream's data format. Can be NULL.`
+ @param callback : `a callback where the app will provide new data for playback, or receive new data for recording. Can be NULL, in which case the app will need to call SDL_PutAudioStreamData or SDL_GetAudioStreamData as necessary.`
+ @param userdata : `app-controlled pointer passed to callback. Can be NULL. Ignored if callback is NULL.`
+ @return `an audio stream on success, ready to use, or NULL on failure; call SDL_GetError() for more information. When done with this stream, call SDL_DestroyAudioStream to free resources and close the device.`
+*>
+extern fn SDLAudioStream* open_audio_device_stream(SDLAudioDeviceID devid, SDLAudioSpec* spec, SDLAudioStreamCallback callback, void* userdata) @extern("SDL_OpenAudioDeviceStream");
+
+<*
+ A callback that fires when data is about to be fed to an audio device.
+ This datatype is available since SDL 3.2.0.
+
+ This is useful for accessing the final mix, perhaps for writing a
+ visualizer or applying a final effect to the audio data before playback.
+
+ This callback should run as quickly as possible and not block for any
+ significant time, as this callback delays submission of data to the audio
+ device, which can cause audio playback problems.
+
+ The postmix callback _must_ be able to handle any audio data format
+ specified in `spec`, which can change between callbacks if the audio device
+ changed. However, this only covers frequency and channel count; data is
+ always provided here in SDL_AUDIO_F32 format.
+
+ The postmix callback runs _after_ logical device gain and audiostream gain
+ have been applied, which is to say you can make the output data louder at
+ this point than the gain settings would suggest.
+
+ threadsafety: This will run from a background thread owned by SDL. The
+               application is responsible for locking resources the callback
+               touches that need to be protected.
+ 
+ -param userdata : `a pointer provided by the app through SDL_SetAudioPostmixCallback, for its own use.`
+ -param spec : `the current format of audio that is to be submitted to the audio device.`
+ -param buffer : `the buffer of audio samples to be submitted. The callback can inspect and/or modify this data.`
+ -param buflen : `the size of buffer in bytes.`
+*>
+alias SDLAudioPostmixCallback = fn void(void* userdata, SDLAudioSpec* spec, float* buffer, int buflen);
+
+<*
+ Set a callback that fires when data is about to be fed to an audio device.
+ This function is available since SDL 3.2.0.
+
+ This is useful for accessing the final mix, perhaps for writing a
+ visualizer or applying a final effect to the audio data before playback.
+
+ The buffer is the final mix of all bound audio streams on an opened device;
+ this callback will fire regularly for any device that is both opened and
+ unpaused. If there is no new data to mix, either because no streams are
+ bound to the device or all the streams are empty, this callback will still
+ fire with the entire buffer set to silence.
+
+ This callback is allowed to make changes to the data; the contents of the
+ buffer after this call is what is ultimately passed along to the hardware.
+
+ The callback is always provided the data in float format (values from -1.0f
+ to 1.0f), but the number of channels or sample rate may be different than
+ the format the app requested when opening the device; SDL might have had to
+ manage a conversion behind the scenes, or the playback might have jumped to
+ new physical hardware when a system default changed, etc. These details may
+ change between calls. Accordingly, the size of the buffer might change
+ between calls as well.
+
+ This callback can run at any time, and from any thread; if you need to
+ serialize access to your app's data, you should provide and use a mutex or
+ other synchronization device.
+
+ All of this to say: there are specific needs this callback can fulfill, but
+ it is not the simplest interface. Apps should generally provide audio in
+ their preferred format through an SDL_AudioStream and let SDL handle the
+ difference.
+
+ This function is extremely time-sensitive; the callback should do the least
+ amount of work possible and return as quickly as it can. The longer the
+ callback runs, the higher the risk of audio dropouts or other problems.
+
+ This function will block until the audio device is in between iterations,
+ so any existing callback that might be running will finish before this
+ function sets the new callback and returns.
+
+ Setting a NULL callback function disables any previously-set callback.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param devid : `the ID of an opened audio device.`
+ @param callback : `a callback function to be called. Can be NULL.`
+ @param userdata : `app-controlled pointer passed to callback. Can be NULL.`
+ @return `true on success or false on failure; call SDL_GetError() for more information.`
+*>
+extern fn bool set_audio_postmix_callback(SDL_AudioDeviceID devid, SDL_AudioPostmixCallback callback, void *userdata) @extern("SDL_SetAudioPostmixCallback");
+
+<*
+ Load the audio data of a WAVE file into memory.
+ This function is available since SDL 3.2.0.
+
+ Loading a WAVE file requires `src`, `spec`, `audio_buf` and `audio_len` to
+ be valid pointers. The entire data portion of the file is then loaded into
+ memory and decoded if necessary.
+
+ Supported formats are RIFF WAVE files with the formats PCM (8, 16, 24, and
+ 32 bits), IEEE Float (32 bits), Microsoft ADPCM and IMA ADPCM (4 bits), and
+ A-law and mu-law (8 bits). Other formats are currently unsupported and
+ cause an error.
+
+ If this function succeeds, the return value is zero and the pointer to the
+ audio data allocated by the function is written to `audio_buf` and its
+ length in bytes to `audio_len`. The SDL_AudioSpec members `freq`,
+ `channels`, and `format` are set to the values of the audio data in the
+ buffer.
+
+ It's necessary to use SDL_free() to free the audio data returned in
+ `audio_buf` when it is no longer used.
+
+ Because of the underspecification of the .WAV format, there are many
+ problematic files in the wild that cause issues with strict decoders. To
+ provide compatibility with these files, this decoder is lenient in regards
+ to the truncation of the file, the fact chunk, and the size of the RIFF
+ chunk. The hints `SDL_HINT_WAVE_RIFF_CHUNK_SIZE`,
+ `SDL_HINT_WAVE_TRUNCATION`, and `SDL_HINT_WAVE_FACT_CHUNK` can be used to
+ tune the behavior of the loading process.
+
+ Any file that is invalid (due to truncation, corruption, or wrong values in
+ the headers), too big, or unsupported causes an error. Additionally, any
+ critical I/O error from the data source will terminate the loading process
+ with an error. The function returns NULL on error and in all cases (with
+ the exception of `src` being NULL), an appropriate error message will be
+ set.
+
+ It is required that the data source supports seeking.
+
+ Example:
+
+ ```c
+ SDL_LoadWAV_IO(SDL_IOFromFile("sample.wav", "rb"), true, &spec, &buf, &len);
+ ```
+
+ Note that the SDL_LoadWAV function does this same thing for you, but in a
+ less messy way:
+
+ ```c
+ SDL_LoadWAV("sample.wav", &spec, &buf, &len);
+ ```
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param src : `the data source for the WAVE data.`
+ @param closeio : `if true, calls SDL_CloseIO() on src before returning, even in the case of an error.`
+ @param spec : `a pointer to an SDL_AudioSpec that will be set to the WAVE data's format details on successful return.`
+ @param audio_buf : `a pointer filled with the audio data, allocated by the function.`
+ @param audio_len : `a pointer filled with the length of the audio data buffer in bytes.`
+ @return `true on success. audio_buf will be filled with a pointer to an
+          allocated buffer containing the audio data, and audio_len is
+          filled with the length of that audio buffer in bytes.
+          This function returns false if the .WAV file cannot be opened,
+          uses an unknown data format, or is corrupt; call SDL_GetError()
+          for more information.
+          When the application is done with the data returned in
+          audio_buf, it should call SDL_free() to dispose of it.`
+*>
+extern fn bool load_wav_io(SDLIOStream* src, bool closeio, SDLAudioSpec* spec, char** audio_buf, uint* audio_len) @extern("SDL_LoadWAV_IO");
+
+<*
+ Loads a WAV from a file path.
+ This function is available since SDL 3.2.0.
+
+ This is a convenience function that is effectively the same as:
+
+ ```c
+ SDL_LoadWAV_IO(SDL_IOFromFile(path, "rb"), true, spec, audio_buf, audio_len);
+ ```
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param path : `the file path of the WAV file to open.`
+ @param spec : `a pointer to an SDL_AudioSpec that will be set to the WAVE data's format details on successful return.`
+ @param audio_buf : `a pointer filled with the audio data, allocated by the function.`
+ @param audio_len : `a pointer filled with the length of the audio data buffer in bytes.`
+ @return `true on success. audio_buf will be filled with a pointer to an
+          allocated buffer containing the audio data, and audio_len is
+          filled with the length of that audio buffer in bytes.
+
+          This function returns false if the .WAV file cannot be opened,
+          uses an unknown data format, or is corrupt; call SDL_GetError()
+          for more information.
+
+          When the application is done with the data returned in
+          audio_buf, it should call SDL_free() to dispose of it.`
+*>
+extern fn bool load_wav(ZString path, SDLAudioSpec* spec, char** audio_buf, uint* audio_len) @extern("SDL_LoadWAV");
+
+<*
+ Mix audio data in a specified format.
+ This function is available since SDL 3.2.0.
+
+ This takes an audio buffer `src` of `len` bytes of `format` data and mixes
+ it into `dst`, performing addition, volume adjustment, and overflow
+ clipping. The buffer pointed to by `dst` must also be `len` bytes of
+ `format` data.
+
+ This is provided for convenience -- you can mix your own audio data.
+
+ Do not use this function for mixing together more than two streams of
+ sample data. The output from repeated application of this function may be
+ distorted by clipping, because there is no accumulator with greater range
+ than the input (not to mention this being an inefficient way of doing it).
+
+ It is a common misconception that this function is required to write audio
+ data to an output stream in an audio callback. While you can do that,
+ SDL_MixAudio() is really only needed when you're mixing a single audio
+ stream with a volume adjustment.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param dst : `the destination for the mixed audio.`
+ @param src : `the source audio buffer to be mixed.`
+ @param format : `the SDL_AudioFormat structure representing the desired audio format.`
+ @param len : `the length of the audio buffer in bytes.`
+ @param volume : `ranges from 0.0 - 1.0, and should be set to 1.0 for full audio volume.`
+ @return `true on success or false on failure; call SDL_GetError() for more information.`
+*>
+extern fn bool mix_audio(char* dst, char *src, SDLAudioFormat format, uint len, float volume) @extern("SDL_MixAudio");
+
+<*
+ Convert some audio data of one format to another format.
+ This function is available since SDL 3.2.0.
+
+ Please note that this function is for convenience, but should not be used
+ to resample audio in blocks, as it will introduce audio artifacts on the
+ boundaries. You should only use this function if you are converting audio
+ data in its entirety in one call. If you want to convert audio in smaller
+ chunks, use an SDL_AudioStream, which is designed for this situation.
+
+ Internally, this function creates and destroys an SDL_AudioStream on each
+ use, so it's also less efficient than using one directly, if you need to
+ convert multiple times.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param src_spec : `the format details of the input audio.`
+ @param src_data : `the audio data to be converted.`
+ @param src_len : `the len of src_data.`
+ @param dst_spec : `the format details of the output audio.`
+ @param dst_data : `will be filled with a pointer to converted audio data, which should be freed with SDL_free(). On error, it will be NULL.`
+ @param dst_len : `will be filled with the len of dst_data.`
+ @return `true on success or false on failure; call SDL_GetError() for more information.`
+*>
+extern fn bool convert_audio_samples(SDLAudioSpec* src_spec, char* src_data, int src_len, SDLAudioSpec* dst_spec, char** dst_data, int* dst_len) @extern("SDL_ConvertAudioSamples");
+
+<*
+ Get the human readable name of an audio format.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param format : `the audio format to query.`
+ @return `the human readable name of the specified audio format or "SDL_AUDIO_UNKNOWN" if the format isn't recognized.`
+*>
+extern fn ZString SDLAudioFormat.get_name(format) @extern("SDL_GetAudioFormatName");
+
+<*
+ Get the appropriate memset value for silencing an audio format.
+ This function is available since SDL 3.2.0.
+
+ The value returned by this function can be used as the second argument to
+ memset (or SDL_memset) to set an audio buffer in a specific format to
+ silence.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param format : `the audio data format to query.`
+ @return `a byte value that can be passed to memset.`
+*>
+extern fn int SDLAudioFormat.get_silence_value(format) @extern("SDL_GetSilenceValueForFormat");

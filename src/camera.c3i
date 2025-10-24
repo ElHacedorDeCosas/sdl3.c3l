@@ -1,0 +1,172 @@
+<*
+ SDL Camera Handling
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryCamera
+ TODO: add missing documentation
+*>
+module sdl::camera;
+
+import sdl::properties;
+
+<*
+ This is a unique ID for a camera device for the time it is connected to the
+ system, and is never reused for the lifetime of the application.
+ This datatype is available since SDL 3.2.0.
+
+ If the device is disconnected and reconnected, it will get a new ID.
+
+ The value 0 is an invalid ID.
+*>
+typedef SDLCameraID = uint;
+
+<*
+ The opaque structure used to identify an opened SDL camera.
+ This struct is available since SDL 3.2.0.
+*>
+typedef SDLCamera = void;
+
+<*
+ The details of an output format for a camera device.
+ This struct is available since SDL 3.2.0.
+
+ Cameras often support multiple formats; each one will be encapsulated in
+ this struct.
+*>
+struct SDLCameraSpec
+{
+	SDLPixelFormat format;	     // Frame format
+	SDLColorspace colorspace;    // Frame colorspace
+	CInt width;		  		     // Frame width
+	CInt height;				 // Frame height 
+	CInt framerate_numerator;	 // Frame rate numerator ((num / denom) == FPS, (denom / num) == duration in seconds)
+	CInt framerate_denominator;  // Frame rate demoninator ((num / denom) == FPS, (denom / num) == duration in seconds)
+}
+
+<*
+ The position of camera in relation to system device.
+ This enum is available since SDL 3.2.0.
+*>
+enum SDLCameraPosition
+{
+	UNKNOWN,
+	FRONT_FACING,
+	BACK_FACING
+}
+
+<*
+ Use this function to get the number of built-in camera drivers.
+ This function is available since SDL 3.2.0.
+
+ This function returns a hardcoded number. This never returns a negative
+ value; if there are no drivers compiled into this build of SDL, this
+ function returns zero. The presence of a driver in this list does not mean
+ it will function, it just means SDL is capable of interacting with that
+ interface. For example, a build of SDL might have v4l2 support, but if
+ there's no kernel support available, SDL's v4l2 driver would fail if used.
+
+ By default, SDL tries all drivers, in its preferred order, until one is
+ found to be usable.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @return `the number of built-in camera drivers.`
+*>
+extern fn int get_num_camera_drivers() @extern("SDL_GetNumCameraDrivers");
+
+<*
+ Use this function to get the name of a built in camera driver.
+ This function is available since SDL 3.2.0.
+
+ The list of camera drivers is given in the order that they are normally
+ initialized by default; the drivers that seem more reasonable to choose
+ first (as far as the SDL developers believe) are earlier in the list.
+
+ The names of drivers are all simple, low-ASCII identifiers, like "v4l2",
+ "coremedia" or "android". These never have Unicode characters, and are not
+ meant to be proper names.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param index : `the index of the camera driver; the value ranges from 0 to SDL_GetNumCameraDrivers() - 1.`
+ @returns `the name of the camera driver at the requested index, or NULL if an invalid index was specified.`
+*>
+extern fn ZString get_camera_driver(CInt index) @extern("SDL_GetCameraDriver");
+
+<*
+ Get the name of the current camera driver.
+ This function is available since SDL 3.2.0.
+
+ The names of drivers are all simple, low-ASCII identifiers, like "v4l2",
+ "coremedia" or "android". These never have Unicode characters, and are not
+ meant to be proper names.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @return `the name of the current camera driver or NULL if no driver has been initialized.`
+*>
+extern fn ZString get_current_camera_driver() @extern("SDL_GetCurrentCameraDriver");
+
+<*
+ Get a list of currently connected camera devices.
+ This function is available since SDL 3.2.0.
+
+ threadsafety; It is safe to call this function from any thread.
+ 
+ @param count : `a pointer filled in with the number of cameras returned, may be NULL.`
+ @return `a 0 terminated array of camera instance IDs or NULL on failure; call SDL_GetError() for more information. This should be freed with SDL_free() when it is no longer needed.`
+*>
+extern fn SDLCameraID* get_cameras(CInt* count) @extern("SDL_GetCameras");
+
+<*
+ Get the list of native formats/sizes a camera supports.
+ This function is available since SDL 3.2.0.
+
+ This returns a list of all formats and frame sizes that a specific camera
+ can offer. This is useful if your app can accept a variety of image formats
+ and sizes and so want to find the optimal spec that doesn't require
+ conversion.
+
+ This function isn't strictly required; if you call SDL_OpenCamera with a
+ NULL spec, SDL will choose a native format for you, and if you instead
+ specify a desired format, it will transparently convert to the requested
+ format on your behalf.
+
+ If `count` is not NULL, it will be filled with the number of elements in
+ the returned array.
+
+ Note that it's legal for a camera to supply an empty list. This is what
+ will happen on Emscripten builds, since that platform won't tell _anything_
+ about available cameras until you've opened one, and won't even tell if
+ there _is_ a camera until the user has given you permission to check
+ through a scary warning popup.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param instance_id : `the camera device instance ID.`
+ @param count : `a pointer filled in with the number of elements in the list, may be NULL.`
+ @return `a NULL terminated array of pointers to SDL_CameraSpec or NULL on
+          failure; call SDL_GetError() for more information. This is a
+          single allocation that should be freed with SDL_free() when it is
+          no longer needed.`
+*>
+extern fn SDLCameraSpec** SDLCameraID.get_supported_formats(instance_id, CInt* count) @extern("SDL_GetCameraSupportedFormats");
+
+<*
+ Get the human-readable device name for a camera.
+
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param instance_id : `the camera device instance ID.`
+ @return `a human-readable device name or NULL on failure; call SDL_GetError() for more information.`
+*>
+extern fn ZString SDLCameraID.get_name(instance_id) @extern("SDL_GetCameraName");
+
+extern fn SDLCameraPosition SDLCameraID.get_position(instance_id) @extern("SDL_GetCameraPosition");
+extern fn SDLCamera* SDLCameraID.open(instance_id, SDLCameraSpec* spec) @extern("SDL_OpenCamera");
+extern fn CInt SDLCamera.get_permission_state(&camera) @extern("SDL_GetCameraPermissionState");
+extern fn SDLCameraID SDLCamera.get_id(&camera) @extern("SDL_GetCameraID");
+extern fn SDLPropertiesID SDLCamera.get_camera_properties(&camera) @extern("SDL_GetCameraProperties");
+extern fn bool SDLCamera.get_camera_format(&camera, SDLCameraSpec* spec) @extern("SDL_GetCameraFormat");
+extern fn SDLSurface* SDLCamera.acquire_frame(&camera, ulong* timestamp_ns) @extern("SDL_AcquireCameraFrame");
+extern fn void SDLCamera.release_frame(&camera, SDLSurface* frame) @extern("SDL_ReleaseCameraFrame");
+extern fn void SDLCamera.close(&camera) @extern("SDL_CloseCamera");

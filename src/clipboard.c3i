@@ -1,0 +1,23 @@
+<*
+ SDL Clipboard
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryClipboard
+ TODO: add missing documentation
+*>
+module sdl::clipboard;
+
+extern fn bool set_clipboard_text(ZString text) @extern("SDL_SetClipboardText");
+extern fn ZString get_clipboard_text() @extern("SDL_GetClipboardText"); 
+extern fn bool has_clipboard_text() @extern("SDL_HasClipboardText");
+extern fn bool set_primary_selection_text(ZString text) @extern("SDL_SetPrimarySelectionText");
+extern fn ZString get_primary_selection_text() @extern("SDL_GetPrimarySelectionText");
+extern fn bool has_primary_selection_text() @extern("SDL_HasPrimarySelectionText");
+
+alias SDLClipboardDataCallback = fn void*(void* userdata, ZString mime_type, usz* size);
+alias SDLClipboardCleanupCallback = fn void(void* userdata);
+
+extern fn bool set_clipboard_data(SDLClipboardDataCallback callback, SDLClipboardCleanupCallback cleanup, void* userdata, ZString** mime_types, usz num_mime_types) @extern("SDL_SetClipboardData");
+extern fn bool clear_clipboard_data() @extern("SDL_ClearClipboardData");
+extern fn void* get_clipboard_data(ZString mine_type, usz* size) @extern("SDL_GetClipboardData");
+extern fn bool has_clipboard_data(ZString mine_type) @extern("SDL_HasClipboardData");
+extern fn char** get_clipboard_mime_types(usz* num_mime_types) @extern("SDL_GetClipboardMimeTypes");

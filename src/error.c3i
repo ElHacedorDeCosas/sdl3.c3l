@@ -1,0 +1,14 @@
+<*
+ SDL Error Handling
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryError
+ TODO: add missing documentation
+*>
+module sdl::error;
+
+extern fn bool set_error(ZString fmt, ...) @extern("SDL_SetError");
+extern fn bool out_of_memory() @extern("SDL_OutOfMemory");
+extern fn ZString get_error() @extern("SDL_GetError");
+extern fn bool clear_error() @extern("SDL_ClearError");
+macro bool unsupported() => set_error("That operation is not supported");
+macro bool invalid_param_error(ZString param) => set_error("Parameter '%s' is invalid", param);

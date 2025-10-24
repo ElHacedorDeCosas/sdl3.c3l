@@ -1,0 +1,175 @@
+<*
+ SDL Joystick Handling
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryJoystick
+ TODO: add missing documentation
+*>
+module sdl::joystick;
+
+import sdl::guid;
+import sdl::properties;
+
+typedef SDLJoystick = void*;
+
+typedef SDLJoystickID = uint;
+
+enum SDLJoystickType {
+	UNKNOWN,
+	GAMEPAD,
+	WHEEL,
+	ARCADE_STICK,
+	FLIGHT_STICK,
+	DANCE_PAD,
+	GUITAR,
+	DRUM_KIT,
+	ARCADE_PAD,
+	THROTTLE,
+	COUNT
+}
+
+enum SDLJoystickConnectionState : const
+{
+	INVALID = -1,
+	UNKNOWN,
+	WIRED,
+	WIRELESS
+}
+
+const int SDL_JOYSTICK_AXIS_MAX = 32767;
+const int SDL_JOYSTICK_AXIS_MIN = -32768;
+
+extern fn void lock_joysticks() @extern("SDL_LockJoysticks");
+extern fn void unlock_joysticks() @extern("SDL_UnlockJoysticks");
+extern fn void has_joystick() @extern("SDL_HasJoystick");
+extern fn SDLJoystickID* get_joystick(int* count) @extern("SDL_GetJoysticks");
+extern fn ZString get_joystick_name_for_id(SDLJoystickID instance_id) @extern("SDL_GetJoystickNameForID");
+extern fn ZString get_joystick_path_for_id(SDLJoystickID instance_id) @extern("SDL_GetJoystickPathForID");
+extern fn CInt get_joystick_player_index_for_id(SDLJoystickID instance_id) @extern("SDL_GetJoystickPlayerIndexForID");
+extern fn SDLGuid get_joystick_guid_for_id(SDLJoystickID instance_id) @extern("SDL_GetJoystickGUIDForID");
+extern fn ushort get_joystick_vendor_for_id(SDLJoystickID instance_id) @extern("SDL_GetJoystickVendorForID");
+extern fn ushort get_joystick_product_for_id(SDLJoystickID instance_id) @extern("SDL_GetJoystickProductForID");
+extern fn ushort get_joystick_product_version_for_id(SDLJoystickID instance_id) @extern("SDL_GetJoystickProductVersionForID");
+extern fn SDLJoystickType get_joystick_type_for_id(SDLJoystickID instance_id) @extern("SDL_GetJoystickTypeForID");
+extern fn SDLJoystick* open_joystick(SDLJoystickID instance_id) @extern("SDL_OpenJoystick");
+extern fn SDLJoystick* get_joystick_from_id(SDLJoystickID instance_id) @extern("SDL_GetJoystickFromID");
+extern fn SDLJoystick* get_joystick_from_player_index(CInt player_index) @extern("SDL_GetJoystickFromPlayerIndex");
+
+struct SDLVirtualJoystickTouchpadDesc
+{
+	ushort nfingers;   //< the number of simultaneous fingers on this touchpad
+	ushort[3] padding;
+}
+
+struct SDLVirtualJoystickSensorDesc
+{
+	SDLSensorType type; //< the type of this sensor
+	float rate;         //< the update frequency of this sensor, may be 0.0f
+}
+
+alias Update = fn void(void* userdata); //< Called when the joystick state should be updated
+alias SetPlayerUpdate = fn void(void* userdata, CInt player_index); //< Called when the player index is set
+alias Rumble = fn bool(void* userdata, ushort low_frequency_rumble, ushort high_frequency_rumble); //< Implements SDL_RumbleJoystick()
+alias RumbleTriggers = fn bool(void* userdata, ushort left_rumble, ushort right_rumble); //< Implements SDL_RumbleJoystickTriggers()
+alias SetLED = fn bool(void* userdata, char red, char green, char blue); //< Implements SDL_SetJoystickLED()
+alias SendEffect = fn bool(void* userdata, void* data, CInt size); //Implements SDL_SendJoystickEffect()
+alias SetSensorsEnabled = fn bool(void* userdata, bool enabled); //Implements SDL_SetGamepadSensorEnabled()
+alias Cleanup = fn void(void* userdata); //< Cleans up the userdata when the joystick is detached
+
+struct SDLVirtualJoystickDesc
+{
+	uint version;     //< the version of this interface
+	ushort type;        //< `SDL_JoystickType`
+	ushort padding;     //< unused
+	ushort vendor_id; //< the USB vendor ID of this joystick
+	ushort product_id;  //< the USB product ID of this joystick
+	ushort naxes;       //< the number of axes on this joystick
+	ushort nbuttons;    //< the number of buttons on this joystick
+	ushort nballs;      //< the number of balls on this joystick
+	ushort nhats;       //< the number of hats on this joystick
+	ushort ntouchpads;  //< the number of touchpads on this joystick, requires `touchpads` to point at valid descriptions
+	ushort nsensors;    //< the number of sensors on this joystick, requires `sensors` to point at valid descriptions
+	ushort[2] padding2; //< unused
+	uint button_mask; //< A mask of which buttons are valid for this controller e.g. (1 << SDL_GAMEPAD_BUTTON_SOUTH)
+	uint axis_mask;   //< A mask of which axes are valid for this controller e.g. (1 << SDL_GAMEPAD_AXIS_LEFTX) */
+	char* name;   //< the name of the joystick
+	SDLVirtualJoystickTouchpadDesc* touchpads; //< A pointer to an array of touchpad descriptions, required if `ntouchpads` is > 0
+	SDLVirtualJoystickSensorDesc* sensors;     //< A pointer to an array of sensor descriptions, required if `nsensors` is > 0
+	void* userdata; //< User data pointer passed to callbacks
+	Update update;
+	SetPlayerUpdate set_player_update;
+	Rumble rumble;
+	RumbleTriggers rumble_triggers;
+	SetLED set_led;
+	SendEffect send_effect;
+	SetSensorsEnabled set_sensors_enabled;
+	Cleanup cleanup;
+}
+
+$assert(((void*).sizeof == 4 && SDLVirtualJoystickDesc.sizeof == 84) ||
+		((void*).sizeof == 8 && SDLVirtualJoystickDesc.sizeof == 136)
+);
+
+extern fn SDLJoystickID attach_virtual_joystick(SDLVirtualJoystickDesc* desc) @extern("SDL_AttachVirtualJoystick");
+extern fn bool detach_virtual_joystick(SDLJoystickID instance_id) @extern("SDL_DetachVirtualJoystick");
+extern fn bool is_joystick_virtual(SDLJoystickID instance_id) @extern("SDL_IsJoystickVirtual");
+extern fn bool set_joystick_virtual_axis(SDLJoystick* joystick, CInt axis, short value) @extern("SDL_SetJoystickVirtualAxis");
+extern fn bool set_joystick_virtual_ball(SDLJoystick* joystick, CInt ball, short xrel, short yrel) @extern("SDL_SetJoystickVirtualBall");
+extern fn bool set_joystick_virtual_button(SDLJoystick* joystick, CInt button, bool down) @extern("SDL_SetJoystickVirtualButton");
+extern fn bool set_joystick_virtual_hat(SDLJoystick* joystick, CInt hat, char value) @extern("SDL_SetJoystickVirtualHat");
+extern fn bool set_joystick_virtual_touchpad(SDLJoystick* joystick, CInt touchpad, CInt finger, bool down, float x, float y, float pressure) @extern("SDL_SetJoystickVirtualTouchpad");
+extern fn bool send_joystick_virtual_sensor_data(SDLJoystick* joystick, SDLSensorType type, ulong sensor_timestamp, float* data, int num_values) @extern("SDL_SendJoystickVirtualSensorData");
+extern fn bool get_joystick_properties(SDLJoystick* joystick) @extern("SDL_GetJoystickProperties");
+
+enum SDLPropJoystickCap : const SDLPropertiesID
+{
+	MONO_LED_BOOLEAN       = "SDL.joystick.cap.mono_led",
+	RGB_LED_BOOLEAN        = "SDL.joystick.cap.rgb_led",
+	PLAYER_LED_BOOLEAN     = "SDL.joystick.cap.player_led",
+	RUMBLE_BOOLEAN         = "SDL.joystick.cap.rumble",
+	TRIGGER_RUMBLE_BOOLEAN = "SDL.joystick.cap.trigger_rumble"
+}
+
+extern fn ZString get_joystick_name(SDLJoystick* joystick) @extern("SDL_GetJoystickName");
+extern fn ZString get_joystick_path(SDLJoystick* joystick) @extern("SDL_GetJoystickPath");
+extern fn CInt get_joystick_player_index(SDLJoystick* joystick) @extern("SDL_GetJoystickPlayerIndex");
+extern fn bool set_joystick_player_index(SDLJoystick* joystick, CInt player_index) @extern("SDL_SetJoystickPlayerIndex");
+extern fn SDLGuid get_joystick_guid(SDLJoystick* joystick) @extern("SDL_GetJoystickGUID");
+extern fn ushort get_joystick_vendor(SDLJoystick* joystick) @extern("SDL_GetJoystickVendor");
+extern fn ushort get_joystick_product(SDLJoystick* joystick) @extern("SDL_GetJoystickProduct");
+extern fn ushort get_joystick_product_version(SDLJoystick* joystick) @extern("SDL_GetJoystickProductVersion");
+extern fn ushort get_joystick_firmware_version(SDLJoystick* joystick) @extern("SDL_GetJoystickFirmwareVersion");
+extern fn ZString get_joystick_serial(SDLJoystick* joystick) @extern("SDL_GetJoystickSerial");
+extern fn SDLJoystickType get_joystick_type(SDLJoystick* joystick) @extern("SDL_GetJoystickType");
+extern fn void get_joystick_guid_info(SDLGuid guid, ushort* vendor, ushort* product, ushort* version, ushort* crc16) @extern("SDL_GetJoystickGUIDInfo");
+extern fn bool joystick_connected(SDLJoystick* joystick) @extern("SDL_JoystickConnected");
+extern fn SDLJoystickID get_joystick_id(SDLJoystick* joystick) @extern("SDL_GetJoystickID");
+extern fn CInt get_num_joystick_axes(SDLJoystick* joystick) @extern("SDL_GetNumJoystickAxes");
+extern fn CInt get_num_joystick_balls(SDLJoystick* joystick) @extern("SDL_GetNumJoystickBalls");
+extern fn CInt get_num_joystick_hats(SDLJoystick* joystick) @extern("SDL_GetNumJoystickHats");
+extern fn CInt get_num_joystick_buttons(SDLJoystick* joystick) @extern("SDL_GetNumJoystickButtons");
+extern fn void set_joystick_events_enabled(bool enabled) @extern("SDL_SetJoystickEventsEnabled");
+extern fn bool joystick_events_enabled() @extern("SDL_JoystickEventsEnabled");
+extern fn void update_joysticks() @extern("SDL_UpdateJoysticks");
+extern fn short get_joystick_axis(SDLJoystick* joystick, CInt axis) @extern("SDL_GetJoystickAxis");
+extern fn bool get_joystick_axis_initial_state(SDLJoystick* joystick, CInt axis, short* state) @extern("SDL_GetJoystickAxisInitialState");
+extern fn bool get_joystick_ball(SDLJoystick* joystick, CInt ball, CInt* dx, CInt* dy) @extern("SDL_GetJoystickBall");
+extern fn char get_joystick_hat(SDLJoystick* joystick, CInt hat) @extern("SDL_GetJoystickHat");
+
+const char HAT_CENTERED  = 0x00u;
+const char HAT_UP        = 0x01u;
+const char HAT_RIGHT     = 0x02u;
+const char HAT_DOWN      = 0x04u;
+const char HAT_LEFT      = 0x08u;
+const char HAT_RIGHTUP   = (HAT_RIGHT | HAT_UP);
+const char HAT_RIGHTDOWN = (HAT_RIGHT | HAT_DOWN);
+const char HAT_LEFTUP    = (HAT_LEFT  | HAT_UP);
+const char HAT_LEFTDOWN  = (HAT_LEFT  | HAT_DOWN);
+
+extern fn bool get_joystick_button(SDLJoystick* joystick, CInt button) @extern("SDL_GetJoystickButton");
+extern fn bool rumble_joystick(SDLJoystick* joystick, ushort low_frequency_rumble, ushort high_frequency_rumble, uint duration_ms) @extern("SDL_RumbleJoystick");
+extern fn bool rumble_joystick_triggers(SDLJoystick* joystick, ushort left_rumble, ushort right_rumble, uint duration_ms) @extern("SDL_RumbleJoystickTriggers");
+extern fn bool set_joystick_led(SDLJoystick* joystick, char red, char green, char blue) @extern("SDL_SetJoystickLED");
+extern fn bool send_joystick_effect(SDLJoystick* joystick, void* data, CInt size) @extern("SDL_SendJoystickEffect");
+extern fn void close_joystick(SDLJoystick* joystick) @extern("SDL_CloseJoystick");
+extern fn SDLJoystickConnectionState get_joystick_connection_state(SDLJoystick* joystick) @extern("SDL_GetJoystickConnectionState");
+extern fn SDLPowerState get_joystick_power_info(SDLJoystick* joystick) @extern("SDL_GetJoystickPowerInfo");

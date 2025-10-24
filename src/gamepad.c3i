@@ -1,0 +1,170 @@
+<*
+ SDL Gamepad
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryGamepad
+ TODO: add missing documentation and check "SdlPropGamepadCap"
+ TODO: Finish this module file
+*>
+module sdl::gamepad;
+
+import sdl::guid;
+import sdl::properties;
+import sdl::joystick;
+
+typedef SDLGamepad = void*;
+
+enum SDLGamepadType : const
+{
+	GAMEPAD_TYPE_UNKNOWN = 0,
+	GAMEPAD_TYPE_STANDARD,
+	GAMEPAD_TYPE_XBOX360,
+	GAMEPAD_TYPE_XBOXONE,
+	GAMEPAD_TYPE_PS3,
+	GAMEPAD_TYPE_PS4,
+	GAMEPAD_TYPE_PS5,
+	GAMEPAD_TYPE_NINTENDO_SWITCH_PRO,
+	GAMEPAD_TYPE_NINTENDO_SWITCH_JOYCON_LEFT,
+	GAMEPAD_TYPE_NINTENDO_SWITCH_JOYCON_RIGHT,
+	GAMEPAD_TYPE_NINTENDO_SWITCH_JOYCON_PAIR,
+	GAMEPAD_TYPE_GAMECUBE,
+	GAMEPAD_TYPE_COUNT
+}
+
+enum SDLGamepadButton : const
+{
+    GAMEPAD_BUTTON_INVALID = -1,
+    GAMEPAD_BUTTON_SOUTH,           //Bottom face button (e.g. Xbox A button)
+    GAMEPAD_BUTTON_EAST,            //Right face button (e.g. Xbox B button)
+    GAMEPAD_BUTTON_WEST,            //Left face button (e.g. Xbox X button)
+    GAMEPAD_BUTTON_NORTH,           //Top face button (e.g. Xbox Y button)
+    GAMEPAD_BUTTON_BACK,
+    GAMEPAD_BUTTON_GUIDE,
+    GAMEPAD_BUTTON_START,
+    GAMEPAD_BUTTON_LEFT_STICK,
+    GAMEPAD_BUTTON_RIGHT_STICK,
+    GAMEPAD_BUTTON_LEFT_SHOULDER,
+    GAMEPAD_BUTTON_RIGHT_SHOULDER,
+    GAMEPAD_BUTTON_DPAD_UP,
+    GAMEPAD_BUTTON_DPAD_DOWN,
+    GAMEPAD_BUTTON_DPAD_LEFT,
+    GAMEPAD_BUTTON_DPAD_RIGHT,
+    GAMEPAD_BUTTON_MISC1,           // Additional button (e.g. Xbox Series X share button, PS5 microphone button, Nintendo Switch Pro capture button, Amazon Luna microphone button, Google Stadia capture button)
+    GAMEPAD_BUTTON_RIGHT_PADDLE1,   // Upper or primary paddle, under your right hand (e.g. Xbox Elite paddle P1, DualSense Edge RB button, Right Joy-Con SR button)
+    GAMEPAD_BUTTON_LEFT_PADDLE1,    // Upper or primary paddle, under your left hand (e.g. Xbox Elite paddle P3, DualSense Edge LB button, Left Joy-Con SL button)
+    GAMEPAD_BUTTON_RIGHT_PADDLE2,   // Lower or secondary paddle, under your right hand (e.g. Xbox Elite paddle P2, DualSense Edge right Fn button, Right Joy-Con SL button)
+    GAMEPAD_BUTTON_LEFT_PADDLE2,    // Lower or secondary paddle, under your left hand (e.g. Xbox Elite paddle P4, DualSense Edge left Fn button, Left Joy-Con SR button)
+    GAMEPAD_BUTTON_TOUCHPAD,        // PS4/PS5 touchpad button
+    GAMEPAD_BUTTON_MISC2,           // Additional button
+    GAMEPAD_BUTTON_MISC3,           // Additional button (e.g. Nintendo GameCube left trigger click)
+    GAMEPAD_BUTTON_MISC4,           // Additional button (e.g. Nintendo GameCube right trigger click)
+    GAMEPAD_BUTTON_MISC5,           // Additional button
+    GAMEPAD_BUTTON_MISC6,           // Additional button
+    GAMEPAD_BUTTON_COUNT
+}
+
+enum SDLGamepadButtonLabel
+{
+    GAMEPAD_BUTTON_LABEL_UNKNOWN,
+    GAMEPAD_BUTTON_LABEL_A,
+    GAMEPAD_BUTTON_LABEL_B,
+    GAMEPAD_BUTTON_LABEL_X,
+    GAMEPAD_BUTTON_LABEL_Y,
+    GAMEPAD_BUTTON_LABEL_CROSS,
+    GAMEPAD_BUTTON_LABEL_CIRCLE,
+    GAMEPAD_BUTTON_LABEL_SQUARE,
+    GAMEPAD_BUTTON_LABEL_TRIANGLE
+}
+
+enum SDLGamepadAxis : const
+{
+    GAMEPAD_AXIS_INVALID = -1,
+    GAMEPAD_AXIS_LEFTX,
+    GAMEPAD_AXIS_LEFTY,
+    GAMEPAD_AXIS_RIGHTX,
+    GAMEPAD_AXIS_RIGHTY,
+    GAMEPAD_AXIS_LEFT_TRIGGER,
+    GAMEPAD_AXIS_RIGHT_TRIGGER,
+    GAMEPAD_AXIS_COUNT
+}
+
+enum SDLGamepadBindingType : const
+{
+    GAMEPAD_BINDTYPE_NONE = 0,
+    GAMEPAD_BINDTYPE_BUTTON,
+    GAMEPAD_BINDTYPE_AXIS,
+    GAMEPAD_BINDTYPE_HAT
+}
+
+struct SDLGamepadBinding
+{
+    SDLGamepadBindingType input_type;
+    union input
+    {
+        int button;
+
+        struct axis
+        {
+            int axis;
+            int axis_min;
+            int axis_max;
+        }
+
+        struct hat
+        {
+            int hat;
+            int hat_mask;
+        }
+
+    }
+
+    SDLGamepadBindingType output_type;
+    union output
+    {
+        SDLGamepadButton button;
+
+        struct axis
+        {
+            SDLGamepadAxis axis;
+            int axis_min;
+            int axis_max;
+        }
+
+    }
+}
+
+extern fn CInt add_gamepad_mapping(ZString mapping) @extern("SDL_AddGamepadMapping");
+extern fn CInt add_gamepad_mapping_from_io(SDLIOStream* src, bool closeio) @extern("SDL_AddGamepadMappingsFromIO");
+extern fn CInt add_gamepad_mappings_from_file(ZString file) @extern("SDL_AddGamepadMappingsFromFile");
+extern fn bool reload_gamepad_mappings() @extern("SDL_ReloadGamepadMappings");
+extern fn ZString* get_gamepad_mappings(CInt* count) @extern("SDL_GetGamepadMappings");
+extern fn ZString get_gamepad_mapping_for_guid(SDLGuid guid) @extern("SDL_GetGamepadMappingForGUID");
+extern fn ZString SDLGamepad.get_gamepad_mapping(&gamepad) @extern("SDL_GetGamepadMapping");
+extern fn bool set_gamepad_mapping(SDLJoystickID instance_id, ZString mapping) @extern("SDL_SetGamepadMapping");
+extern fn bool has_gamepad() @extern("SDL_HasGamepad");
+extern fn SDLJoystickID* get_gamepads(int* count) @extern("SDL_GetGamepads");
+extern fn bool is_gamepad(SDLJoystickID instance_id) @extern("SDL_IsGamepad");
+extern fn ZString get_gamepad_name_for_id(SDLJoystickID instance_id) @extern("SDL_GetGamepadNameForID");
+extern fn ZString get_gamepad_path_for_id(SDLJoystickID instance_id) @extern("SDL_GetGamepadPathForID");
+extern fn CInt get_gamepad_index_for_id(SDLJoystickID instance_id) @extern("SDL_GetGamepadIndexForID");
+extern fn SDLGuid get_gamepad_guid_for_id(SDLJoystickID instance_id) @extern("SDL_GetGamepadGUIDForID");
+extern fn ushort get_gamepad_vendor_for_id(SDLJoystickID instance_id) @extern("SDL_GetGamepadVendorForID");
+extern fn ushort get_gamepad_product_version_for_id(SDLJoystickID instance_id) @extern("SDL_GetGamepadProductVersionForID");
+extern fn SDLGamepadType get_gamepad_type_for_id(SDLJoystickID instance_id) @extern("SDL_GetGamepadTypeForID");
+extern fn SDLGamepadType get_real_gamepad_type_for_id(SDLJoystickID instance_id) @extern("SDL_GetRealGamepadTypeForID");
+extern fn ZString get_gamepad_mapping_for_id(SDLJoystickID instance_id) @extern("SDL_GetGamepadMappingForID");
+extern fn SDLGamepad* open_gamepad(SDLJoystickID instance_id) @extern("SDL_OpenGamepad");
+extern fn SDLGamepad* get_gamepad_from_id(SDLJoystickID instance_id) @extern("SDL_GetGamepadFromID");
+extern fn SDLGamepad* get_gamepad_from_player_index(int player_index) @extern("SDL_GetGamepadFromPlayerIndex");
+extern fn SDLPropertiesID SDLGamepad.get_gamepad_properties(&gamepad) @extern("SDL_GetGamepadProperties");
+
+//TODO: check if this is correct
+enum SdlPropGamepadCap : const SDLPropertiesID
+{
+	MONO_LED_BOOLEAN       = MONO_LED_BOOLEAN,
+	RGB_LED_BOOLEAN        = RGB_LED_BOOLEAN,
+	PLAYER_LED_BOOLEAN     = PLAYER_LED_BOOLEAN,
+	RUMBLE_BOOLEAN         = RUMBLE_BOOLEAN,
+	TRIGGER_RUMBLE_BOOLEAN = TRIGGER_RUMBLE_BOOLEAN
+}
+
+

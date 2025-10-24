@@ -1,0 +1,15 @@
+<*
+ SDL GUID
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryGUID
+ TODO: add missing documentation
+*>
+module sdl::guid;
+
+struct SDLGuid
+{
+	char[16] data;
+}
+
+extern fn void SDLGuid.to_string(guid, char* psz_guid, int cb_guid) @extern("SDL_GUIDToString");
+extern fn SDLGuid string_to_guid(ZString pch_guid) @extern("SDL_StringToGUID");

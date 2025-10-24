@@ -1,0 +1,28 @@
+<*
+ SDL CPU Info
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryCPUInfo
+ TODO: add missing documentation
+*>
+module sdl::cpuinfo;
+
+const CACHELINE_SIZE = 128;
+
+extern fn CInt get_num_logical_cpu_cores() @extern("SDL_GetNumLogicalCPUCores");
+extern fn CInt get_cpu_cache_line_size() @extern("SDL_GetCPUCacheLineSize");
+extern fn bool has_altivec() @extern("SDL_HasAltiVec");
+extern fn bool has_mmx() @extern("SDL_HasMMX");
+extern fn bool has_sse() @extern("SDL_HasSSE");
+extern fn bool has_sse2() @extern("SDL_HasSSE2");
+extern fn bool has_sse3() @extern("SDL_HasSSE3");
+extern fn bool has_sse41() @extern("SDL_HasSSE41");
+extern fn bool has_sse42() @extern("SDL_HasSSE42");
+extern fn bool has_avx() @extern("SDL_HasAVX");
+extern fn bool has_avx2() @extern("SDL_HasAVX2");
+extern fn bool has_avx512f() @extern("SDL_HasAVX512F");
+extern fn bool has_arm_simd() @extern("SDL_HasARMSIMD");
+extern fn bool has_neon() @extern("SDL_HasNEON");
+extern fn bool has_lsx() @extern("SDL_HasLSX");
+extern fn bool has_lasx() @extern("SDL_HasLASX");
+extern fn int get_system_ram() @extern("SDL_GetSystemRAM");
+extern fn usz get_simd_alignment() @extern("SDL_GetSIMDAlignment");

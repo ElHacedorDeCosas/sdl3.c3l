@@ -1,0 +1,347 @@
+<*
+ SDL Atomics
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryAtomic
+*>
+module sdl::atomic;
+
+<*
+ An atomic spinlock.
+
+ The atomic locks are efficient spinlocks using CPU instructions, but are
+ vulnerable to starvation and can spin forever if a thread holding a lock
+ has been terminated. For this reason you should minimize the code executed
+ inside an atomic lock and never do expensive things like API or system
+ calls while holding them.
+
+ They are also vulnerable to starvation if the thread holding the lock is
+ lower priority than other threads and doesn't get scheduled. In general you
+ should use mutexes instead, since they have better performance and
+ contention behavior.
+
+ The atomic locks are not safe to lock recursively.
+
+ Porting Note: The spin lock functions and type are required and can not be
+ emulated because they are used in the atomic emulation code.
+*>
+typedef SDLSpinLock = CInt;
+
+<*
+ Try to lock a spin lock by setting it to a non-zero value.
+ This function is available since SDL 3.2.0.
+
+ ***Please note that spinlocks are dangerous if you don't know what you're
+ doing. Please be careful using any sort of spinlock!***
+
+ @param lock : `a pointer to a lock variable.`
+ @return `true if the lock succeeded, false if the lock is already held.`
+*>
+extern fn bool SDLSpinLock.try_lock(&lock) @extern("SDL_TryLockSpinlock");
+
+<*
+ Lock a spin lock by setting it to a non-zero value.
+ This function is available since SDL 3.2.0.
+
+ ***Please note that spinlocks are dangerous if you don't know what you're
+ doing. Please be careful using any sort of spinlock!***
+
+ @param lock : `a pointer to a lock variable.`
+*>
+extern fn void SDLSpinLock.lock(&lock) @extern("SDL_LockSpinlock");
+
+<*
+ Unlock a spin lock by setting it to 0.
+ This function is available since SDL 3.2.0.
+
+ Always returns immediately.
+
+ ***Please note that spinlocks are dangerous if you don't know what you're
+ doing. Please be careful using any sort of spinlock!***
+
+ @param lock : `a pointer to a lock variable.`
+*>
+extern fn void SDLSpinLock.unlock(&lock) @extern("SDL_UnlockSpinlock");
+
+<*
+ Insert a memory release barrier (function version).
+ This function is available since SDL 3.2.0.
+
+ Please refer to SDL_MemoryBarrierRelease for details. This is a function
+ version, which might be useful if you need to use this functionality from a
+ scripting language, etc. Also, some of the macro versions call this
+ function behind the scenes, where more heavy lifting can happen inside of
+ SDL. Generally, though, an app written in C/C++/etc should use the macro
+ version, as it will be more efficient.
+
+ threadsafety: Obviously this function is safe to use from any thread at any
+	time, but if you find yourself needing this, you are probably
+	dealing with some very sensitive code; be careful!
+*>
+extern fn void memory_barrier_release_function() @extern("SDL_MemoryBarrierReleaseFunction");
+
+<*
+ Insert a memory acquire barrier (function version).
+ This function is available since SDL 3.2.0.
+
+ Please refer to SDL_MemoryBarrierRelease for details. This is a function
+ version, which might be useful if you need to use this functionality from a
+ scripting language, etc. Also, some of the macro versions call this
+ function behind the scenes, where more heavy lifting can happen inside of
+ SDL. Generally, though, an app written in C/C++/etc should use the macro
+ version, as it will be more efficient.
+
+ threadsafety: Obviously this function is safe to use from any thread at any
+	time, but if you find yourself needing this, you are probably
+	dealing with some very sensitive code; be careful!
+*>
+extern fn void memory_barrier_acquire_function() @extern("SDL_MemoryBarrierAcquireFunction");
+
+<*
+ A type representing an atomic integer value.
+ This struct is available since SDL 3.2.0.
+
+ This can be used to manage a value that is synchronized across multiple
+ CPUs without a race condition; when an app sets a value with
+ SDL_SetAtomicInt all other threads, regardless of the CPU it is running on,
+ will see that value when retrieved with SDL_GetAtomicInt, regardless of CPU
+ caches, etc.
+
+ This is also useful for atomic compare-and-swap operations: a thread can
+ change the value as long as its current value matches expectations. When
+ done in a loop, one can guarantee data consistency across threads without a
+ lock (but the usual warnings apply: if you don't know what you're doing, or
+ you don't do it carefully, you can confidently cause any number of
+ disasters with this, so in most cases, you _should_ use a mutex instead of
+ this!).
+
+ This is a struct so people don't accidentally use numeric operations on it
+ directly. You have to use SDL atomic functions.
+*>
+struct SDLAtomicInt
+{
+	CInt value;
+}
+
+<*
+ Set an atomic variable to a new value if it is currently an old value.
+ This function is available since SDL 3.2.0.
+
+ ***Note: If you don't know what this function is for, you shouldn't use
+ it!***
+ 
+ threadsafety: It is safe to call this function from any thread.
+ 
+ @param a : `a pointer to an SDL_AtomicInt variable to be modified.`
+ @param oldval : `the old value.`
+ @param newval : `the new value.`
+ @return `true if the atomic variable was set, false otherwise.`
+*>
+extern fn bool SDLAtomicInt.compare_and_swap(&a, CInt oldval, CInt newval) @extern("SDL_CompareAndSwapAtomicInt");
+
+<*
+ Set an atomic variable to a value.
+ This function is available since SDL 3.2.0.
+
+ This function also acts as a full memory barrier.
+
+ ***Note: If you don't know what this function is for, you shouldn't use
+ it!***
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param a : `a pointer to an SDL_AtomicInt variable to be modified.`
+ @param v : `the desired value.`
+ @return `the previous value of the atomic variable.`
+*>
+extern fn CInt SDLAtomicInt.set(&a, CInt v) @extern("SDL_SetAtomicInt");
+
+<*
+ Get the value of an atomic variable.
+ This function is available since SDL 3.2.0.
+
+ ***Note: If you don't know what this function is for, you shouldn't use
+ it!***
+ 
+ threadsafety: It is safe to call this function from any thread.
+
+ @param a : `a pointer to an SDL_AtomicInt variable.`
+ @return `the current value of an atomic variable.`
+*>
+extern fn CInt SDLAtomicInt.get(&a) @extern("SDL_GetAtomicInt");
+
+<*
+ Add to an atomic variable.
+ This function is available since SDL 3.2.0.
+
+ This function also acts as a full memory barrier.
+
+ ***Note: If you don't know what this function is for, you shouldn't use
+ it!***
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param a : `a pointer to an SDL_AtomicInt variable to be modified.`
+ @param v : `the desired value to add.`
+ @return `the previous value of the atomic variable.`
+*>
+extern fn CInt SDLAtomicInt.add(&a, CInt v) @extern("SDL_AddAtomicInt");
+
+<*
+ Increment an atomic variable used as a reference count.
+ This macro is available since SDL 3.2.0.
+
+ ***Note: If you don't know what this macro is for, you shouldn't use it!***
+ 
+ threadsafety: It is safe to call this macro from any thread.
+
+ @param a : `a pointer to an SDL_AtomicInt to increment.`
+ @return `the previous value of the atomic variable.`
+*>
+macro CInt SDLAtomicInt.inc_ref(&a) => a.add(1);
+
+<*
+ Decrement an atomic variable used as a reference count.
+ This macro is available since SDL 3.2.0.
+
+ ***Note: If you don't know what this macro is for, you shouldn't use it!***
+ 
+ threadsafety: It is safe to call this macro from any thread.
+
+ @param a : `a pointer to an SDL_AtomicInt to decrement.`
+ @return `true if the variable reached zero after decrementing, false otherwise.`
+*>
+macro bool SDLAtomicInt.dec_ref(&a) => a.add(-1) == 1;
+
+<*
+ A type representing an atomic unsigned 32-bit value.
+ This struct is available since SDL 3.2.0.
+
+ This can be used to manage a value that is synchronized across multiple
+ CPUs without a race condition; when an app sets a value with
+ SDL_SetAtomicU32 all other threads, regardless of the CPU it is running on,
+ will see that value when retrieved with SDL_GetAtomicU32, regardless of CPU
+ caches, etc.
+
+ This is also useful for atomic compare-and-swap operations: a thread can
+ change the value as long as its current value matches expectations. When
+ done in a loop, one can guarantee data consistency across threads without a
+ lock (but the usual warnings apply: if you don't know what you're doing, or
+ you don't do it carefully, you can confidently cause any number of
+ disasters with this, so in most cases, you _should_ use a mutex instead of
+ this!).
+
+ This is a struct so people don't accidentally use numeric operations on it
+ directly. You have to use SDL atomic functions.
+*>
+struct SDLAtomicU32
+{
+	uint value;
+}
+
+<*
+ Set an atomic variable to a new value if it is currently an old value.
+ This function is available since SDL 3.2.0.
+
+ ***Note: If you don't know what this function is for, you shouldn't use
+ it!***
+ 
+ threadsafety: It is safe to call this function from any thread.
+
+ @param a : `a pointer to an SDL_AtomicU32 variable to be modified.`
+ @param oldval : `the old value.`
+ @param newval : `the new value.`
+ @return `true if the atomic variable was set, false otherwise.`
+*>
+extern fn bool SDLAtomicU32.compare_and_swap(&a, uint oldval, uint newval) @extern("SDL_CompareAndSwapAtomicU32");
+
+<*
+ Set an atomic variable to a value.
+ This function is available since SDL 3.2.0.
+
+ This function also acts as a full memory barrier.
+
+ ***Note: If you don't know what this function is for, you shouldn't use
+ it!***
+ 
+ threadsafety: It is safe to call this function from any thread.
+
+ @param a : `a pointer to an SDL_AtomicU32 variable to be modified.`
+ @param v : `the desired value.`
+ @return `the previous value of the atomic variable.`
+*>
+extern fn uint SDLAtomicU32.set(&a, uint v) @extern("SDL_SetAtomicU32");
+
+<*
+ Get the value of an atomic variable.
+ This function is available since SDL 3.2.0.
+
+ ***Note: If you don't know what this function is for, you shouldn't use
+ it!***
+ 
+ threadsafety: It is safe to call this function from any thread.
+
+ @param a : `a pointer to an SDL_AtomicU32 variable.`
+ @return `the current value of an atomic variable.`
+*>
+extern fn uint SDLAtomicU32.get(&a) @extern("SDL_GetAtomicU32");
+
+<*
+ Add to an atomic variable.
+ This function is available since SDL 3.4.0.
+
+ This function also acts as a full memory barrier.
+
+ ***Note: If you don't know what this function is for, you shouldn't use
+ it!***
+ 
+ threadsafety: It is safe to call this function from any thread.
+
+ @param a : `a pointer to an SDL_AtomicU32 variable to be modified.`
+ @param v : `the desired value to add or subtract.`
+ @return `the previous value of the atomic variable.`
+*>
+extern fn uint SDLAtomicU32.add(&a, CInt v) @extern("SDL_AddAtomicU32");
+
+<*
+ Set a pointer to a new value if it is currently an old value.
+ This function is available since SDL 3.2.0.
+
+ ***Note: If you don't know what this function is for, you shouldn't use
+ it!***
+ threadsafety: It is safe to call this function from any thread.
+
+ @param a : `a pointer to a pointer.`
+ @param oldval : `the old pointer value.`
+ @param newval : `the new pointer value.`
+ @return `true if the pointer was set, false otherwise.`
+*>
+extern fn bool compare_and_swap_atomic_pointer(void** a, void* oldval, void* newval) @extern("SDL_CompareAndSwapAtomicPointer");
+
+<*
+ Set a pointer to a value atomically.
+ This function is available since SDL 3.2.0.
+
+ ***Note: If you don't know what this function is for, you shouldn't use
+ it!***
+ 
+ threadsafety: It is safe to call this function from any thread.
+
+ @param a : `a pointer to a pointer.`
+ @param v : `the desired pointer value.`
+ @return `the previous value of the pointer.`
+*>
+extern fn void* set_atomic_pointer(void** a, void* v) @extern("SDL_SetAtomicPointer");
+
+<*
+ Get the value of a pointer atomically.
+ This function is available since SDL 3.2.0.
+
+ ***Note: If you don't know what this function is for, you shouldn't use
+ it!***
+ 
+ threadsafety: It is safe to call this function from any thread.
+
+ @param a : `a pointer to a pointer.`
+ @return `the current value of a pointer.`
+*>
+extern fn void* get_atomic_pointer(void** a) @extern("SDL_GetAtomicPointer");

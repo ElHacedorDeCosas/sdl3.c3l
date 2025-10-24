@@ -1,0 +1,48 @@
+<*
+ SDL Properties
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryProperties
+ TODO: add missing documentation
+*>
+module sdl::properties;
+
+typedef SDLPropertiesID = uint;
+
+enum SDLPropertyType : const
+{
+    INVALID,
+    POINTER,
+    STRING,
+    NUMBER,
+    FLOAT,
+    BOOLEAN
+}
+
+extern fn SDLPropertiesID get_global_properties() @extern("SDL_GetGlobalProperties");
+extern fn SDLPropertiesID create_properties() @extern("SDL_CreateProperties");
+extern fn bool copy_properties(SDLPropertiesID src, SDLPropertiesID dst) @extern("SDL_CopyProperties");
+extern fn bool SDLPropertiesID.lock_properties(SDLPropertiesID props) @extern("SDL_LockProperties");
+extern fn bool SDLPropertiesID.unlock_properties(SDLPropertiesID props) @extern("SDL_UnlockProperties");
+
+alias SDLCleanupPropertyCallback = fn void(void* userdata, void* value);
+
+extern fn bool SDLPropertiesID.set_pointer_property_with_cleanup(SDLPropertiesID props, ZString name, void* value, SDLCleanupPropertyCallback cleanup, void* userdata) @extern("SDL_SetPointerPropertyWithCleanup");
+extern fn bool SDLPropertiesID.set_pointer_property(SDLPropertiesID props, ZString name, void* value) @extern("SDL_SetPointerProperty");
+extern fn bool SDLPropertiesID.set_string_property(SDLPropertiesID props, ZString name, ZString value) @extern("SDL_SetStringProperty");
+extern fn bool SDLPropertiesID.set_number_property(SDLPropertiesID props, ZString name, long value) @extern("SDL_SetNumberProperty");
+extern fn bool SDLPropertiesID.set_float_property(SDLPropertiesID props, ZString name, float value) @extern("SDL_SetFloatProperty");
+extern fn bool SDLPropertiesID.set_boolean_property(SDLPropertiesID props, ZString name, bool value) @extern("SDL_SetBooleanProperty");
+extern fn bool SDLPropertiesID.has_property(SDLPropertiesID props, ZString name) @extern("SDL_HasProperty");
+extern fn SDLPropertyType SDLPropertiesID.get_property_type(SDLPropertiesID props, ZString name) @extern("SDL_GetPropertyType");
+extern fn void* SDLPropertiesID.get_pointer_property(SDLPropertiesID props, ZString name, void* default_value) @extern("SDL_GetPointerProperty");
+extern fn ZString SDLPropertiesID.get_string_property(SDLPropertiesID props, ZString name, ZString default_value) @extern("SDL_GetStringProperty");
+extern fn long SDLPropertiesID.get_number_property(SDLPropertiesID props, ZString name, long default_value) @extern("SDL_GetNumberProperty");
+extern fn float SDLPropertiesID.get_float_property(SDLPropertiesID props, ZString name, float default_value) @extern("SDL_GetFloatProperty");
+extern fn bool SDLPropertiesID.get_boolean_property(SDLPropertiesID props, ZString name, bool default_value) @extern("SDL_GetBooleanProperty");
+extern fn bool SDLPropertiesID.clean_property(SDLPropertiesID props, ZString name) @extern("SDL_ClearProperty");
+
+alias SDLEnumeratePropertiesCallback = fn void(void* userdata, SDLPropertiesID props, ZString name);
+
+extern fn bool SDLPropertiesID.enumerate_properties(SDLPropertiesID props, SDLEnumeratePropertiesCallback callback, void* userdata) @extern("SDL_EnumerateProperties");
+extern fn void SDLPropertiesID.destroy_properties(SDLPropertiesID props) @extern("SDL_DestroyProperties");
+
