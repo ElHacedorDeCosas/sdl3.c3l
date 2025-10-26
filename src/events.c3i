@@ -9,8 +9,10 @@ module sdl::events;
 import sdl::stdinc;
 import sdl::audio;
 import sdl::camera;
+import sdl::scancode;
 import sdl::gamepad;
 import sdl::joystick;
+import sdl::keycode;
 import sdl::keyboard;
 import sdl::touch;
 import sdl::video;
@@ -638,4 +640,4 @@ extern fn void filter_events(SDLEventFilter filter, void* userdata) @extern("SDL
 extern fn void set_event_enabled(uint type, bool enabled) @extern("SDL_SetEventEnabled");
 extern fn bool event_enabled(uint type) @extern("SDL_EventEnabled");
 extern fn uint register_events(int num_events) @extern("SDL_RegisterEvents");
-extern fn SDLWindow* get_window_from_event(SDL_Event* event) @extern("SDL_GetWindowFromEvent");
+extern fn SDLWindow* get_window_from_event(SDLEvent* event) @extern("SDL_GetWindowFromEvent");

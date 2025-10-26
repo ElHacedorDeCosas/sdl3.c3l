@@ -7,7 +7,9 @@
 module sdl::keyboard;
 
 import sdl::stdinc;
+import sdl::keycode;
 import sdl::properties;
+import sdl::scancode;
 import sdl::video;
 
 

@@ -10,7 +10,6 @@ Welcome to the [SDL3](https://github.com/libsdl-org/SDL) binding library for [C3
 - haptic
 - hints
 - iostream
-- keycode
 - loadso
 - messagebox
 - mouse
@@ -21,7 +20,6 @@ Welcome to the [SDL3](https://github.com/libsdl-org/SDL) binding library for [C3
 - process
 - rect
 - render
-- scancode
 - sensor
 - storage
 - surface
