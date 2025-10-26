@@ -6,6 +6,7 @@
 *>
 module sdl::audio;
 
+import sdl::stdinc;
 import sdl::properties;
 
 <*

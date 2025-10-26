@@ -1,0 +1,280 @@
+<*
+ SDL implementation of C runtime
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryStdinc
+ TODO: add missing documentation
+*>
+module sdl::stdinc;
+
+const SDL_NOLONGLONG = 1;
+const SDL_SIZE_MAX = usz.max;
+
+typedef SDLTime = long;
+
+macro void init_interface(iface)
+{
+	*iface = {};
+	iface.version = $sizeof(*iface);
+}
+
+extern fn void* malloc(usz size) @extern("SDL_malloc") @nodiscard;
+extern fn void* calloc(usz size) @extern("SDL_calloc") @nodiscard;
+extern fn void* realloc(void* mem, usz size) @extern("SDL_realloc") @nodiscard;
+extern fn void* free(void* mem) @extern("SDL_free") @nodiscard;
+
+alias SDLMallocFunc  = fn void*(usz size);
+alias SDLCallocFunc  = fn void*(usz size);
+alias SDLReallocFunc = fn void*(void* mem, usz size);
+alias SDLFreeFunc    = fn void(void* mem);
+
+extern fn void get_original_memory_functions(SDLMallocFunc *malloc_func,
+                                             SDLCallocFunc *calloc_func,
+                                             SDLReallocFunc *realloc_func,
+                                             SDLFreeFunc *free_func) @extern("SDL_GetOriginalMemoryFunctions");
+extern fn void get_memory_functions(SDLMallocFunc *malloc_func,
+                                   SDLCallocFunc *calloc_func,
+                                   SDLReallocFunc *realloc_func,
+                                   SDLFreeFunc *free_func) @extern("SDL_GetMemoryFunctions");
+extern fn void set_memory_functions(SDLMallocFunc malloc_func,
+                                   SDLCallocFunc calloc_func,
+                                   SDLReallocFunc realloc_func,
+                                   SDLFreeFunc free_func) @extern("SDL_SetMemoryFunctions");
+extern fn void* aligned_alloc(usz alignment, usz size) @extern("SDL_aligned_alloc");
+extern fn void aligned_free(void* mem) @extern("SDL_aligned_free");
+extern fn CInt get_num_allocations() @extern("SDL_GetNumAllocations");
+
+typedef SDLEnvironment = void;
+
+extern fn SDLEnvironment* get_environment() @extern("SDL_GetEnvironment");
+extern fn SDLEnvironment* create_environment(bool populated) @extern("SDL_CreateEnvironment");
+extern fn ZString get_environment_variable(SDLEnvironment* env, ZString name) @extern("SDL_GetEnvironmentVariable");
+extern fn ZString* get_environment_variables(SDLEnvironment* env) @extern("SDL_GetEnvironmentVariables");
+extern fn bool set_environment_variable(SDLEnvironment* env, ZString name, ZString value, bool overwrite) @extern("SDL_SetEnvironmentVariable");
+extern fn bool unset_environment_variable(SDLEnvironment* env, ZString name) @extern("SDL_UnsetEnvironmentVariable");
+extern fn void destroy_environment(SDLEnvironment* env) @extern("SDL_DestroyEnvironment");
+extern fn ZString getenv(ZString name) @extern("SDL_getenv");
+extern fn ZString getenv_unsafe(ZString name) @extern("SDL_getenv_unsafe");
+extern fn CInt setenv_unsafe(ZString name, ZString value, CInt overwrite) @extern("SDL_setenv_unsafe");
+extern fn CInt unsetenv_unsafe(ZString name) @extern("SDL_unsetenv_unsafe");
+
+alias SDLCompareCallback = fn CInt(void* a, void* b);
+alias SDLCompareCallback_r = fn CInt(void* userdata, void* a, void* b);
+
+extern fn void qsort(void* base, usz nmemb, usz size, SDLCompareCallback compare) @extern("SDL_qsort");
+extern fn void qsort_r(void* base, usz nmemb, usz size, SDLCompareCallback_r compare, void* userdata) @extern("SDL_qsort_r");
+extern fn void* bsearch(void* key, void* base, usz nmemb, usz size, SDLCompareCallback compare) @extern("SDL_bsearch");
+extern fn void* bsearch_r(void* key, void* base, usz nmemb, usz size, SDLCompareCallback_r compare, void* userdata) @extern("SDL_bsearch_r");
+extern fn CInt abs(CInt x) @extern("SDL_abs");
+
+macro min(x, y) => x < y ? x : y;
+macro max(x, y) => x > y ? x : y;
+macro clamp(x, a, b) => x < a ? a : (x > b ? b : x);
+
+extern fn CInt isalpha(CInt x) @extern("SDL_isalpha");
+extern fn CInt isalnum(CInt x) @extern("SDL_isalnum");
+extern fn CInt isblank(CInt x) @extern("SDL_isblank");
+extern fn CInt iscntrl(CInt x) @extern("SDL_iscntrl");
+extern fn CInt isdigit(CInt x) @extern("SDL_isdigit");
+extern fn CInt isxdigit(CInt x) @extern("SDL_isxdigit");
+extern fn CInt ispunct(CInt x) @extern("SDL_ispunct");
+extern fn CInt isspace(CInt x) @extern("SDL_isspace");
+extern fn CInt isupper(CInt x) @extern("SDL_isupper");
+extern fn CInt islower(CInt x) @extern("SDL_islower");
+extern fn CInt isprint(CInt x) @extern("SDL_isprint");
+extern fn CInt isgraph(CInt x) @extern("SDL_isgraph");
+extern fn CInt toupper(CInt x) @extern("SDL_toupper");
+extern fn CInt tolower(CInt x) @extern("SDL_tolower");
+
+extern fn ushort crc16(ushort crc, void* data, usz len) @extern("SDL_crc16");
+extern fn uint crc32(uint crc, void* data, usz len) @extern("SDL_crc32");
+extern fn uint murmur3_32(void* data, usz len, uint seed) @extern("SDL_murmur3_32");
+
+extern fn void* memcpy(void* dst, void* src, usz len) @extern("SDL_memcpy");
+
+<*
+ @require $sizeof(*dst) == $sizeof(*src)
+*>
+macro void copyp(dst, src)
+{
+	memcpy(dst, src, $sizeof(*src));
+}
+
+extern fn void* memmove(void* dst, void* src, usz len) @extern("SDL_memmove");
+extern fn void* memset(void* dst, CInt c, usz len) @extern("SDL_memset");
+extern fn void* memset4(void* dst, uint val, usz dwords) @extern("SDL_memset4");
+
+macro void zero(#x) => memset(&#x, 0, $sizeof(#x));
+macro void zerop(x) => memset(x, 0, $sizeof(*x));
+macro void zeroa(x) => memset(&x, 0, $sizeof(x));
+
+extern fn CInt memcmp(void* s1, void* s2, usz len) @extern("SDL_memcmp");
+extern fn usz wcslen(WChar* wstr) @extern("SDL_wcslen");
+extern fn usz wcsnlen(WChar* wstr, usz maxlen) @extern("SDL_wcsnlen");
+extern fn usz wcslcpy(WChar* dst, WChar* src, usz maxlen) @extern("SDL_wcslcpy");
+extern fn usz wcslcat(WChar* dst, WChar* src, usz maxlen) @extern("SDL_wcslcat");
+extern fn WChar* wcsdup(WChar* wstr) @extern("SDL_wcsdup") @nodiscard;
+extern fn WChar* wcsstr(WChar* haystack, WChar* needle) @extern("SDL_wcsstr");
+extern fn WChar* wcsnstr(WChar* haystack, WChar* needle, usz maxlen) @extern("SDL_wcsnstr");
+extern fn CInt wcscmp(WChar* str1, WChar* str2) @extern("SDL_wcscmp");
+extern fn CInt wcsncmp(WChar* str1, WChar* str2, usz maxlen) @extern("SDL_wcsncmp");
+extern fn CInt wcscasecmp(WChar* str1, WChar* str2) @extern("SDL_wcscasecmp");
+extern fn CInt wcsncasecmp(WChar* str1, WChar* str2, usz maxlen) @extern("SDL_wcsncasecmp");
+extern fn long wcstol(WChar* str, WChar* *endp, CInt base) @extern("SDL_wcstol");
+
+extern fn usz strlen(ZString str) @extern("SDL_strlen");
+extern fn usz strnlen(ZString str, usz maxlen) @extern("SDL_strnlen");
+extern fn usz strlcpy(char* dst, ZString src, usz maxlen) @extern("SDL_strlcpy");
+
+extern fn usz utf8strlcpy(char* dst, ZString src, usz dst_bytes) @extern("SDL_utf8strlcpy");
+extern fn usz strlcat(ZString dst, ZString src, usz maxlen) @extern("SDL_strlcat");
+extern fn ZString strdup(ZString str) @extern("SDL_strdup") @nodiscard;
+extern fn ZString strndup(ZString str, usz maxlen) @extern("SDL_strndup") @nodiscard;
+extern fn ZString strrev(ZString str) @extern("SDL_strrev");
+extern fn ZString strupr(ZString str) @extern("SDL_strupr");
+extern fn ZString strlwr(ZString str) @extern("SDL_strlwr");
+
+extern fn ZString strchr(ZString str, CInt c) @extern("SDL_strchr");
+extern fn ZString strrchr(ZString str, CInt c) @extern("SDL_strrchr");
+extern fn ZString strstr(ZString haystack, ZString needle) @extern("SDL_strstr");
+extern fn ZString strnstr(ZString haystack, ZString needle, usz maxlen) @extern("SDL_strnstr");
+extern fn ZString strcasestr(ZString haystack, ZString needle) @extern("SDL_strcasestr");
+extern fn ZString strtok_r(ZString str, ZString delim, char** saveptr) @extern("SDL_strtok_r");
+extern fn usz utf8strlen(ZString str) @extern("SDL_utf8strlen");
+extern fn usz utf8strnlen(ZString str, usz bytes) @extern("SDL_utf8strnlen");
+extern fn char* itoa(CInt value, char* str, CInt radix) @extern("SDL_itoa");
+extern fn char* uitoa(CUInt value, char* str, CInt radix) @extern("SDL_uitoa");
+extern fn char* ltoa(CLong value, char* str, CInt radix) @extern("SDL_ltoa");
+extern fn char* ultoa(CULong value, char* str, CInt radix) @extern("SDL_ultoa");
+extern fn char* lltoa(CLongLong value, char* str, CInt radix) @extern("SDL_lltoa");
+extern fn char* ulltoa(CULongLong value, char* str, CInt radix) @extern("SDL_ulltoa");
+extern fn CInt atoi(ZString str) @extern("SDL_atoi");
+extern fn double atof(ZString str) @extern("SDL_atof");
+extern fn CLong strtol(ZString str, char** endp, CInt base) @extern("SDL_strtol");
+extern fn CULong strtoul(ZString str, char** endp, CInt base) @extern("SDL_strtoul");
+extern fn CLongLong strtoll(ZString str, char** endp, CInt base) @extern("SDL_strtoll");
+extern fn CULongLong strtoull(ZString str, char** endp, CInt base) @extern("SDL_strtoull");
+extern fn double strtod(ZString str, char** endp) @extern("SDL_strtod");
+extern fn CInt strcmp(ZString str1, ZString str2) @extern("SDL_strcmp");
+
+extern fn CInt strncmp(ZString str1, ZString str2, usz maxlen) @extern("SDL_strncmp");
+extern fn CInt strcasecmp(ZString str1, ZString str2) @extern("SDL_strcasecmp");
+extern fn CInt strncasecmp(ZString str1, ZString str2, usz maxlen) @extern("SDL_strncasecmp");
+extern fn char* strpbrk(ZString str, ZString breakset) @extern("SDL_strpbrk");
+
+const SDL_INVALID_UNICODE_CODEPOINT = 0xFFFD;
+
+extern fn Char32 step_utf8(ZString* pstr, usz* pslen) @extern("SDL_StepUTF8");
+extern fn Char32 step_back_utf8(ZString start, ZStirng* pstr) @extern("SDL_StepBackUTF8");
+extern fn char* uscs4_to_utf8(Char32 codepoint, char *dst) @extern("SDL_UCS4ToUTF8");
+
+extern fn CInt sscanf(ZString text, ZString fmt, ...) @extern("SDL_sscanf");
+// extern fn CInt vsscanf(ZString text, ZString *fmt, va_list ap) @extern("SDL_vsscanf");
+extern fn CInt snprintf(ZString text, usz maxlen, ZString fmt, ...) @extern("SDL_snprintf");
+extern fn CInt swprintf(WChar* text, usz maxlen, WChar* fmt, ...) @extern("SDL_swprintf");
+//extern fn CInt vsnprintf(char *text, usz maxlen, ZString fmt, va_list ap) @extern("SDL_vsnprintf");
+//extern fn CInt vswprintf(WChar* text, usz maxlen, WChar* fmt, va_list ap) @extern("SDL_vswprintf");
+extern fn CInt asprintf(char** strp, ZString fmt, ...) @extern("SDL_asprintf");
+//extern fn CInt vasprintf(char** strp, ZString fmt, va_list ap) @extern("SDL_vasprintf");
+
+extern fn void srand(ulong seed) @extern("SDL_srand");
+extern fn int rand(int n) @extern("SDL_rand");
+extern fn float randf() @extern("SDL_randf");
+extern fn uint rand_bits() @extern("SDL_rand_bits");
+extern fn int rand_r(ulong *state, int n) @extern("SDL_rand_r");
+extern fn float randf_r(ulong* state) @extern("SDL_randf_r");
+extern fn uint rand_bits_r(ulong* state) @extern("SDL_rand_bits_r");
+extern fn double acos(double x) @extern("SDL_acos");
+extern fn float acosf(float x) @extern("SDL_acosf");
+extern fn double asin(double x) @extern("SDL_asin");
+extern fn float asinf(float x) @extern("SDL_asinf");
+extern fn double atan(double x) @extern("SDL_atan");
+extern fn float atanf(float x) @extern("SDL_atanf");
+extern fn double atan2(double y, double x) @extern("SDL_atan2");
+extern fn float atan2f(float y, float x) @extern("SDL_atan2f");
+extern fn double ceil(double x) @extern("SDL_ceil");
+extern fn float ceilf(float x) @extern("SDL_ceilf");
+extern fn double copysign(double x, double y) @extern("SDL_copysign");
+extern fn float copysignf(float x, float y) @extern("SDL_copysignf");
+extern fn double cos(double x) @extern("SDL_cos");
+extern fn float cosf(float x) @extern("SDL_cosf");
+extern fn double exp(double x) @extern("SDL_exp");
+extern fn float expf(float x) @extern("SDL_expf");
+extern fn double fabs(double x) @extern("SDL_fabs");
+extern fn float fabsf(float x) @extern("SDL_fabsf");
+extern fn double floor(double x) @extern("SDL_floor");
+extern fn float floorf(float x) @extern("SDL_floorf");
+extern fn double trunc(double x) @extern("SDL_trunc");
+extern fn float truncf(float x) @extern("SDL_truncf");
+extern fn double fmod(double x, double y) @extern("SDL_fmod");
+extern fn float fmodf(float x, float y) @extern("SDL_fmodf");
+extern fn CInt isinf(double x) @extern("SDL_isinf");
+extern fn CInt isinff(float x) @extern("SDL_isinff");
+extern fn CInt isnan(double x) @extern("SDL_isnan");
+extern fn CInt isnanf(float x) @extern("SDL_isnanf");
+extern fn double log(double x) @extern("SDL_log");
+extern fn float logf(float x) @extern("SDL_logf");
+extern fn double log10(double x) @extern("SDL_log10");
+extern fn float log10f(float x) @extern("SDL_log10f");
+extern fn double modf(double x, double *y) @extern("SDL_modf");
+extern fn float modff(float x, float *y) @extern("SDL_modff");
+extern fn double pow(double x, double y) @extern("SDL_pow");
+extern fn float powf(float x, float y) @extern("SDL_powf");
+extern fn double round(double x) @extern("SDL_round");
+extern fn float roundf(float x) @extern("SDL_roundf");
+extern fn CLong lround(double x) @extern("SDL_lround");
+extern fn CLong lroundf(float x) @extern("SDL_lroundf");
+extern fn double scalbn(double x, CInt n) @extern("SDL_scalbn");
+extern fn float scalbnf(float x, CInt n) @extern("SDL_scalbnf");
+extern fn double sin(double x) @extern("SDL_sin");
+extern fn float sinf(float x) @extern("SDL_sinf");
+extern fn double sqrt(double x) @extern("SDL_sqrt");
+extern fn float sqrtf(float x) @extern("SDL_sqrtf");
+extern fn double tan(double x) @extern("SDL_tan");
+extern fn float tanf(float x) @extern("SDL_tanf");
+
+typedef SDLIconvData = void;
+alias SDLIconv = SDLIconvData*;
+
+extern fn SDLIconv iconv_open(ZString tocode, ZString fromcode) @extern("SDL_iconv_open");
+extern fn CInt iconv_close(SDLIconv cd) @extern("SDL_iconv_close");
+extern fn usz iconv(SDLIconv cd, ZString* inbuf, usz* inbytesleft, char** outbuf, usz* outbytesleft) @extern("SDL_iconv");
+
+const SDL_ICONV_ERROR  = (usz)-1;  // Generic error. Check SDL_GetError()?
+const SDL_ICONV_E2BIG  = (usz)-2;  // Output buffer was too small.
+const SDL_ICONV_EILSEQ = (usz)-3;  // Invalid input sequence was encountered.
+const SDL_ICONV_EINVAL = (usz)-4;  // Incomplete input sequence was encountered.
+
+extern fn char* iconv_string(ZString tocode, ZString fromcode, char* inbuf, usz inbytesleft) @extern("SDL_iconv_string");
+macro ZString iconv_utf8_locale(ZString str) => (ZString)iconv_string("", "UTF-8", str, strlen(str) + 1);
+macro WString iconv_utf8_ucs2(ZString str) => (WString)iconv_string("UCS-2", "UTF-8", str, strlen(str) + 1);
+macro Char32* iconv_utf8_ucs4(ZString str) => (Char32*)iconv_string("UCS-4", "UTF-8", str, strlen(str) + 1);
+macro ZString iconv_wchar_utf8(WChar* str) => (ZString)iconv_string("UTF-8", "WCHAR_T", (char*)str, (wcslen(str) + 1) * WChar.sizeof);
+
+macro bool size_mul_check_overflow(usz a, usz b, usz* ret)
+{
+    if (a != 0 && b > SDL_SIZE_MAX / a) return false;
+    *ret = a * b;
+    return true;
+}
+
+macro bool size_mul_check_overflow_builtin(usz a, usz b, usz* ret)
+{
+	return $$overflow_mul(a, b, out);
+}
+
+macro bool size_add_check_overflow(usz a, usz b, usz* ret)
+{
+    if (b > SDL_SIZE_MAX - a) return false;
+    *ret = a + b;
+    return true;
+}
+
+macro bool size_add_check_overflow_builtin(usz a, usz b, usz* ret)
+{
+	return $$overfloa_add(a, b, ret);
+}
+
+alias SDLFunctionPointer = fn void();
+
+
+

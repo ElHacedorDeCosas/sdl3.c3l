@@ -5,6 +5,8 @@
 *>
 module sdl::atomic;
 
+import sdl::stdinc;
+
 <*
  An atomic spinlock.
 

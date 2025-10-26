@@ -1,0 +1,46 @@
+<*
+ SDL Time
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryTime
+ TODO: add missing documentation
+*>
+module sdl::time;
+
+import sdl::stdinc;
+
+struct SDLDateTime
+{
+    CInt year;                  // Year
+    CInt month;                 // Month [01-12]
+    CInt day;                   // Day of the month [01-31]
+    CInt hour;                  // Hour [0-23]
+    CInt minute;                // Minute [0-59]
+    CInt second;                // Seconds [0-60]
+    CInt nanosecond;            // Nanoseconds [0-999999999]
+    CInt day_of_week;           // Day of the week [0-6] (0 being Sunday)
+    CInt utc_offset;            // Seconds east of UTC
+}
+
+enum SDLDateFormat : const CInt
+{
+    YYYYMMDD = 0, // Year/Month/Day
+    DDMMYYYY = 1, // Day/Month/Year
+    MMDDYYYY = 2  // Month/Day/Year
+}
+
+enum SDLTimeFormat : const CInt
+{
+    SDL_TIME_FORMAT_24HR = 0, // 24 hour time
+    SDL_TIME_FORMAT_12HR = 1  // 12 hour time
+}
+
+extern fn bool get_date_time_locale_preferences(SDLDateFormat* date_format, SDLTimeFormat* time_format) @extern("SDL_GetDateTimeLocalePreferences");
+extern fn bool get_current_time(SDLTime* ticks) @extern("SDL_GetCurrentTime");
+extern fn bool SDLTime.time_to_date_time(ticks, SDLDateTime* dt, bool local_time) @extern("SDL_TimeToDateTime");
+extern fn bool SDLDateTime.date_time_to_time(&dt, SDLTime* ticks) @extern("SDL_DateTimeToTime");
+extern fn void SDLTime.time_to_windows(ticks, uint *dwLowDateTime, uint *dwHighDateTime) @extern("SDL_TimeToWindows");
+extern fn SDLTime time_from_windows(uint dwLowDateTime, uint dwHighDateTime) @extern("SDL_TimeFromWindows");
+extern fn CInt get_days_in_month(CInt year, CInt month) @extern("SDL_GetDaysInMonth");
+extern fn CInt get_day_of_year(CInt year, CInt month, CInt day) @extern("SDL_GetDayOfYear");
+extern fn CInt get_day_of_week(CInt year, CInt month, CInt day) @extern("SDL_GetDayOfWeek");
+

@@ -1,0 +1,38 @@
+<*
+ SDL Timer
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryTimer
+ TODO: add missing documentation
+*>
+module sdl::timer;
+
+import sdl::stdinc;
+
+const MS_PER_SECOND  = 1000;
+const US_PER_SECOND  = 1000000;
+const NS_PER_SECOND  = 1000000000ul;
+const NS_PER_MS      = 1000000;
+const NS_PER_US      = 1000;
+
+macro seconds_to_ns(ulong s)    => s * NS_PER_SECOND;
+macro ns_to_seconds(ulong ns)   => ns / NS_PER_SECOND;
+macro ms_to_ns(ulong ms)        => ms * NS_PER_MS;
+macro ns_to_ms(ulong ns)        => ns / NS_PER_MS;
+macro us_to_ns(ulong us)        => us * NS_PER_US;
+macro ns_to_us(ulong ns)        => ns / NS_PER_US;
+
+typedef SDLTimerID = uint;
+alias SDLTimerCallback = fn uint(void* userdata, SDLTimerID timer_id, uint interval);
+alias SDLNSTimerCallback = fn ulong(void* userdata, SDLTimerID timer_id, ulong interval);
+
+extern fn ulong get_ticks() @extern("SDL_GetTicks");
+extern fn ulong get_ticks_ns() @extern("SDL_GetTicksNS");
+extern fn ulong get_performance_counter() @extern("SDL_GetPerformanceCounter");
+extern fn ulong get_performance_frequency() @extern("SDL_GetPerformanceFrequency");
+extern fn void delay(uint ms) @extern("SDL_Delay");
+extern fn void delay_ns(ulong ns) @extern("SDL_DelayNS");
+extern fn void delay_precise(ulong ns) @extern("SDL_DelayPrecise");
+extern fn SDLTimerID add_timer(uint interval, SDLTimerCallback callback, void* userdata) @extern("SDL_AddTimer");
+extern fn SDLTimerID add_timer_ns(ulong interval, SDLNSTimerCallback callback, void* userdata) @extern("SDL_AddTimerNS");
+extern fn bool remove_timer(SDLTimerID id) @extern("SDL_RemoveTimer");
+

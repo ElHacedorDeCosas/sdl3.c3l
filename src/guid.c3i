@@ -6,6 +6,8 @@
 *>
 module sdl::guid;
 
+import sdl::stdinc;
+
 struct SDLGuid
 {
 	char[16] data;

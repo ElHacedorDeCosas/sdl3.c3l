@@ -6,6 +6,8 @@
 *>
 module sdl::properties;
 
+import sdl::stdinc;
+
 typedef SDLPropertiesID = uint;
 
 enum SDLPropertyType : const

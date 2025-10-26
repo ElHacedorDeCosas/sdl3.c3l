@@ -1,0 +1,75 @@
+<*
+ SDL Thread
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryThread
+ TODO: add missing documentation
+*>
+module sdl::thread;
+
+import sdl::stdinc;
+import sdl::properties;
+import sdl::atomic;
+
+typedef SDLThread = void;
+typedef SDLThreadID = ulong;
+
+typedef TlsId = SDLAtomicInt;
+
+enum SDLThreadPriority 
+{
+    LOW,
+    NORMAL,
+    HIGH,
+    TIME_CRITICAL
+}
+
+enum SDLThreadState
+{
+    UNKNOWN,     // The thread is not valid
+    ALIVE,       // The thread is currently running
+    DETACHED,    // The thread is detached and can't be waited on
+    COMPLETE     // The thread has finished and should be cleaned up with SDL_WaitThread()
+}
+
+alias SDLThreadFunction = fn CInt(void* data);
+
+extern fn SDLThread* create_thread_runtime(SDLThreadFunction func, ZString name, void* data, SDLFunctionPointer pfn_begin_thread, SDLFunctionPointer pfn_end_thread) @extern("SDL_CreateThreadRuntime") @local;
+extern fn SDLThread* create_thread_with_properties_runtime(SDLPropThreadCreate props, SDLFunctionPointer pfn_begin_thread, SDLFunctionPointer pfn_end_thread) @extern("SDL_CreateThreadWithPropertiesRuntime") @local;
+
+
+macro SDLThread* create_thread(SDLThreadFunction func, ZString name, void* data)
+{
+	$if env::WIN32:
+		return create_thread_runtime(func, name, data, _beginthreadex, _endthreadex);
+	$else
+		return create_thread_runtime(func, name, data, NULL, NULL);
+	$endif
+}
+
+macro SDLThread* create_thread_with_properties(SDLPropThreadCreate props)
+{
+	$if env::WIN32:
+		return create_thread_with_properties_runtime(props, _beginthreadex, _endthreadex);
+	$else
+		return create_thread_with_properties_runtime(props, NULL, NULL);
+	$endif
+}
+
+enum SDLPropThreadCreate : const SDLPropertiesID
+{
+	ENTRY_FUNCTION_POINTER  = "SDL.thread.create.entry_function",
+	NAME_STRING             = "SDL.thread.create.name",
+	USERDATA_POINTER        = "SDL.thread.create.userdata",
+	STACKSIZE_NUMBER        = "SDL.thread.create.stacksize",
+}
+
+extern fn ZString SDLThread.get_name(&thread) @extern("SDL_GetThreadName");
+extern fn SDLThreadID get_current_thread_id() @extern("SDL_GetCurrentThreadID");
+extern fn SDLThreadID SDLThread.get_id(&thread) @extern("SDL_GetThreadID");
+extern fn bool set_current_thread_priority(SDLThreadPriority priority) @extern("SDL_SetCurrentThreadPriority");
+extern fn void SDLThread.wait(&thread, int* status) @extern("SDL_WaitThread");
+extern fn SDLThreadState SDLThread.get_state(&thread) @extern("SDL_GetThreadState");
+extern fn void SDLThread.detach(&thread) @extern("SDL_DetachThread");
+extern fn void* TlsId.get(&id) @extern("SDL_GetTLS");
+extern fn bool TlsId.set(&id, void* value, SDLTLSDestructorCallback destructor) @extern("SDL_SetTLS");
+extern fn void cleanup_tls() @extern("SDL_CleanupTLS");

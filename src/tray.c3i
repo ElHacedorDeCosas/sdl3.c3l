@@ -1,0 +1,50 @@
+<*
+ SDL Tray
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryTray
+ TODO: add missing documentation
+*>
+module sdl::tray;
+
+import sdl::stdinc;
+import sdl::video;
+
+typedef SDLTray = void;
+typedef SDLTrayMenu = void;
+typedef SDLTrayEntry = void;
+
+enum SDLTrayEntryFlags : const uint
+{
+	BUTTON     = 0x00000001u, // Make the entry a simple button. Required. 
+	CHECKBOX   = 0x00000002u, // Make the entry a checkbox. Required. 
+	SUBMENU    = 0x00000004u, // Prepare the entry to have a submenu. Required 
+	DISABLED   = 0x80000000u, // Make the entry disabled. Optional. 
+	CHECKED    = 0x40000000u, // Make the entry checked. This is valid only for checkboxes. Optional. 
+}
+
+alias SDLTrayCallback = fn void(void* userdata, SDLTrayEntry* entry);
+
+extern fn SDLTray* create_tray(SDLSurface* icon, ZString tooltip) @extern("SDL_CreateTray");
+extern fn void SDLTray.set_tray_icon(&tray, SDL_Surface* icon) @extern("SDL_SetTrayIcon");
+extern fn void SDLTray.set_tray_tooltip(&tray, ZString tooltip) @extern("SDL_SetTrayTooltip");
+extern fn SDLTrayMenu* SDLTray.create_tray_menu(&tray) @extern("SDL_CreateTrayMenu");
+extern fn SDLTrayMenu* SDLTrayEntry.create_tray_submenu(&entry) @extern("SDL_CreateTraySubmenu");
+extern fn SDLTrayMenu* SDLTray.get_tray_menu(&tray) @extern("SDL_GetTrayMenu");
+extern fn SDLTrayMenu* SDLTrayEntry.get_tray_submenu(&entry) @extern("SDL_GetTraySubmenu");
+extern fn SDLTrayEntry** SDLTrayMenu.get_tray_entries(&menu, CInt* count) @extern("SDL_GetTrayEntries");
+extern fn void SDLTrayEntry.remove_tray_entry(&entry) @extern("SDL_RemoveTrayEntry");
+extern fn SDLTrayEntry* SDLTrayMenu.insert_tray_entry_at(&menu, CInt pos, ZString label, SDLTrayEntryFlags flags) @extern("SDL_InsertTrayEntryAt");
+extern fn void SDLTrayEntry.set_tray_label(&entry, ZString label) @extern("SDL_SetTrayEntryLabel");
+extern fn ZString SDLTrayEntry.get_tray_entry_label(&entry) @extern("SDL_GetTrayEntryLabel");
+extern fn void SDLTrayEntry.set_tray_entry_checked(&entry, bool checked) @extern("SDL_SetTrayEntryChecked");
+extern fn bool SDLTrayEntry.get_tray_entry_checked(&entry) @extern("SDL_GetTrayEntryChecked");
+extern fn void SDLTrayEntry.set_tray_entry_enabled(&entry, bool enabled) @extern("SDL_SetTrayEntryEnabled");
+extern fn bool SDLTrayEntry.get_tray_entry_enabled(&entry) @extern("SDL_GetTrayEntryEnabled");
+extern fn void SDLTrayEntry.set_tray_entry_callback(&entry, SDLTrayCallback callback, void* userdata) @extern("SDL_SetTrayEntryCallback");
+extern fn void SDLTrayEntry.click_tray_entry(&entry) @extern("SDL_ClickTrayEntry");
+extern fn void SDLTray.destroy_tray(&tray) @extern("SDL_DestroyTray");
+extern fn SDLTrayMenu* SDLTrayEntry.get_tray_entry_parent(&entry) @extern("SDL_GetTrayEntryParent");
+extern fn SDLTrayEntry* SDLTrayMenu.get_tray_menu_parent_entry(&menu) @extern("SDL_GetTrayMenuParentEntry");
+extern fn SDLTray* SDLTrayMenu.get_tray_menu_parent_tray(&menu) @extern("SDL_GetTrayMenuParentTray");
+extern fn void update_trays() @extern("SDL_UpdateTrays");
+

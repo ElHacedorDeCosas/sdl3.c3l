@@ -1,0 +1,36 @@
+<*
+ SDL Touch
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryTouch
+ TODO: add missing documentation
+*>
+module sdl::touch;
+
+import sdl::stdinc;
+
+typedef SDLTouchID = ulong;
+typedef SDLFingerID = ulong; 
+
+enum SDLTouchDeviceType : const CInt
+{
+    INVALID = -1,
+    DIRECT,            // touch screen with window-relative coordinates 
+    INDIRECT_ABSOLUTE, // trackpad with absolute device coordinates 
+    INDIRECT_RELATIVE  // trackpad with screen cursor-relative coordinates 
+}
+
+struct SDLFinger
+{
+    SDLFingerID id;  // the finger ID 
+    float x;         // the x-axis location of the touch event, normalized (0...1) 
+    float y;         // the y-axis location of the touch event, normalized (0...1) 
+    float pressure;  // the quantity of pressure applied, normalized (0...1) 
+}
+
+const SDLMouseID TOUCH_MOUSEID = (SDLMouseID)-1;
+const SDLMouseID MOUSE_TOUCHID = (SDLTouchID)-1;
+
+extern fn SDLTouchID* get_touch_devices(CInt* count) @extern("SDL_GetTouchDevices");
+extern fn ZString SDLTouchID.get_touch_device_name(touch_id) @extern("SDL_GetTouchDeviceName");
+extern fn SDLTouchDeviceType SDLTouchID.get_touch_device_type(touch_id) @extern("SDL_GetTouchDeviceType");
+extern fn SDLFinger** SDLTouchID.get_touch_fingers(touch_id, CInt* count) @extern("SDL_GetTouchFingers");

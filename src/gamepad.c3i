@@ -6,9 +6,10 @@
 *>
 module sdl::gamepad;
 
+import sdl::stdinc;
 import sdl::guid;
-import sdl::properties;
 import sdl::joystick;
+import sdl::properties;
 
 typedef SDLGamepad = void*;
 

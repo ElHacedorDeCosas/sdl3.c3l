@@ -1,0 +1,71 @@
+<*
+ SDL Keyboard Handling
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryKeyboard
+ TODO: add missing documentation
+*>
+module sdl::keyboard;
+
+import sdl::stdinc;
+import sdl::properties;
+import sdl::video;
+
+
+typedef SDLKeyboardID = uint;
+
+extern fn bool has_keyboard() @extern("SDL_HasKeyboard");
+extern fn SDLKeyboardID* get_keyboards(int* count) @extern("SDL_GetKeyboards");
+extern fn ZString SDLKeyboardID.get_keyboard_name_for_id(SDLKeyboardID instance_id) @extern("SDL_GetKeyboardNameForID");
+extern fn SDLWindow* get_keyboard_focus() @extern("SDL_GetKeyboardFocus");
+extern fn bool* get_keyboard_state(CInt* numkeys) @extern("SDL_GetKeyboardState");
+extern fn void reset_keyboard() @extern("SDL_ResetKeyboard");
+extern fn SDLKeymod get_mod_state() @extern("SDL_GetModState");
+extern fn void set_mod_state(SDLKeymod modstate) @extern("SDL_SetModState");
+extern fn SDLKeycode SDLScancode.get_key_from_scancode(SDLScancode scancode, SDLKeymod modstate, bool key_event) @extern("SDL_GetKeyFromScancode");
+extern fn SDLScancode SDLKeycode.get_scancode_from_key(key, SDLKeymod* modstate) @extern("SDL_GetScancodeFromKey");
+extern fn bool SDLScancode.set_scancode_name(scancode, ZString name) @extern("SDL_SetScancodeName");
+extern fn ZString SDLScancode.get_scancode_name(scancode) @extern("SDL_GetScancodeName");
+extern fn SDLScancode get_scancode_from_name(ZString name) @extern("SDL_GetScancodeFromName");
+extern fn ZString SDLKeycode.get_key_name(key) @extern("SDL_GetKeyName");
+extern fn SDLKeycode get_key_from_name(ZString name) @extern("SDL_GetKeyFromName");
+extern fn bool start_text_input(SDLWindow* window) @extern("SDL_StartTextInput");
+
+enum SDLTextInputType
+{
+    TEXT,                        // The input is text
+    TEXT_NAME,                   // The input is a person's name
+    TEXT_EMAIL,                  // The input is an e-mail address
+    TEXT_USERNAME,               // The input is a username
+    TEXT_PASSWORD_HIDDEN,        // The input is a secure password that is hidden 
+    TEXT_PASSWORD_VISIBLE,       // The input is a secure password that is visible
+    NUMBER,                      // The input is a number
+    NUMBER_PASSWORD_HIDDEN,      // The input is a secure PIN that is hidden
+    NUMBER_PASSWORD_VISIBLE      // The input is a secure PIN that is visible
+}
+
+enum SDLCapitalization
+{
+    NONE,        /**< No auto-capitalization will be done */
+    SENTENCES,   /**< The first letter of sentences will be capitalized */
+    WORDS,       /**< The first letter of words will be capitalized */
+    LETTERS      /**< All letters will be capitalized */
+}
+
+extern fn bool start_text_input_with_properties(SDLWindow* window, SDLPropertiesID props) @extern("SDL_StartTextInputWithProperties");
+
+enum SDLPropTextInput : const SDLPropertiesID
+{
+	TYPE_NUMBER                  = "SDL.textinput.type",
+	CAPITALIZATION_NUMBER        = "SDL.textinput.capitalization",
+	AUTOCORRECT_BOOLEAN          = "SDL.textinput.autocorrect",
+	MULTILINE_BOOLEAN            = "SDL.textinput.multiline",
+	ANDROID_INPUTTYPE_NUMBER     = "SDL.textinput.android.inputtype"
+}
+
+extern fn bool text_input_active(SDLWindow* window) @extern("SDL_TextInputActive");
+extern fn bool stop_text_input(SDLWindow* window) @extern("SDL_StopTextInput");
+extern fn bool clear_composition(SDLWindow* window) @extern("SDL_ClearComposition");
+extern fn bool set_text_input_area(SDLWindow* window, SDLRect* rect, CInt cursor) @extern("SDL_SetTextInputArea");
+extern fn bool get_text_input_area(SDLWindow* window, SDLRect* rect, CInt* cursor) @extern("SDL_GetTextInputArea");
+extern fn bool has_screen_keyboard_support() @extern("SDL_HasScreenKeyboardSupport");
+extern fn bool screen_keyboard_shown(SDLWindow* window) @extern("SDL_ScreenKeyboardShown");

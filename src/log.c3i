@@ -1,0 +1,75 @@
+<*
+ SDL Log Handling
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryLog
+ TODO: add missing documentation
+*>
+module sdl::log;
+
+import sdl::stdinc;
+
+enum SDLLogCategory
+{
+    APPLICATION,
+    ERROR,
+    ASSERT,
+    SYSTEM,
+    AUDIO,
+    VIDEO,
+    RENDER,
+    INPUT,
+    TEST,
+    GPU,
+
+    /* Reserved for future SDL library use */
+    RESERVED2,
+    RESERVED3,
+    RESERVED4,
+    RESERVED5,
+    RESERVED6,
+    RESERVED7,
+    RESERVED8,
+    RESERVED9,
+    RESERVED10,
+
+    // Beyond this point is reserved for application use, e.g.
+    SDL_LOG_CATEGORY_CUSTOM
+}
+
+enum SDLLogPriority
+{
+    INVALID,
+    TRACE,
+    VERBOSE,
+    DEBUG,
+    INFO,
+    WARN,
+    ERROR,
+    CRITICAL,
+    COUNT
+}
+
+extern fn void set_log_priorities(SDLLogPriority priority) @extern("SDL_SetLogPriorities");
+extern fn void set_log_priority(CInt category, SDLLogPriority priority) @extern("SDL_SetLogPriority");
+extern fn SDLLogPriority get_log_priority(CInt category) @extern("SDL_GetLogPriority");
+extern fn void reset_log_priorities() @extern("SDL_ResetLogPriorities");
+extern fn bool set_log_priority_prefix(SDLLogPriority priority, ZString prefix) @extern("SDL_SetLogPriorityPrefix");
+extern fn void log_(ZString fmt, ...) @extern("SDL_Log");
+extern fn void log_trace(CInt category, ZString fmt, ...) @extern("SDL_LogTrace");
+extern fn void log_verbose(CInt category, ZString fmt, ...) @extern("SDL_LogVerbose");
+extern fn void log_debug(CInt category, ZString fmt, ...) @extern("SDL_LogDebug");
+extern fn void log_info(CInt category, ZString fmt, ...) @extern("SDL_LogInfo");
+extern fn void log_warn(CInt category, ZString fmt, ...) @extern("SDL_LogWarn");
+extern fn void log_error(CInt category, ZString fmt, ...) @extern("SDL_LogError");
+extern fn void log_critical(CInt category, ZString fmt, ...) @extern("SDL_LogCritical");
+extern fn void log_message(CInt category, SDLLogPriority priority, ZString fmt, ...) @extern("SDL_LogMessage");
+
+/* I'm not sure how to declare this function.
+extern fn void log_message_v(CInt category, SDLLogPriority priority,) @extern("SDL_LogMessageV");
+*/
+
+alias SDLLogOutputFunction = fn void (void* userdata, CInt category, SDLLogPriority priority, ZString message);
+
+extern fn SDLLogOutputFunction get_default_log_output_function() @extern("SDL_GetDefaultLogOutputFunction");
+extern fn void get_log_output_function(SDLLogOutputFunction* callback, void** userdata) @extern("SDL_GetLogOutputFunction");
+extern fn void set_log_output_function(SDLLogOutputFunction callback, void* userdata) @extern("SDL_SetLogOutputFunction");

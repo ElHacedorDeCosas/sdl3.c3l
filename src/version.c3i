@@ -1,0 +1,24 @@
+<*
+ SDL Version
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryVersion
+ TODO: add missing documentation
+*>
+module sdl::version;
+
+import sdl::stdinc;
+
+const MAJOR_VERSION = 3;
+const MINOR_VERSION = 2;
+const MICRO_VERSION = 18;
+
+macro @versionnum(#major, #minor, #patch) => #major * 1000000 + #minor * 1000 + #patch;
+macro @versionnum_major(#version) => #version / 1000000;
+macro @versionnum_minor(#version) => (#version / 1000) % 1000;
+macro @versionnum_micro(#version) => #version % 1000;
+const VERSION = @versionnum(MAJOR_VERSION, MINOR_VERSION, MICRO_VERSION);
+
+macro @version_at_least(#x, #y, #z) => VERSION >= @versionnum(#x, #y, #z);
+
+extern fn CInt get_version() @extern("SDL_GetVersion");
+extern fn ZString get_revision() @extern("SDL_GetRevision");

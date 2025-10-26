@@ -6,6 +6,8 @@
 *>
 module sdl::clipboard;
 
+import sdl::stdinc;
+
 extern fn bool set_clipboard_text(ZString text) @extern("SDL_SetClipboardText");
 extern fn ZString get_clipboard_text() @extern("SDL_GetClipboardText"); 
 extern fn bool has_clipboard_text() @extern("SDL_HasClipboardText");

@@ -6,9 +6,14 @@
 *>
 module sdl::events;
 
-import sdl::camera;
+import sdl::stdinc;
 import sdl::audio;
+import sdl::camera;
+import sdl::gamepad;
 import sdl::joystick;
+import sdl::keyboard;
+import sdl::touch;
+import sdl::video;
 
 enum SDLEventType : const uint
 {

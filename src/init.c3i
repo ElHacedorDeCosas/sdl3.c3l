@@ -1,0 +1,60 @@
+<*
+ SDL Initialization
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryInit
+ TODO: add missing documentation
+*>
+module sdl::init;
+
+import sdl::stdinc;
+import sdl::events;
+
+enum SDLInitFlags : const uint
+{
+	AUDIO      = 0x00000010u, // `SDL_INIT_AUDIO` implies `SDL_INIT_EVENTS`
+	VIDEO      = 0x00000020u, // `SDL_INIT_VIDEO` implies `SDL_INIT_EVENTS`, should be initialized on the main thread
+	JOYSTICK   = 0x00000200u, // `SDL_INIT_JOYSTICK` implies `SDL_INIT_EVENTS`
+	HAPTIC     = 0x00001000u, //
+	GAMEPAD    = 0x00002000u, // `SDL_INIT_GAMEPAD` implies `SDL_INIT_JOYSTICK`
+	EVENTS     = 0x00004000u, //
+	SENSOR     = 0x00008000u, // `SDL_INIT_SENSOR` implies `SDL_INIT_EVENTS`
+	CAMERA     = 0x00010000u, // `SDL_INIT_CAMERA` implies `SDL_INIT_EVENTS`
+}
+
+enum SDLAppResult
+{
+    CONTINUE,   // Value that requests that the app continue from the main callbacks.
+    SUCCESS,    // Value that requests termination with success from the main callbacks.
+    FAILURE     // Value that requests termination with error from the main callbacks.
+}
+
+alias SDLAppInitFunc = fn SDLAppResult(void** appstate, CInt argc, ZString* argv);
+alias SDLAppIterateFunc = fn SDLAppResult(void* appstate);
+alias SDLAppEventFunc = fn SDLAppResult(void* appstate, SDLEvent* event);
+alias SDLAppQuitFunc = fn void(void* appstate, SDLAppResult result);
+
+extern fn bool init(SDLInitFlags flags) @extern("SDL_Init");
+extern fn bool init_sub_system(SDLInitFlags flags) @extern("SDL_InitSubSystem");
+extern fn void quit_sub_system(SDLInitFlags flags) @extern("SDL_QuitSubSystem");
+extern fn SDLInitFlags was_init(SDLInitFlags flags) @extern("SDL_WasInit");
+extern fn void quit() @extern("SDL_Quit");
+extern fn bool is_main_thread(void) @extern("SDL_IsMainThread");
+
+alias SDLMainThreadCallback = fn void(void* userdata);
+
+extern fn bool run_on_main_thread(SDLMainThreadCallback callback, void* userdata, bool wait_complete) @extern("SDL_RunOnMainThread");
+extern fn bool set_app_metadata(ZString appname, ZString appversion, ZString appidentifier) @extern("SDL_SetAppMetadata");
+extern fn bool set_app_metadata_property(SDLPropAppMetadata name, ZString value) @extern("SDL_SetAppMetadataProperty");
+
+enum SDLPropAppMetadata : const ZString
+{
+	NAME_STRING         = "SDL.app.metadata.name",
+	VERSION_STRING      = "SDL.app.metadata.version",
+	IDENTIFIER_STRING   = "SDL.app.metadata.identifier",
+	CREATOR_STRING      = "SDL.app.metadata.creator",
+	COPYRIGHT_STRING    = "SDL.app.metadata.copyright",
+	URL_STRING          = "SDL.app.metadata.url",
+	TYPE_STRING         = "SDL.app.metadata.type",
+}
+
+extern fn ZString get_app_metadata_property(SDLPropAppMetadata name) @extern("SDL_GetAppMetadataProperty");

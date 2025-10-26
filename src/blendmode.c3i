@@ -5,6 +5,8 @@
 *>
 module sdl::blendmode;
 
+import sdl::stdinc;
+
 <*
  A set of blend modes used in drawing operations.
  This datatype is available since SDL 3.2.0.
