@@ -33,12 +33,7 @@
  For more information, see
  https://wiki.libsdl.org/SDL3/CategoryMouse
 *>
-module sdl::mouse;
-
-import sdl::stdinc;
-import sdl::error;
-import sdl::surface;
-import sdl::video;
+module sdl;
 
 <*
  This is a unique ID for a mouse for the time it is connected to the system,

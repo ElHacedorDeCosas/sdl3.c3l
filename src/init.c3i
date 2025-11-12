@@ -4,10 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryInit
  TODO: add missing documentation
 *>
-module sdl::init;
-
-import sdl::stdinc;
-import sdl::events;
+module sdl;
 
 enum SDLInitFlags : const uint
 {

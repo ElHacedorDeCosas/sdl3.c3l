@@ -16,15 +16,7 @@
  For more information, see
  https://wiki.libsdl.org/SDL3/CategorySurface
 *>
-module sdl::surface;
-
-import sdl::stdinc;
-import sdl::blendmode;
-import sdl::error;
-import sdl::pixels;
-import sdl::properties;
-import sdl::rect;
-// import sdl::iostream;
+module sdl;
 
 <*
  The flags on an SDL_Surface.

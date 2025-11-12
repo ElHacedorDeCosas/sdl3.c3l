@@ -3,9 +3,7 @@
  For more information, see
  https://wiki.libsdl.org/SDL3/CategoryMisc
 *>
-module sdl::misc;
-
-import sdl::stdinc;
+module sdl;
 
 <*
  Open a URL/URI in the browser or other appropriate external application.

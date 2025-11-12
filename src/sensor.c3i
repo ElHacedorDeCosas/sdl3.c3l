@@ -10,11 +10,7 @@
  For more information, see
  https://wiki.libsdl.org/SDL3/CategorySensor
 *>
-module sdl::sensor;
-
-import sdl::stdinc;
-import sdl::error;
-import sdl::properties;
+module sdl;
 
 // /**
 //  * The opaque structure used to identify an opened SDL sensor.

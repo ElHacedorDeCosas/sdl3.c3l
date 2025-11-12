@@ -4,15 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryGamepad
  TODO: add missing documentation and check "SdlPropGamepadCap"
 *>
-module sdl::gamepad;
-
-import sdl::stdinc;
-import sdl::guid;
-import sdl::iostream;
-import sdl::joystick;
-import sdl::properties;
-import sdl::power;
-import sdl::sensor;
+module sdl;
 
 typedef SDLGamepad = void*;
 

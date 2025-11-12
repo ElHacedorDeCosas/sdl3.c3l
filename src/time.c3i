@@ -4,9 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryTime
  TODO: add missing documentation
 *>
-module sdl::time;
-
-import sdl::stdinc;
+module sdl;
 
 struct SDLDateTime
 {

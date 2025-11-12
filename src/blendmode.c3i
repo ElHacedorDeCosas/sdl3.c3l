@@ -3,9 +3,7 @@
  For more information, see
  https://wiki.libsdl.org/SDL3/CategoryBlendmode
 *>
-module sdl::blendmode;
-
-import sdl::stdinc;
+module sdl;
 
 <*
  A set of blend modes used in drawing operations.

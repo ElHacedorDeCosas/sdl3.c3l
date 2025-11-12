@@ -4,10 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryTouch
  TODO: add missing documentation
 *>
-module sdl::touch;
-
-import sdl::stdinc;
-import sdl::mouse;
+module sdl;
 
 typedef SDLTouchID = ulong;
 typedef SDLFingerID = ulong; 

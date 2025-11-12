@@ -4,12 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryCamera
  TODO: add missing documentation
 *>
-module sdl::camera;
-
-import sdl::stdinc;
-import sdl::pixels;
-import sdl::properties;
-import sdl::surface;
+module sdl;
 
 <*
  This is a unique ID for a camera device for the time it is connected to the

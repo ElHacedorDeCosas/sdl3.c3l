@@ -4,13 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryVideo
  TODO: add missing documentation
 *>
-module sdl::video;
-
-import sdl::stdinc;
-import sdl::properties;
-import sdl::pixels;
-import sdl::rect;
-import sdl::surface;
+module sdl;
 
 typedef SDLDisplayID = uint;
 typedef SDLWindowID = uint;

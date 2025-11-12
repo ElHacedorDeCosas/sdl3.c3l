@@ -4,22 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryEvents
  TODO: add missing documentation
 *>
-module sdl::events;
-
-import sdl::stdinc;
-import sdl::audio;
-import sdl::camera;
-import sdl::gamepad;
-import sdl::joystick;
-import sdl::keycode;
-import sdl::keyboard;
-import sdl::mouse;
-import sdl::pen;
-import sdl::power;
-import sdl::scancode;
-import sdl::sensor;
-import sdl::touch;
-import sdl::video;
+module sdl;
 
 enum SDLEventType : const uint
 {

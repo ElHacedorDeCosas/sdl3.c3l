@@ -4,9 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryFileSystem
  TODO: add missing documentation
 *>
-module sdl::filesystem;
-
-import sdl::stdinc;
+module sdl;
 
 extern fn ZString get_base_path() @extern("SDL_GetBasePath");
 extern fn ZString get_pref_path(ZString org, ZString app) @extern("SDL_GetPrefPath");

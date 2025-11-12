@@ -4,7 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryCPUInfo
  TODO: add missing documentation
 *>
-module sdl::cpuinfo;
+module sdl;
 
 const CACHELINE_SIZE = 128;
 

@@ -4,9 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryLog
  TODO: add missing documentation
 *>
-module sdl::log;
-
-import sdl::stdinc;
+module sdl;
 
 enum SDLLogCategory
 {

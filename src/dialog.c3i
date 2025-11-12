@@ -4,10 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryDialog
  TODO: add missing documentation
 *>
-module sdl::dialog;
-
-import sdl::properties;
-import sdl::video;
+module sdl;
 
 struct SDLDialogFileFilter
 {

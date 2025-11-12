@@ -4,9 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryGUID
  TODO: add missing documentation
 *>
-module sdl::guid;
-
-import sdl::stdinc;
+module sdl;
 
 struct SDLGuid
 {

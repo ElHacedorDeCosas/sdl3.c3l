@@ -4,11 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryThread
  TODO: add missing documentation
 *>
-module sdl::thread;
-
-import sdl::stdinc;
-import sdl::properties;
-import sdl::atomic;
+module sdl;
 
 typedef SDLThread = void;
 typedef SDLThreadID = ulong;

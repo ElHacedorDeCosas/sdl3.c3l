@@ -4,9 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryKeycode
  TODO: add missing documentation
 *>
-module sdl::keycode;
-
-import sdl::stdinc;
+module sdl;
 
 typedef SDLKeycode = uint;
 

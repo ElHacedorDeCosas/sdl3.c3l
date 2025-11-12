@@ -56,12 +56,7 @@
  For more information, see
  https://wiki.libsdl.org/SDL3/CategoryPixels
 *>
-module sdl::pixels;
-
-import sdl::stdinc;
-import sdl::error;
-// import sdl::endian;
-
+module sdl;
 
 // /**
 //  * A fully opaque 8-bit alpha value.

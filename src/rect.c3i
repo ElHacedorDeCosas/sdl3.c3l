@@ -5,10 +5,7 @@
  For more information, see
  https://wiki.libsdl.org/SDL3/CategoryRect
 *>
-module sdl::rect;
-
-import sdl::stdinc;
-import sdl::error;
+module sdl;
 
 <*
  The structure that defines a point (using integers).

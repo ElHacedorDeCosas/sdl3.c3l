@@ -9,11 +9,7 @@
  For more information, see
  https://wiki.libsdl.org/SDL3/CategoryIOStream
 *>
-module sdl::iostream;
-
-import sdl::stdinc;
-import sdl::error;
-import sdl::properties;
+module sdl;
 
 // /**
 //  * SDL_IOStream status, set by a read or write operation.

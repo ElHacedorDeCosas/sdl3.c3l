@@ -4,11 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryAudio
  TODO: add missing documentation
 *>
-module sdl::audio;
-
-import sdl::stdinc;
-import sdl::iostream;
-import sdl::properties;
+module sdl;
 
 <*
  Mask of bits in an SDL_AudioFormat that contains the format bit size.

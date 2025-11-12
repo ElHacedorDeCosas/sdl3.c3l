@@ -4,9 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryClipboard
  TODO: add missing documentation
 *>
-module sdl::clipboard;
-
-import sdl::stdinc;
+module sdl;
 
 extern fn bool set_clipboard_text(ZString text) @extern("SDL_SetClipboardText");
 extern fn ZString get_clipboard_text() @extern("SDL_GetClipboardText"); 

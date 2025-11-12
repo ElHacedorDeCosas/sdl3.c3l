@@ -4,11 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryTray
  TODO: add missing documentation
 *>
-module sdl::tray;
-
-import sdl::stdinc;
-import sdl::surface;
-import sdl::video;
+module sdl;
 
 typedef SDLTray = void;
 typedef SDLTrayMenu = void;

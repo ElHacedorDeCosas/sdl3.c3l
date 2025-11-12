@@ -4,15 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryKeyboard
  TODO: add missing documentation
 *>
-module sdl::keyboard;
-
-import sdl::stdinc;
-import sdl::keycode;
-import sdl::properties;
-import sdl::rect;
-import sdl::scancode;
-import sdl::video;
-
+module sdl;
 
 typedef SDLKeyboardID = uint;
 

@@ -4,7 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryError
  TODO: add missing documentation
 *>
-module sdl::error;
+module sdl;
 
 extern fn bool set_error(ZString fmt, ...) @extern("SDL_SetError");
 extern fn bool out_of_memory() @extern("SDL_OutOfMemory");

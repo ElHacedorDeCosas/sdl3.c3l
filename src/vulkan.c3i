@@ -4,10 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryVulkan
  TODO: add missing documentation
 *>
-module sdl::vulkan;
-
-import sdl::stdinc;
-import sdl::video;
+module sdl;
 
 typedef VkInstance = void*;
 typedef VkPhysicalDevice = void*;
