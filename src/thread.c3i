@@ -68,14 +68,14 @@ extern fn SDLThreadState SDLThread.get_state(&thread) @extern("SDL_GetThreadStat
 extern fn void SDLThread.detach(&thread) @extern("SDL_DetachThread");
 extern fn void* TlsId.get(&id) @extern("SDL_GetTLS");
 
-<*
+/*
  The callback used to cleanup data passed to SDL_SetTLS.
  This datatype is available since SDL 3.2.0.
 
  This is called when a thread exits, to allow an app to free any resources.
 
  @param value : `a pointer previously handed to SDL_SetTLS.`
-*>
+*/
 alias SDLTLSDestructorCallback = fn void(void* value);
 
 extern fn bool TlsId.set(&id, void* value, SDLTLSDestructorCallback destructor) @extern("SDL_SetTLS");
