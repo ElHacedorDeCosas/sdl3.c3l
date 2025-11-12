@@ -55,9 +55,9 @@ struct SDLFRect
 
 <*
  Convert an SDL_Rect to SDL_FRect
- It is safe to call this function from any thread.
-
  This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
 
  @param rect :  `a pointer to an SDL_Rect.`
  @param frect : `a pointer filled in with the floating point representation of

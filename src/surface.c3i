@@ -33,7 +33,7 @@ const SURFACE_SIMD_ALIGNED    = 0x00000008u; /**< Surface uses pixel memory allo
 
 <*
  Evaluates to true if the surface needs to be locked before access.
-This macro is available since SDL 3.2.0.
+ This macro is available since SDL 3.2.0.
 *>
 macro SDLSurfaceFlags.mustlock(x)
 {
@@ -475,7 +475,8 @@ struct SDLSurface
 
  The new surface should be freed with SDL_DestroySurface(). Not doing so
  will result in a memory leak.
- It is safe to call this function from any thread.
+
+ threadsafety: It is safe to call this function from any thread.
 
  @param file : `the BMP file to load.`
  @return `a pointer to a new SDL_Surface structure or NULL on failure; call
