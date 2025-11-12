@@ -8,6 +8,9 @@ module sdl::video;
 
 import sdl::stdinc;
 import sdl::properties;
+import sdl::pixels;
+import sdl::rect;
+import sdl::surface;
 
 typedef SDLDisplayID = uint;
 typedef SDLWindowID = uint;
@@ -351,7 +354,7 @@ extern fn bool gl_load_library(ZString path) @extern("SDL_GL_LoadLibrary");
 extern fn SDLFunctionPointer gl_get_proc_address(ZString proc) @extern("SDL_GL_GetProcAddress");
 extern fn SDLFunctionPointer egl_get_proc_address(ZString proc) @extern("SDL_EGL_GetProcAddress");
 extern fn void gl_unload_library() @extern("SDL_GL_UnloadLibrary");
-extern fn bool gl_extension_supported(ZStringextension) @extern("SDL_GL_ExtensionSupported");
+extern fn bool gl_extension_supported(ZString extension) @extern("SDL_GL_ExtensionSupported");
 extern fn void gl_reset_attributes() @extern("SDL_GL_ResetAttributes");
 extern fn bool gl_set_attribute(SDLGLAttr attr, CInt value) @extern("SDL_GL_SetAttribute");
 extern fn bool gl_get_attribute(SDLGLAttr attr, CInt *value) @extern("SDL_GL_GetAttribute");

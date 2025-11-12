@@ -9,6 +9,7 @@ module sdl::keyboard;
 import sdl::stdinc;
 import sdl::keycode;
 import sdl::properties;
+import sdl::rect;
 import sdl::scancode;
 import sdl::video;
 
@@ -55,7 +56,7 @@ enum SDLCapitalization
 
 extern fn bool start_text_input_with_properties(SDLWindow* window, SDLPropertiesID props) @extern("SDL_StartTextInputWithProperties");
 
-enum SDLPropTextInput : const SDLPropertiesID
+enum SDLPropTextInput : const ZString
 {
 	TYPE_NUMBER                  = "SDL.textinput.type",
 	CAPITALIZATION_NUMBER        = "SDL.textinput.capitalization",

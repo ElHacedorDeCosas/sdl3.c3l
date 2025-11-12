@@ -38,7 +38,7 @@ extern fn bool init_sub_system(SDLInitFlags flags) @extern("SDL_InitSubSystem");
 extern fn void quit_sub_system(SDLInitFlags flags) @extern("SDL_QuitSubSystem");
 extern fn SDLInitFlags was_init(SDLInitFlags flags) @extern("SDL_WasInit");
 extern fn void quit() @extern("SDL_Quit");
-extern fn bool is_main_thread(void) @extern("SDL_IsMainThread");
+extern fn bool is_main_thread() @extern("SDL_IsMainThread");
 
 alias SDLMainThreadCallback = fn void(void* userdata);
 

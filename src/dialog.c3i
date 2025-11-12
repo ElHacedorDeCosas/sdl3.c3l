@@ -18,7 +18,7 @@ struct SDLDialogFileFilter
 alias SDLDialogFileCallback = fn void(void* userdata, ZString* filelist, int filter);
 
 extern fn void show_open_file_dialog(SDLDialogFileCallback callback, void* userdata, SDLWindow* window, SDLDialogFileFilter* filters, int nfilters, ZString default_location, bool allow_many) @extern("SDL_ShowOpenFileDialog");
-extern fn void show_save_file_dialog(SDLDialogFileCallback callback, void* userdata, SDLWindow* window, SDL_DialogFileFilter* filters, int nfilters, ZString default_location) @extern("SDL_ShowSaveFileDialog");
+extern fn void show_save_file_dialog(SDLDialogFileCallback callback, void* userdata, SDLWindow* window, SDLDialogFileFilter* filters, int nfilters, ZString default_location) @extern("SDL_ShowSaveFileDialog");
 extern fn void show_open_folder_dialog(SDLDialogFileCallback callback, void* userdata, SDLWindow* window, ZString default_location, bool allow_many) @extern("SDL_ShowOpenFolderDialog");
 
 enum SDLFileDialogType
@@ -30,7 +30,7 @@ enum SDLFileDialogType
 
 extern fn void show_file_dialog_with_properties(SDLFileDialogType type, SDLDialogFileCallback callback, void* userdata, SDLPropFileDialog props) @extern("SDL_ShowFileDialogWithProperties");
 
-enum SDLPropFileDialog : const SDLPropertiesID
+enum SDLPropFileDialog : const ZString
 {
 	FILTERS_POINTER    = "SDL.filedialog.filters",
 	NFILTERS_NUMBER    = "SDL.filedialog.nfilters",

@@ -6,6 +6,8 @@
 *>
 module sdl::stdinc;
 
+import libc;
+
 const SDL_NOLONGLONG = 1;
 const SDL_SIZE_MAX = usz.max;
 
@@ -103,7 +105,7 @@ extern fn void* memmove(void* dst, void* src, usz len) @extern("SDL_memmove");
 extern fn void* memset(void* dst, CInt c, usz len) @extern("SDL_memset");
 extern fn void* memset4(void* dst, uint val, usz dwords) @extern("SDL_memset4");
 
-macro void zero(#x) => memset(&#x, 0, $sizeof(#x));
+macro void @zero(#x) => memset(&#x, 0, $sizeof(#x));
 macro void zerop(x) => memset(x, 0, $sizeof(*x));
 macro void zeroa(x) => memset(&x, 0, $sizeof(x));
 
@@ -164,7 +166,7 @@ extern fn char* strpbrk(ZString str, ZString breakset) @extern("SDL_strpbrk");
 const SDL_INVALID_UNICODE_CODEPOINT = 0xFFFD;
 
 extern fn Char32 step_utf8(ZString* pstr, usz* pslen) @extern("SDL_StepUTF8");
-extern fn Char32 step_back_utf8(ZString start, ZStirng* pstr) @extern("SDL_StepBackUTF8");
+extern fn Char32 step_back_utf8(ZString start, ZString* pstr) @extern("SDL_StepBackUTF8");
 extern fn char* uscs4_to_utf8(Char32 codepoint, char *dst) @extern("SDL_UCS4ToUTF8");
 
 extern fn CInt sscanf(ZString text, ZString fmt, ...) @extern("SDL_sscanf");

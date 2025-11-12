@@ -7,6 +7,7 @@
 module sdl::tray;
 
 import sdl::stdinc;
+import sdl::surface;
 import sdl::video;
 
 typedef SDLTray = void;
@@ -25,7 +26,7 @@ enum SDLTrayEntryFlags : const uint
 alias SDLTrayCallback = fn void(void* userdata, SDLTrayEntry* entry);
 
 extern fn SDLTray* create_tray(SDLSurface* icon, ZString tooltip) @extern("SDL_CreateTray");
-extern fn void SDLTray.set_tray_icon(&tray, SDL_Surface* icon) @extern("SDL_SetTrayIcon");
+extern fn void SDLTray.set_tray_icon(&tray, SDLSurface* icon) @extern("SDL_SetTrayIcon");
 extern fn void SDLTray.set_tray_tooltip(&tray, ZString tooltip) @extern("SDL_SetTrayTooltip");
 extern fn SDLTrayMenu* SDLTray.create_tray_menu(&tray) @extern("SDL_CreateTrayMenu");
 extern fn SDLTrayMenu* SDLTrayEntry.create_tray_submenu(&entry) @extern("SDL_CreateTraySubmenu");

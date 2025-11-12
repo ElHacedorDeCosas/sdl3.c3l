@@ -7,7 +7,9 @@
 module sdl::camera;
 
 import sdl::stdinc;
+import sdl::pixels;
 import sdl::properties;
+import sdl::surface;
 
 <*
  This is a unique ID for a camera device for the time it is connected to the

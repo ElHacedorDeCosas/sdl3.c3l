@@ -7,6 +7,7 @@
 module sdl::audio;
 
 import sdl::stdinc;
+import sdl::iostream;
 import sdl::properties;
 
 <*
@@ -870,7 +871,7 @@ alias SDLAudioPostmixCallback = fn void(void* userdata, SDLAudioSpec* spec, floa
  @param userdata : `app-controlled pointer passed to callback. Can be NULL.`
  @return `true on success or false on failure; call SDL_GetError() for more information.`
 *>
-extern fn bool set_audio_postmix_callback(SDL_AudioDeviceID devid, SDL_AudioPostmixCallback callback, void *userdata) @extern("SDL_SetAudioPostmixCallback");
+extern fn bool set_audio_postmix_callback(SDLAudioDeviceID devid, SDLAudioPostmixCallback callback, void *userdata) @extern("SDL_SetAudioPostmixCallback");
 
 <*
  Load the audio data of a WAVE file into memory.

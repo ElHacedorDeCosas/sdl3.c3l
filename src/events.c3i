@@ -9,11 +9,15 @@ module sdl::events;
 import sdl::stdinc;
 import sdl::audio;
 import sdl::camera;
-import sdl::scancode;
 import sdl::gamepad;
 import sdl::joystick;
 import sdl::keycode;
 import sdl::keyboard;
+import sdl::mouse;
+import sdl::pen;
+import sdl::power;
+import sdl::scancode;
+import sdl::sensor;
 import sdl::touch;
 import sdl::video;
 
@@ -413,7 +417,7 @@ struct SDLGamepadButtonEvent
     char padding2;
 }
 
-struct SDL_GamepadDeviceEvent
+struct SDLGamepadDeviceEvent
 {
     inline SDLCommonEvent common; // SDL_EVENT_GAMEPAD_ADDED, SDL_EVENT_GAMEPAD_REMOVED, or SDL_EVENT_GAMEPAD_REMAPPED, SDL_EVENT_GAMEPAD_UPDATE_COMPLETE or SDL_EVENT_GAMEPAD_STEAM_HANDLE_UPDATED
     SDLJoystickID which;          // The joystick instance id
@@ -570,7 +574,7 @@ struct SDLUserEvent
 
 union SDLEvent
 {
-    uint type;                             // Event type, shared with all events, uint to cover user events which are not in the SDL_EventType enumeration
+    SDLEventType type;                             // Event type, shared with all events, uint to cover user events which are not in the SDL_EventType enumeration
     SDLCommonEvent common;                 // Common event data
     SDLDisplayEvent display;               // Display event data
     SDLWindowEvent window;                 // Window event data

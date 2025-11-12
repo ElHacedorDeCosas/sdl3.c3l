@@ -8,8 +8,11 @@ module sdl::gamepad;
 
 import sdl::stdinc;
 import sdl::guid;
+import sdl::iostream;
 import sdl::joystick;
 import sdl::properties;
+import sdl::power;
+import sdl::sensor;
 
 typedef SDLGamepad = void*;
 
@@ -158,13 +161,13 @@ extern fn SDLGamepad* get_gamepad_from_player_index(int player_index) @extern("S
 extern fn SDLPropertiesID SDLGamepad.get_gamepad_properties(&gamepad) @extern("SDL_GetGamepadProperties");
 
 //TODO: check if this is correct
-enum SdlPropGamepadCap : const SDLPropertiesID
+enum SDLPropGamepadCap : const ZString
 {
-	MONO_LED_BOOLEAN       = MONO_LED_BOOLEAN,
-	RGB_LED_BOOLEAN        = RGB_LED_BOOLEAN,
-	PLAYER_LED_BOOLEAN     = PLAYER_LED_BOOLEAN,
-	RUMBLE_BOOLEAN         = RUMBLE_BOOLEAN,
-	TRIGGER_RUMBLE_BOOLEAN = TRIGGER_RUMBLE_BOOLEAN
+	MONO_LED_BOOLEAN       = (SDLPropGamepadCap)SDLPropJoystickCap.MONO_LED_BOOLEAN,
+	RGB_LED_BOOLEAN        = (SDLPropGamepadCap)SDLPropJoystickCap.RGB_LED_BOOLEAN,
+	PLAYER_LED_BOOLEAN     = (SDLPropGamepadCap)SDLPropJoystickCap.PLAYER_LED_BOOLEAN,
+	RUMBLE_BOOLEAN         = (SDLPropGamepadCap)SDLPropJoystickCap.RUMBLE_BOOLEAN,
+	TRIGGER_RUMBLE_BOOLEAN = (SDLPropGamepadCap)SDLPropJoystickCap.TRIGGER_RUMBLE_BOOLEAN
 }
 
 extern fn SDLJoystickID SDLGamepad.get_gamepad_id(&gamepad) @extern("SDL_GetGamepadID");

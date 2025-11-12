@@ -7,6 +7,7 @@
 module sdl::touch;
 
 import sdl::stdinc;
+import sdl::mouse;
 
 typedef SDLTouchID = ulong;
 typedef SDLFingerID = ulong; 
@@ -28,7 +29,7 @@ struct SDLFinger
 }
 
 const SDLMouseID TOUCH_MOUSEID = (SDLMouseID)-1;
-const SDLMouseID MOUSE_TOUCHID = (SDLTouchID)-1;
+const SDLTouchID MOUSE_TOUCHID = (SDLTouchID)-1;
 
 extern fn SDLTouchID* get_touch_devices(CInt* count) @extern("SDL_GetTouchDevices");
 extern fn ZString SDLTouchID.get_touch_device_name(touch_id) @extern("SDL_GetTouchDeviceName");

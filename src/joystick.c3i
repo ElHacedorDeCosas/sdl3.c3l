@@ -9,6 +9,8 @@ module sdl::joystick;
 import sdl::stdinc;
 import sdl::guid;
 import sdl::properties;
+import sdl::power;
+import sdl::sensor;
 
 typedef SDLJoystick = void*;
 
@@ -121,7 +123,7 @@ extern fn bool set_joystick_virtual_touchpad(SDLJoystick* joystick, CInt touchpa
 extern fn bool send_joystick_virtual_sensor_data(SDLJoystick* joystick, SDLSensorType type, ulong sensor_timestamp, float* data, int num_values) @extern("SDL_SendJoystickVirtualSensorData");
 extern fn bool get_joystick_properties(SDLJoystick* joystick) @extern("SDL_GetJoystickProperties");
 
-enum SDLPropJoystickCap : const SDLPropertiesID
+enum SDLPropJoystickCap : const ZString
 {
 	MONO_LED_BOOLEAN       = "SDL.joystick.cap.mono_led",
 	RGB_LED_BOOLEAN        = "SDL.joystick.cap.rgb_led",
