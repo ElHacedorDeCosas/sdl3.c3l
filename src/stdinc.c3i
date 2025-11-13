@@ -22,7 +22,7 @@ macro void init_interface(iface)
 extern fn void* malloc(usz size) @extern("SDL_malloc") @nodiscard;
 extern fn void* calloc(usz size) @extern("SDL_calloc") @nodiscard;
 extern fn void* realloc(void* mem, usz size) @extern("SDL_realloc") @nodiscard;
-extern fn void* free(void* mem) @extern("SDL_free") @nodiscard;
+extern fn void free(void* mem) @extern("SDL_free");
 
 alias SDLMallocFunc  = fn void*(usz size);
 alias SDLCallocFunc  = fn void*(usz size);
