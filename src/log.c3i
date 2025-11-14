@@ -120,7 +120,7 @@ extern fn void set_log_priorities(SDLLogPriority priority) @extern("SDL_SetLogPr
  @param category : `the category to assign a priority to.`
  @param priority : `the SDL_LogPriority to assign.`
 *>
-extern fn void set_log_priority(CInt category, SDLLogPriority priority) @extern("SDL_SetLogPriority");
+extern fn void set_log_priority(SDLLogCategory category, SDLLogPriority priority) @extern("SDL_SetLogPriority");
 
 <*
  Get the priority of a particular log category.
@@ -131,7 +131,7 @@ extern fn void set_log_priority(CInt category, SDLLogPriority priority) @extern(
  @param category : `the category to query.`
  @return `the SDL_LogPriority for the requested category.`
 *>
-extern fn SDLLogPriority get_log_priority(CInt category) @extern("SDL_GetLogPriority");
+extern fn SDLLogPriority get_log_priority(SDLLogCategory category) @extern("SDL_GetLogPriority");
 
 <*
  Reset all priorities to default.
@@ -168,11 +168,11 @@ extern fn bool set_log_priority_prefix(SDLLogPriority priority, ZString prefix) 
 
  threadsafety: It is safe to call this function from any thread.
 
- @param fmt : `a printf() style message format string.`
- @param args : `additional parameters matching % tokens in the 'fmt' string, if
+ -param ... : `additional parameters matching % tokens in the 'fmt' string, if
                any.`
+ @param fmt : `a printf() style message format string.`
 *>
-extern fn void log_(ZString fmt, args...) @extern("SDL_Log");
+extern fn void log_(ZString fmt, ...) @extern("SDL_Log");
 
 <*
  Log a message with SDL_LOG_PRIORITY_TRACE.
@@ -180,12 +180,12 @@ extern fn void log_(ZString fmt, args...) @extern("SDL_Log");
 
  threadsafety: It is safe to call this function from any thread.
 
+ -param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
  @param category : `the category of the message.`
  @param fmt : `a printf() style message format string.`
- @param args : `additional parameters matching % tokens in the **fmt** string,
-               if any.`
 *>
-extern fn void log_trace(CInt category, ZString fmt, args...) @extern("SDL_LogTrace");
+extern fn void log_trace(SDLLogCategory category, ZString fmt, ...) @extern("SDL_LogTrace");
 
 <*
  Log a message with SDL_LOG_PRIORITY_VERBOSE.
@@ -193,12 +193,12 @@ extern fn void log_trace(CInt category, ZString fmt, args...) @extern("SDL_LogTr
 
  threadsafety: It is safe to call this function from any thread.
 
+ -param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
  @param category : `the category of the message.`
  @param fmt : `a printf() style message format string.`
- @param args : `additional parameters matching % tokens in the **fmt** string,
-               if any.`
 *>
-extern fn void log_verbose(CInt category, ZString fmt, args...) @extern("SDL_LogVerbose");
+extern fn void log_verbose(SDLLogCategory category, ZString fmt, ...) @extern("SDL_LogVerbose");
 
 <*
  Log a message with SDL_LOG_PRIORITY_DEBUG.
@@ -206,12 +206,12 @@ extern fn void log_verbose(CInt category, ZString fmt, args...) @extern("SDL_Log
 
  threadsafety: It is safe to call this function from any thread.
 
+ -param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
  @param category : `the category of the message.`
  @param fmt : `a printf() style message format string.`
- @param args : `additional parameters matching % tokens in the **fmt** string,
-               if any.`
 *>
-extern fn void log_debug(CInt category, ZString fmt, args...) @extern("SDL_LogDebug");
+extern fn void log_debug(SDLLogCategory category, ZString fmt, ...) @extern("SDL_LogDebug");
 
 <*
  Log a message with SDL_LOG_PRIORITY_INFO.
@@ -219,12 +219,12 @@ extern fn void log_debug(CInt category, ZString fmt, args...) @extern("SDL_LogDe
 
  threadsafety: It is safe to call this function from any thread.
 
+ -param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
  @param category : `the category of the message.`
  @param fmt : `a printf() style message format string.`
- @param args : `additional parameters matching % tokens in the **fmt** string,
-               if any.`
 *>
-extern fn void log_info(CInt category, ZString fmt, args...) @extern("SDL_LogInfo");
+extern fn void log_info(SDLLogCategory category, ZString fmt, ...) @extern("SDL_LogInfo");
 
 <*
  Log a message with SDL_LOG_PRIORITY_WARN.
@@ -232,12 +232,12 @@ extern fn void log_info(CInt category, ZString fmt, args...) @extern("SDL_LogInf
 
  threadsafety: It is safe to call this function from any thread.
 
+ -param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
  @param category : `the category of the message.`
  @param fmt : `a printf() style message format string.`
- @param args : `additional parameters matching % tokens in the **fmt** string,
-               if any.`
 *>
-extern fn void log_warn(CInt category, ZString fmt, args...) @extern("SDL_LogWarn");
+extern fn void log_warn(SDLLogCategory category, ZString fmt, ...) @extern("SDL_LogWarn");
 
 <*
  Log a message with SDL_LOG_PRIORITY_ERROR.
@@ -245,12 +245,12 @@ extern fn void log_warn(CInt category, ZString fmt, args...) @extern("SDL_LogWar
 
  threadsafety: It is safe to call this function from any thread.
 
+ -param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
  @param category : `the category of the message.`
  @param fmt : `a printf() style message format string.`
- @param args : `additional parameters matching % tokens in the **fmt** string,
-               if any.`
 *>
-extern fn void log_error(CInt category, ZString fmt, args...) @extern("SDL_LogError");
+extern fn void log_error(SDLLogCategory category, ZString fmt, ...) @extern("SDL_LogError");
 
 <*
  Log a message with SDL_LOG_PRIORITY_CRITICAL.
@@ -258,12 +258,12 @@ extern fn void log_error(CInt category, ZString fmt, args...) @extern("SDL_LogEr
 
  threadsafety: It is safe to call this function from any thread.
 
+ -param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
  @param category : `the category of the message.`
  @param fmt : `a printf() style message format string.`
- @param args : `additional parameters matching % tokens in the **fmt** string,
-               if any.`
 *>
-extern fn void log_critical(CInt category, ZString fmt, args...) @extern("SDL_LogCritical");
+extern fn void log_critical(SDLLogCategory category, ZString fmt, ...) @extern("SDL_LogCritical");
 
 <*
  Log a message with the specified category and priority.
@@ -271,13 +271,13 @@ extern fn void log_critical(CInt category, ZString fmt, args...) @extern("SDL_Lo
 
  threadsafety: It is safe to call this function from any thread.
 
+ -param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
  @param category : `the category of the message.`
  @param priority : `the priority of the message.`
  @param fmt : `a printf() style message format string.`
- @param args : `additional parameters matching % tokens in the **fmt** string,
-               if any.`
 *>
-extern fn void log_message(CInt category, SDLLogPriority priority, ZString fmt, args...) @extern("SDL_LogMessage");
+extern fn void log_message(SDLLogCategory category, SDLLogPriority priority, ZString fmt, ...) @extern("SDL_LogMessage");
 
 /* TODO: c3 don't have va_list type
 <*
@@ -291,7 +291,7 @@ extern fn void log_message(CInt category, SDLLogPriority priority, ZString fmt, 
  @param fmt : `a printf() style message format string.`
  @param ap : `a variable argument list.`
 *>
-extern fn void log_message_v(CInt category, SDLLogPriority priority, void* ab) @extern("SDL_LogMessageV");
+extern fn void log_message_v(SDLLogCategory category, SDLLogPriority priority, void* ab) @extern("SDL_LogMessageV");
 */
 
 /*
@@ -308,7 +308,7 @@ extern fn void log_message_v(CInt category, SDLLogPriority priority, void* ab) @
  @param priority : `the priority of the message.`
  @param message : `the message being output.`
 */
-alias SDLLogOutputFunction = fn void (void* userdata, CInt category, SDLLogPriority priority, ZString message);
+alias SDLLogOutputFunction = fn void (void* userdata, SDLLogCategory category, SDLLogPriority priority, ZString message);
 
 <*
  Get the default log output function.
