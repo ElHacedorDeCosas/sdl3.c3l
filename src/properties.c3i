@@ -4,9 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryProperties
  TODO: add missing documentation
 *>
-module sdl::properties;
-
-import sdl::stdinc;
+module sdl;
 
 typedef SDLPropertiesID = uint;
 

@@ -4,9 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryVersion
  TODO: add missing documentation
 *>
-module sdl::version;
-
-import sdl::stdinc;
+module sdl;
 
 const MAJOR_VERSION = 3;
 const MINOR_VERSION = 2;

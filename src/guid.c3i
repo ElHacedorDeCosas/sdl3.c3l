@@ -1,17 +1,58 @@
 <*
- SDL GUID
+ A GUID is a 128-bit value that represents something that is uniquely
+ identifiable by this value: "globally unique."
+
+ SDL provides functions to convert a GUID to/from a string.
+
  For more information, see
  https://wiki.libsdl.org/SDL3/CategoryGUID
- TODO: add missing documentation
 *>
-module sdl::guid;
+module sdl;
 
-import sdl::stdinc;
+<*
+ An SDL_GUID is a 128-bit identifier for an input device that identifies
+ that device across runs of SDL programs on the same platform.
+ This struct is available since SDL 3.2.0.
 
+ If the device is detached and then re-attached to a different port, or if
+ the base system is rebooted, the device should still report the same GUID.
+
+ GUIDs are as precise as possible but are not guaranteed to distinguish
+ physically distinct but equivalent devices. For example, two game
+ controllers from the same vendor with the same product ID and revision may
+ have the same GUID.
+
+ GUIDs may be platform-dependent (i.e., the same device may report different
+ GUIDs on different operating systems).
+*>
 struct SDLGuid
 {
 	char[16] data;
 }
 
+<*
+ Get an ASCII string representation for a given SDL_GUID.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param guid : `the SDL_GUID you wish to convert to string.`
+ @param psz_guid : `buffer in which to write the ASCII string.`
+ @param cb_guid : `the size of pszGUID, should be at least 33 bytes.`
+*>
 extern fn void SDLGuid.to_string(guid, char* psz_guid, int cb_guid) @extern("SDL_GUIDToString");
+
+<*
+ Convert a GUID string into a SDL_GUID structure.
+ This function is available since SDL 3.2.0.
+
+ Performs no error checking. If this function is given a string containing
+ an invalid GUID, the function will silently succeed, but the GUID generated
+ will not be useful.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param pch_guid : `string containing an ASCII representation of a GUID.`
+ @return `a SDL_GUID structure.`
+*>
 extern fn SDLGuid string_to_guid(ZString pch_guid) @extern("SDL_StringToGUID");

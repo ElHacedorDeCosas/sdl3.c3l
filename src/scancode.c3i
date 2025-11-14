@@ -4,9 +4,7 @@
  https://wiki.libsdl.org/SDL3/CategoryScancode
  TODO: add missing documentation
 *>
-module sdl::scancode;
-
-import sdl::stdinc;
+module sdl;
 
 enum SDLScancode : const
 {
