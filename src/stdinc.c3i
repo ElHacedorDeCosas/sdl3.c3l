@@ -11,6 +11,27 @@ import libc;
 const SDL_NOLONGLONG = 1;
 const SDL_SIZE_MAX = usz.max;
 
+<*
+ Define a four character code as a Uint32.
+ This macro is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this macro from any thread.
+
+ @param a : `the first ASCII character.`
+ @param b : `the second ASCII character.`
+ @param c : `the third ASCII character.`
+ @param d : `the fourth ASCII character.`
+ @return `the four characters converted into a Uint32, one character
+          per-byte.`
+*>
+macro uint fourcc(a, b, c, d) {
+    return (
+        (a << 0) |
+        (b << 8) |
+        (c << 16) |
+        (d << 24));
+}
+
 typedef SDLTime = long;
 
 macro void init_interface(iface)
