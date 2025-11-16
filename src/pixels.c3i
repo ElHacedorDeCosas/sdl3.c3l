@@ -640,7 +640,7 @@ enum SDLPixelFormat : const CInt
     RGBX32 = env::BIG_ENDIAN ? SDLPixelFormat.RGBX8888 : SDLPixelFormat.XBGR8888,
     XRGB32 = env::BIG_ENDIAN ? SDLPixelFormat.XRGB8888 : SDLPixelFormat.BGRX8888,
     BGRX32 = env::BIG_ENDIAN ? SDLPixelFormat.BGRX8888 : SDLPixelFormat.XRGB8888,
-    XBGR32 = env::BIG_ENDIAN ? SDLPixelFormat.XBGR8888 : SDLPixelFormat.RGBX8888
+    XBGR32 = env::BIG_ENDIAN ? SDLPixelFormat.XBGR8888 : SDLPixelFormat.RGBX8888,
 }
 
 <*
@@ -1026,7 +1026,7 @@ enum SDLColorspace : const CInt
                                  SDL_CHROMA_LOCATION_LEFT), */
 
     RGB_DEFAULT = SDLColorspace.SRGB, /**< The default colorspace for RGB surfaces if no colorspace is specified */
-    YUV_DEFAULT = SDLColorspace.JPEG  /**< The default colorspace for YUV surfaces if no colorspace is specified */
+    YUV_DEFAULT = SDLColorspace.JPEG,  /**< The default colorspace for YUV surfaces if no colorspace is specified */
 }
 
 <*
