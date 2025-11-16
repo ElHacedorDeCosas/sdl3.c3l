@@ -62,9 +62,9 @@ enum SDLTimeFormat : const CInt
  formats can change, usually because the user has changed a system
  preference outside of your program.
 
- @param dateFormat : `a pointer to the SDL_DateFormat to hold the returned date
+ @param date_format : `a pointer to the SDL_DateFormat to hold the returned date
                       format, may be NULL.`
- @param timeFormat : `a pointer to the SDL_TimeFormat to hold the returned time
+ @param time_format : `a pointer to the SDL_TimeFormat to hold the returned time
                       format, may be NULL.`
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
@@ -89,7 +89,7 @@ extern fn bool get_current_time(SDLTime* ticks) @extern("SDL_GetCurrentTime");
 
  @param ticks : `the SDL_Time to be converted.`
  @param dt : `the resulting SDL_DateTime.`
- @param localTime : `the resulting SDL_DateTime will be expressed in local time
+ @param local_time : `the resulting SDL_DateTime will be expressed in local time
                      if true, otherwise it will be in Universal Coordinated
                      Time (UTC).`
  @return `true on success or false on failure; call SDL_GetError() for more
@@ -104,8 +104,8 @@ extern fn bool SDLTime.to_date_time(ticks, SDLDateTime* dt, bool local_time) @ex
  This function ignores the day_of_week member of the SDL_DateTime struct, so
  it may remain unset.
 
- @param dt : the source SDL_DateTime.`
- @param ticks : the resulting SDL_Time.`
+ @param dt : `the source SDL_DateTime.`
+ @param ticks : `the resulting SDL_Time.`
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
