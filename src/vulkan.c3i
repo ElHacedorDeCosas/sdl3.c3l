@@ -16,6 +16,6 @@ extern fn bool load_library(ZString path) @extern("SDL_Vulkan_LoadLibrary");
 extern fn SDLFunctionPointer get_vk_get_instance_proc_addr() @extern("SDL_Vulkan_GetVkGetInstanceProcAddr");
 extern fn void unload_library() @extern("SDL_Vulkan_UnloadLibrary");
 extern fn ZString* get_instance_extensions(uint* count) @extern("SDL_Vulkan_GetInstanceExtensions");
-extern fn bool create_surface(SDLWindow* window, VkInstance instance, VkAllocationCallbacks* allocator, VkSurfaceKHR* surface) @extern("SDL_Vulkan_CreateSurface");
-extern fn void destroy_surface(VkInstance instance, VkSurfaceKHR surface, VkAllocationCallbacks *allocator) @extern("SDL_Vulkan_DestroySurface");
+extern fn bool create_vksurface(SDLWindow* window, VkInstance instance, VkAllocationCallbacks* allocator, VkSurfaceKHR* surface) @extern("SDL_Vulkan_CreateSurface");
+extern fn void destroy_vksurface(VkInstance instance, VkSurfaceKHR surface, VkAllocationCallbacks *allocator) @extern("SDL_Vulkan_DestroySurface");
 
