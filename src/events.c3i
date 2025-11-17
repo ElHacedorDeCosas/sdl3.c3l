@@ -1119,7 +1119,7 @@ extern fn bool wait_event_timeout(SDLEvent* event, int timeout_ms) @extern("SDL_
 *>
 extern fn bool push_event(SDLEvent *event) @extern("SDL_PushEvent");
 
-/*
+<*
  A function pointer used for callbacks that watch the event queue.
  This datatype is available since SDL 3.2.0.
 
@@ -1133,7 +1133,7 @@ extern fn bool push_event(SDLEvent *event) @extern("SDL_PushEvent");
  @return `true to permit event to be added to the queue, and false to
           disallow it. When used with SDL_AddEventWatch, the return value is
           ignored.`
-*/
+*>
 alias SDLEventFilter = fn bool(void* userdata, SDLEvent* event);
 
 <*

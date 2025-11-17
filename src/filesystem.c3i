@@ -243,7 +243,7 @@ enum SDLEnumerationResult
     FAILURE     // Value that requests that enumeration stop, as a failure. 
 }
 
-/*
+<*
  Callback for directory enumeration.
  This datatype is available since SDL 3.2.0.
 
@@ -263,7 +263,7 @@ enum SDLEnumerationResult
  @param dirname : `the directory that is being enumerated.`
  @param fname : `the next entry in the enumeration.`
  @return `how the enumeration should proceed.`
-*/
+*>
 alias SDLEnumerateDirectoryCallback = fn SDLEnumerationResult(void* userdata, ZString dirname, ZString fname);
 
 <*

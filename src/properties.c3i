@@ -133,8 +133,8 @@ extern fn bool SDLPropertiesID.unlock(SDLPropertiesID props) @extern("SDL_Unlock
  threadsafety: This callback may fire without any locks held; if this is a
                concern, the app should provide its own locking.
 
- -param userdata : `an app-defined pointer passed to the callback.`
- -param value : `the pointer assigned to the property to clean up.`
+ @param userdata : `an app-defined pointer passed to the callback.`
+ @param value : `the pointer assigned to the property to clean up.`
 *>
 alias SDLCleanupPropertyCallback = fn void(void* userdata, void* value);
 
@@ -380,9 +380,9 @@ extern fn bool SDLPropertiesID.clean_property(SDLPropertiesID props, ZString nam
  threadsafety: SDL_EnumerateProperties holds a lock on `props` during this
                callback.
 
- -param userdata : `an app-defined pointer passed to the callback.`
- -param props : `the SDL_PropertiesID that is being enumerated.`
- -param name : `the next property name in the enumeration.`
+ @param userdata : `an app-defined pointer passed to the callback.`
+ @param props : `the SDL_PropertiesID that is being enumerated.`
+ @param name : `the next property name in the enumeration.`
 *>
 alias SDLEnumeratePropertiesCallback = fn void(void* userdata, SDLPropertiesID props, ZString name);
 

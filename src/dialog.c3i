@@ -33,7 +33,7 @@ struct SDLDialogFileFilter
 	ZString pattern;
 }
 
-/*
+<*
  Callback used by file dialog functions.
  This datatype is available since SDL 3.2.0.
 
@@ -62,7 +62,7 @@ struct SDLDialogFileFilter
  @param userdata : `an app-provided pointer, for the callback's use.`
  @param filelist : `the file(s) chosen by the user.`
  @param filter : `index of the selected filter.`
-*/
+*>
 alias SDLDialogFileCallback = fn void(void* userdata, ZString* filelist, int filter);
 
 <*

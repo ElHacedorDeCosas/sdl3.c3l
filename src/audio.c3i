@@ -729,10 +729,10 @@ extern fn bool SDLAudioStream.unlock(&stream) @extern("SDL_UnlockAudioStream");
                serialize access; this lock will be held before your callback
                is called, so your callback does not need to manage the lock explicitly.
                
- -param userdata : `an opaque pointer provided by the app for their personal use.`
- -param stream : `the SDL audio stream associated with this callback.`
- -param additional_amount : `the amount of data, in bytes, that is needed right now.`
- -param total_amount : `the total amount of data requested, in bytes, that is requested or available.`
+ @param userdata : `an opaque pointer provided by the app for their personal use.`
+ @param stream : `the SDL audio stream associated with this callback.`
+ @param additional_amount : `the amount of data, in bytes, that is needed right now.`
+ @param total_amount : `the total amount of data requested, in bytes, that is requested or available.`
 *>
 alias SDLAudioStreamCallback = fn void(void* userdata, SDLAudioStream* stream, CInt additional_amount, CInt total_amount);
 
@@ -910,10 +910,10 @@ extern fn SDLAudioStream* open_audio_device_stream(SDLAudioDeviceID devid, SDLAu
                application is responsible for locking resources the callback
                touches that need to be protected.
  
- -param userdata : `a pointer provided by the app through SDL_SetAudioPostmixCallback, for its own use.`
- -param spec : `the current format of audio that is to be submitted to the audio device.`
- -param buffer : `the buffer of audio samples to be submitted. The callback can inspect and/or modify this data.`
- -param buflen : `the size of buffer in bytes.`
+ @param userdata : `a pointer provided by the app through SDL_SetAudioPostmixCallback, for its own use.`
+ @param spec : `the current format of audio that is to be submitted to the audio device.`
+ @param buffer : `the buffer of audio samples to be submitted. The callback can inspect and/or modify this data.`
+ @param buflen : `the size of buffer in bytes.`
 *>
 alias SDLAudioPostmixCallback = fn void(void* userdata, SDLAudioSpec* spec, float* buffer, int buflen);
 

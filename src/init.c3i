@@ -72,7 +72,7 @@ enum SDLAppResult
     FAILURE     // Value that requests termination with error from the main callbacks.
 }
 
-/*
+<*
  Function pointer typedef for SDL_AppInit.
  This datatype is available since SDL 3.2.0.
 
@@ -82,15 +82,15 @@ enum SDLAppResult
 
  @param appstate : `a place where the app can optionally store a pointer for
                     future use.`
- @param argc : `the standard ANSI C main's argc; number of elements in `argv`.
+ @param argc : `the standard ANSI C main's argc; number of elements in 'argv'.`
  @param argv : `the standard ANSI C main's argv; array of command line
                 arguments.`
  @return `SDL_APP_FAILURE to terminate with an error, SDL_APP_SUCCESS to
           terminate with success, SDL_APP_CONTINUE to continue.`
-*/
+*>
 alias SDLAppInitFunc = fn SDLAppResult(void** appstate, CInt argc, ZString* argv);
 
-/*
+<*
  Function pointer typedef for SDL_AppIterate.
  This datatype is available since SDL 3.2.0.
 
@@ -98,13 +98,13 @@ alias SDLAppInitFunc = fn SDLAppResult(void** appstate, CInt argc, ZString* argv
  the scenes for apps using the optional main callbacks. Apps that want to
  use this should just implement SDL_AppIterate directly.
 
- @param `appstate an optional pointer, provided by the app in SDL_AppInit.`
+ @param appstate : `an optional pointer, provided by the app in SDL_AppInit.`
  @return `SDL_APP_FAILURE to terminate with an error, SDL_APP_SUCCESS to
           terminate with success, SDL_APP_CONTINUE to continue.`
-*/
+*>
 alias SDLAppIterateFunc = fn SDLAppResult(void* appstate);
 
-/*
+<*
  Function pointer typedef for SDL_AppEvent.
  This datatype is available since SDL 3.2.0.
 
@@ -117,10 +117,10 @@ alias SDLAppIterateFunc = fn SDLAppResult(void* appstate);
  @return `SDL_APP_FAILURE to terminate with an error, SDL_APP_SUCCESS to
           terminate with success, SDL_APP_CONTINUE to continue.`
 
-*/
+*>
 alias SDLAppEventFunc = fn SDLAppResult(void* appstate, SDLEvent* event);
 
-/*
+<*
  Function pointer typedef for SDL_AppQuit.
  This datatype is available since SDL 3.2.0.
 
@@ -130,7 +130,7 @@ alias SDLAppEventFunc = fn SDLAppResult(void* appstate, SDLEvent* event);
 
  @param appstate : `an optional pointer, provided by the app in SDL_AppInit.`
  @param result : `the result code that terminated the app (success or failure).`
-*/
+*>
 alias SDLAppQuitFunc = fn void(void* appstate, SDLAppResult result);
 
 <*
@@ -246,12 +246,12 @@ extern fn void quit() @extern("SDL_Quit");
 *>
 extern fn bool is_main_thread() @extern("SDL_IsMainThread");
 
-/*
+<*
  Callback run on the main thread.
  This datatype is available since SDL 3.2.0.
 
  @param userdata : `an app-controlled pointer that is passed to the callback.`
-*/
+*>
 alias SDLMainThreadCallback = fn void(void* userdata);
 
 <*
@@ -301,8 +301,7 @@ extern fn bool run_on_main_thread(SDLMainThreadCallback callback, void* userdata
 
  threadsafety: It is safe to call this function from any thread.
 
- @param appname : `The name of the application ("My Game 2: Bad Guy's
-                Revenge!").`
+ @param appname : `The name of the application ("My Game 2: Bad Guy's Revenge!").`
  @param appversion : `The version of the application ("1.0.0beta5" or a git
                       hash, or whatever makes sense).`
  @param appidentifier : `A unique string in reverse-domain format that

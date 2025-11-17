@@ -10,9 +10,9 @@ module sdl;
 <*
  The prototype for the application's main() function
 
- -param argc : `an ANSI-C style main function's argc.`
- -param argv : `an ANSI-C style main function's argv.`
- -return `returns an ANSI-C main return code; generally 0 is considered successful program completion, and small non-zero values are considered errors.`
+ @param argc : `an ANSI-C style main function's argc.`
+ @param argv : `an ANSI-C style main function's argv.`
+ @return `returns an ANSI-C main return code; generally 0 is considered successful program completion, and small non-zero values are considered errors.`
 *>
 alias SDLMainFunc = fn CInt(CInt argc, ZString* argv);
 

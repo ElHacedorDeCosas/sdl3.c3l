@@ -250,11 +250,11 @@ typedef SDLTimerID = uint;
                thread; the application is responsible for locking resources
                the callback touches that need to be protected.
 
- -param userdata : `an arbitrary pointer provided by the app through
+ @param userdata : `an arbitrary pointer provided by the app through
                     SDL_AddTimer, for its own use.`
- -param timerID : `the current timer being processed.`
- -param interval : `the current callback time interval.`
- -return `the new callback time interval, or 0 to disable further runs of
+ @param timer_id : `the current timer being processed.`
+ @param interval : `the current callback time interval.`
+ @return `the new callback time interval, or 0 to disable further runs of
           the callback.`
 *>
 alias SDLTimerCallback = fn uint(void* userdata, SDLTimerID timer_id, uint interval);
@@ -305,11 +305,11 @@ extern fn SDLTimerID add_timer(uint interval, SDLTimerCallback callback, void* u
                thread; the application is responsible for locking resources
                the callback touches that need to be protected.
 
- -param userdata : `an arbitrary pointer provided by the app through
+ @param userdata : `an arbitrary pointer provided by the app through
                     SDL_AddTimer, for its own use.`
- -param timerID : `the current timer being processed.`
- -param interval : `the current callback time interval.`
- -return `the new callback time interval, or 0 to disable further runs of
+ @param timer_id : `the current timer being processed.`
+ @param interval : `the current callback time interval.`
+ @return `the new callback time interval, or 0 to disable further runs of
           the callback.`
 *>
 alias SDLNSTimerCallback = fn ulong(void* userdata, SDLTimerID timer_id, ulong interval);

@@ -294,7 +294,7 @@ extern fn void log_message(SDLLogCategory category, SDLLogPriority priority, ZSt
 extern fn void log_message_v(SDLLogCategory category, SDLLogPriority priority, void* ab) @extern("SDL_LogMessageV");
 */
 
-/*
+<*
  The prototype for the log output callback function.
  This datatype is available since SDL 3.2.0.
 
@@ -307,7 +307,7 @@ extern fn void log_message_v(SDLLogCategory category, SDLLogPriority priority, v
  @param category : `the category of the message.`
  @param priority : `the priority of the message.`
  @param message : `the message being output.`
-*/
+*>
 alias SDLLogOutputFunction = fn void (void* userdata, SDLLogCategory category, SDLLogPriority priority, ZString message);
 
 <*

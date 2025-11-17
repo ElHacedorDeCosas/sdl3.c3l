@@ -129,7 +129,7 @@ extern fn ZString get_primary_selection_text() @extern("SDL_GetPrimarySelectionT
 *>
 extern fn bool has_primary_selection_text() @extern("SDL_HasPrimarySelectionText");
 
-/*
+<*
  Callback function that will be called when data for the specified mime-type
  is requested by the OS.
  This function is available since SDL 3.2.0.
@@ -146,16 +146,16 @@ extern fn bool has_primary_selection_text() @extern("SDL_HasPrimarySelectionText
           to the "receiver", which should be able to handle this. The
           returned data will not be freed, so it needs to be retained and
           dealt with internally.`
-*/
+*>
 alias SDLClipboardDataCallback = fn void*(void* userdata, ZString mime_type, usz* size);
 
-/*
+<*
  Callback function that will be called when the clipboard is cleared, or when new
  data is set.
  This function is available since SDL 3.2.0.
 
  @param userdata : `a pointer to the provided user data.`
-*/
+*>
 alias SDLClipboardCleanupCallback = fn void(void* userdata);
 
 <*
