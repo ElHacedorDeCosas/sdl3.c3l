@@ -1,0 +1,25 @@
+<*
+ SDL provides a means to identify the app's platform, both at compile time
+ and runtime.
+
+ For more information, see
+ https://wiki.libsdl.org/SDL3/CategoryPlatform
+*>
+module sdl;
+
+<*
+ Get the name of the platform.
+ This function is available since SDL 3.2.0.
+
+ Here are the names returned for some (but not all) supported platforms:
+
+ - "Windows"
+ - "macOS"
+ - "Linux"
+ - "iOS"
+ - "Android"
+
+ @return `the name of the platform. If the correct platform name is not
+          available, returns a string beginning with the text "Unknown".`
+*>
+extern fn ZString get_platform() @extern("SDL_GetPlatform");
