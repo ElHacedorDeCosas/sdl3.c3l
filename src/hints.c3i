@@ -13,7 +13,7 @@
  For more information, see
  https://wiki.libsdl.org/SDL3/CategoryHints
 *>
-module sdl::hint;
+module sdl;
 
 <*
  Specify the behavior of Alt+Tab while the keyboard is grabbed.
@@ -31,7 +31,7 @@ module sdl::hint;
 
  This hint can be set anytime.
 *>
-const ALLOW_ALT_TAB_WHILE_GRABBED = "SDL_ALLOW_ALT_TAB_WHILE_GRABBED";
+const HINT_ALLOW_ALT_TAB_WHILE_GRABBED = "SDL_ALLOW_ALT_TAB_WHILE_GRABBED";
 
 <*
  A variable to control whether the SDL activity is allowed to be re-created.
@@ -50,7 +50,7 @@ const ALLOW_ALT_TAB_WHILE_GRABBED = "SDL_ALLOW_ALT_TAB_WHILE_GRABBED";
 
  This hint can be set anytime.
 *>
-const ANDROID_ALLOW_RECREATE_ACTIVITY = "SDL_ANDROID_ALLOW_RECREATE_ACTIVITY";
+const HINT_ANDROID_ALLOW_RECREATE_ACTIVITY = "SDL_ANDROID_ALLOW_RECREATE_ACTIVITY";
 
 <*
  A variable to control whether the event loop will block itself when the app
@@ -64,7 +64,7 @@ const ANDROID_ALLOW_RECREATE_ACTIVITY = "SDL_ANDROID_ALLOW_RECREATE_ACTIVITY";
 
  This hint should be set before SDL is initialized.
 *>
-const ANDROID_BLOCK_ON_PAUSE = "SDL_ANDROID_BLOCK_ON_PAUSE";
+const HINT_ANDROID_BLOCK_ON_PAUSE = "SDL_ANDROID_BLOCK_ON_PAUSE";
 
 <*
  A variable to control whether low latency audio should be enabled.
@@ -80,7 +80,7 @@ const ANDROID_BLOCK_ON_PAUSE = "SDL_ANDROID_BLOCK_ON_PAUSE";
 
  This hint should be set before SDL audio is initialized.
 *>
-const ANDROID_LOW_LATENCY_AUDIO = "SDL_ANDROID_LOW_LATENCY_AUDIO";
+const HINT_ANDROID_LOW_LATENCY_AUDIO = "SDL_ANDROID_LOW_LATENCY_AUDIO";
 
 <*
  A variable to control whether we trap the Android back button to handle it
@@ -102,7 +102,7 @@ const ANDROID_LOW_LATENCY_AUDIO = "SDL_ANDROID_LOW_LATENCY_AUDIO";
 
  This hint can be set anytime.
 *>
-const ANDROID_TRAP_BACK_BUTTON = "SDL_ANDROID_TRAP_BACK_BUTTON";
+const HINT_ANDROID_TRAP_BACK_BUTTON = "SDL_ANDROID_TRAP_BACK_BUTTON";
 
 <*
  A variable setting the app ID string.
@@ -117,7 +117,7 @@ const ANDROID_TRAP_BACK_BUTTON = "SDL_ANDROID_TRAP_BACK_BUTTON";
 
  This hint should be set before SDL is initialized.
 *>
-const APP_ID = "SDL_APP_ID";
+const HINT_APP_ID = "SDL_APP_ID";
 
 <*
  A variable setting the application name.
@@ -134,7 +134,7 @@ const APP_ID = "SDL_APP_ID";
 
  This hint should be set before SDL is initialized.
 *>
-const APP_NAME = "SDL_APP_NAME";
+const HINT_APP_NAME = "SDL_APP_NAME";
 
 <*
  A variable controlling whether controllers used with the Apple TV generate
@@ -156,7 +156,7 @@ const APP_NAME = "SDL_APP_NAME";
 
  This hint can be set anytime.
 *>
-const APPLE_TV_CONTROLLER_UI_EVENTS = "SDL_APPLE_TV_CONTROLLER_UI_EVENTS";
+const HINT_APPLE_TV_CONTROLLER_UI_EVENTS = "SDL_APPLE_TV_CONTROLLER_UI_EVENTS";
 
 <*
  A variable controlling whether the Apple TV remote's joystick axes will
@@ -170,7 +170,7 @@ const APPLE_TV_CONTROLLER_UI_EVENTS = "SDL_APPLE_TV_CONTROLLER_UI_EVENTS";
 
  This hint can be set anytime.
 *>
-const APPLE_TV_REMOTE_ALLOW_ROTATION = "SDL_APPLE_TV_REMOTE_ALLOW_ROTATION";
+const HINT_APPLE_TV_REMOTE_ALLOW_ROTATION = "SDL_APPLE_TV_REMOTE_ALLOW_ROTATION";
 
 <*
  Specify the default ALSA audio device name.
@@ -186,7 +186,7 @@ const APPLE_TV_REMOTE_ALLOW_ROTATION = "SDL_APPLE_TV_REMOTE_ALLOW_ROTATION";
 
  This hint should be set before an audio device is opened.
 *>
-const AUDIO_ALSA_DEFAULT_DEVICE = "SDL_AUDIO_ALSA_DEFAULT_DEVICE";
+const HINT_AUDIO_ALSA_DEFAULT_DEVICE = "SDL_AUDIO_ALSA_DEFAULT_DEVICE";
 
 <*
  Specify the default ALSA audio playback device name.
@@ -200,7 +200,7 @@ const AUDIO_ALSA_DEFAULT_DEVICE = "SDL_AUDIO_ALSA_DEFAULT_DEVICE";
 
  This hint should be set before an audio device is opened.
 *>
-const AUDIO_ALSA_DEFAULT_PLAYBACK_DEVICE = "SDL_AUDIO_ALSA_DEFAULT_PLAYBACK_DEVICE";
+const HINT_AUDIO_ALSA_DEFAULT_PLAYBACK_DEVICE = "SDL_AUDIO_ALSA_DEFAULT_PLAYBACK_DEVICE";
 
 <*
  Specify the default ALSA audio recording device name.
@@ -214,7 +214,7 @@ const AUDIO_ALSA_DEFAULT_PLAYBACK_DEVICE = "SDL_AUDIO_ALSA_DEFAULT_PLAYBACK_DEVI
 
  This hint should be set before an audio device is opened.
 *>
-const AUDIO_ALSA_DEFAULT_RECORDING_DEVICE = "SDL_AUDIO_ALSA_DEFAULT_RECORDING_DEVICE";
+const HINT_AUDIO_ALSA_DEFAULT_RECORDING_DEVICE = "SDL_AUDIO_ALSA_DEFAULT_RECORDING_DEVICE";
 
 <*
  A variable controlling the audio category on iOS and macOS.
@@ -231,7 +231,7 @@ const AUDIO_ALSA_DEFAULT_RECORDING_DEVICE = "SDL_AUDIO_ALSA_DEFAULT_RECORDING_DE
 
  This hint should be set before an audio device is opened.
 *>
-const AUDIO_CATEGORY = "SDL_AUDIO_CATEGORY";
+const HINT_AUDIO_CATEGORY = "SDL_AUDIO_CATEGORY";
 
 <*
  A variable controlling the default audio channel count.
@@ -243,7 +243,7 @@ const AUDIO_CATEGORY = "SDL_AUDIO_CATEGORY";
 
  This hint should be set before an audio device is opened.
 *>
-const AUDIO_CHANNELS = "SDL_AUDIO_CHANNELS";
+const HINT_AUDIO_CHANNELS = "SDL_AUDIO_CHANNELS";
 
 <*
  Specify an application icon name for an audio device.
@@ -265,7 +265,7 @@ const AUDIO_CHANNELS = "SDL_AUDIO_CHANNELS";
 
  This hint should be set before an audio device is opened.
 *>
-const AUDIO_DEVICE_APP_ICON_NAME = "SDL_AUDIO_DEVICE_APP_ICON_NAME";
+const HINT_AUDIO_DEVICE_APP_ICON_NAME = "SDL_AUDIO_DEVICE_APP_ICON_NAME";
 
 <*
  A variable controlling device buffer size.
@@ -286,7 +286,7 @@ const AUDIO_DEVICE_APP_ICON_NAME = "SDL_AUDIO_DEVICE_APP_ICON_NAME";
 
  This hint should be set before an audio device is opened.
 *>
-const AUDIO_DEVICE_SAMPLE_FRAMES = "SDL_AUDIO_DEVICE_SAMPLE_FRAMES";
+const HINT_AUDIO_DEVICE_SAMPLE_FRAMES = "SDL_AUDIO_DEVICE_SAMPLE_FRAMES";
 
 <*
  Specify an audio stream name for an audio device.
@@ -312,7 +312,7 @@ const AUDIO_DEVICE_SAMPLE_FRAMES = "SDL_AUDIO_DEVICE_SAMPLE_FRAMES";
 
  This hint should be set before an audio device is opened.
 *>
-const AUDIO_DEVICE_STREAM_NAME = "SDL_AUDIO_DEVICE_STREAM_NAME";
+const HINT_AUDIO_DEVICE_STREAM_NAME = "SDL_AUDIO_DEVICE_STREAM_NAME";
 
 <*
  Specify an application role for an audio device.
@@ -337,7 +337,7 @@ const AUDIO_DEVICE_STREAM_NAME = "SDL_AUDIO_DEVICE_STREAM_NAME";
 
  This hint should be set before an audio device is opened.
 *>
-const AUDIO_DEVICE_STREAM_ROLE = "SDL_AUDIO_DEVICE_STREAM_ROLE";
+const HINT_AUDIO_DEVICE_STREAM_ROLE = "SDL_AUDIO_DEVICE_STREAM_ROLE";
 
 <*
  Specify the input file when recording audio using the disk audio driver.
@@ -347,7 +347,7 @@ const AUDIO_DEVICE_STREAM_ROLE = "SDL_AUDIO_DEVICE_STREAM_ROLE";
 
  This hint should be set before an audio device is opened.
 *>
-const AUDIO_DISK_INPUT_FILE = "SDL_AUDIO_DISK_INPUT_FILE";
+const HINT_AUDIO_DISK_INPUT_FILE = "SDL_AUDIO_DISK_INPUT_FILE";
 
 <*
  Specify the output file when playing audio using the disk audio driver.
@@ -357,7 +357,7 @@ const AUDIO_DISK_INPUT_FILE = "SDL_AUDIO_DISK_INPUT_FILE";
 
  This hint should be set before an audio device is opened.
 *>
-const AUDIO_DISK_OUTPUT_FILE = "SDL_AUDIO_DISK_OUTPUT_FILE";
+const HINT_AUDIO_DISK_OUTPUT_FILE = "SDL_AUDIO_DISK_OUTPUT_FILE";
 
 <*
  A variable controlling the audio rate when using the disk audio driver.
@@ -369,7 +369,7 @@ const AUDIO_DISK_OUTPUT_FILE = "SDL_AUDIO_DISK_OUTPUT_FILE";
 
  This hint should be set before an audio device is opened.
 *>
-const AUDIO_DISK_TIMESCALE = "SDL_AUDIO_DISK_TIMESCALE";
+const HINT_AUDIO_DISK_TIMESCALE = "SDL_AUDIO_DISK_TIMESCALE";
 
 <*
  A variable that specifies an audio backend to use.
@@ -382,7 +382,7 @@ const AUDIO_DISK_TIMESCALE = "SDL_AUDIO_DISK_TIMESCALE";
 
  This hint should be set before SDL is initialized.
 *>
-const AUDIO_DRIVER = "SDL_AUDIO_DRIVER";
+const HINT_AUDIO_DRIVER = "SDL_AUDIO_DRIVER";
 
 <*
  A variable controlling the audio rate when using the dummy audio driver.
@@ -394,7 +394,7 @@ const AUDIO_DRIVER = "SDL_AUDIO_DRIVER";
 
  This hint should be set before an audio device is opened.
 *>
-const AUDIO_DUMMY_TIMESCALE = "SDL_AUDIO_DUMMY_TIMESCALE";
+const HINT_AUDIO_DUMMY_TIMESCALE = "SDL_AUDIO_DUMMY_TIMESCALE";
 
 <*
  A variable controlling the default audio format.
@@ -420,7 +420,7 @@ const AUDIO_DUMMY_TIMESCALE = "SDL_AUDIO_DUMMY_TIMESCALE";
 
  This hint should be set before an audio device is opened.
 *>
-const AUDIO_FORMAT = "SDL_AUDIO_FORMAT";
+const HINT_AUDIO_FORMAT = "SDL_AUDIO_FORMAT";
 
 <*
  A variable controlling the default audio frequency.
@@ -432,7 +432,7 @@ const AUDIO_FORMAT = "SDL_AUDIO_FORMAT";
 
  This hint should be set before an audio device is opened.
 *>
-const AUDIO_FREQUENCY = "SDL_AUDIO_FREQUENCY";
+const HINT_AUDIO_FREQUENCY = "SDL_AUDIO_FREQUENCY";
 
 <*
  A variable that causes SDL to not ignore audio "monitors".
@@ -454,7 +454,7 @@ const AUDIO_FREQUENCY = "SDL_AUDIO_FREQUENCY";
 
  This hint should be set before SDL is initialized.
 *>
-const AUDIO_INCLUDE_MONITORS = "SDL_AUDIO_INCLUDE_MONITORS";
+const HINT_AUDIO_INCLUDE_MONITORS = "SDL_AUDIO_INCLUDE_MONITORS";
 
 <*
  A variable controlling whether SDL updates joystick state when getting
@@ -468,7 +468,7 @@ const AUDIO_INCLUDE_MONITORS = "SDL_AUDIO_INCLUDE_MONITORS";
 
  This hint can be set anytime.
 *>
-const AUTO_UPDATE_JOYSTICKS = "SDL_AUTO_UPDATE_JOYSTICKS";
+const HINT_AUTO_UPDATE_JOYSTICKS = "SDL_AUTO_UPDATE_JOYSTICKS";
 
 <*
  A variable controlling whether SDL updates sensor state when getting input
@@ -482,7 +482,7 @@ const AUTO_UPDATE_JOYSTICKS = "SDL_AUTO_UPDATE_JOYSTICKS";
 
  This hint can be set anytime.
 *>
-const AUTO_UPDATE_SENSORS = "SDL_AUTO_UPDATE_SENSORS";
+const HINT_AUTO_UPDATE_SENSORS = "SDL_AUTO_UPDATE_SENSORS";
 
 <*
  Prevent SDL from using version 4 of the bitmap header when saving BMPs.
@@ -504,7 +504,7 @@ const AUTO_UPDATE_SENSORS = "SDL_AUTO_UPDATE_SENSORS";
 
  This hint can be set anytime.
 *>
-const BMP_SAVE_LEGACY_FORMAT = "SDL_BMP_SAVE_LEGACY_FORMAT";
+const HINT_BMP_SAVE_LEGACY_FORMAT = "SDL_BMP_SAVE_LEGACY_FORMAT";
 
 <*
  A variable that decides what camera backend to use.
@@ -519,7 +519,7 @@ const BMP_SAVE_LEGACY_FORMAT = "SDL_BMP_SAVE_LEGACY_FORMAT";
  best camera backend on your behalf. This hint needs to be set before
  SDL_Init() is called to be useful.
 *>
-const CAMERA_DRIVER = "SDL_CAMERA_DRIVER";
+const HINT_CAMERA_DRIVER = "SDL_CAMERA_DRIVER";
 
 <*
  A variable that limits what CPU features are available.
@@ -551,7 +551,7 @@ const CAMERA_DRIVER = "SDL_CAMERA_DRIVER";
 
  The items can be prefixed by '+'/'-' to add/remove features.
 *>
-const CPU_FEATURE_MASK = "SDL_CPU_FEATURE_MASK";
+const HINT_CPU_FEATURE_MASK = "SDL_CPU_FEATURE_MASK";
 
 <*
  A variable controlling whether DirectInput should be used for controllers.
@@ -564,7 +564,7 @@ const CPU_FEATURE_MASK = "SDL_CPU_FEATURE_MASK";
 
  This hint should be set before SDL is initialized.
 *>
-const JOYSTICK_DIRECTINPUT = "SDL_JOYSTICK_DIRECTINPUT";
+const HINT_JOYSTICK_DIRECTINPUT = "SDL_JOYSTICK_DIRECTINPUT";
 
 <*
  A variable that specifies a dialog backend to use.
@@ -592,7 +592,7 @@ const JOYSTICK_DIRECTINPUT = "SDL_JOYSTICK_DIRECTINPUT";
 
  This hint can be set anytime.
 *>
-const FILE_DIALOG_DRIVER = "SDL_FILE_DIALOG_DRIVER";
+const HINT_FILE_DIALOG_DRIVER = "SDL_FILE_DIALOG_DRIVER";
 
 <*
  Override for SDL_GetDisplayUsableBounds().
@@ -609,7 +609,7 @@ const FILE_DIALOG_DRIVER = "SDL_FILE_DIALOG_DRIVER";
 
  This hint can be set anytime.
 *>
-const DISPLAY_USABLE_BOUNDS = "SDL_DISPLAY_USABLE_BOUNDS";
+const HINT_DISPLAY_USABLE_BOUNDS = "SDL_DISPLAY_USABLE_BOUNDS";
 
 <*
  Disable giving back control to the browser automatically when running with
@@ -629,7 +629,7 @@ const DISPLAY_USABLE_BOUNDS = "SDL_DISPLAY_USABLE_BOUNDS";
 
  This hint can be set anytime.
 *>
-const EMSCRIPTEN_ASYNCIFY = "SDL_EMSCRIPTEN_ASYNCIFY";
+const HINT_EMSCRIPTEN_ASYNCIFY = "SDL_EMSCRIPTEN_ASYNCIFY";
 
 <*
  Specify the CSS selector used for the "default" window/canvas.
@@ -641,7 +641,7 @@ const EMSCRIPTEN_ASYNCIFY = "SDL_EMSCRIPTEN_ASYNCIFY";
 
  This hint should be set before creating a window.
 *>
-const EMSCRIPTEN_CANVAS_SELECTOR = "SDL_EMSCRIPTEN_CANVAS_SELECTOR";
+const HINT_EMSCRIPTEN_CANVAS_SELECTOR = "SDL_EMSCRIPTEN_CANVAS_SELECTOR";
 
 <*
  Override the binding element for keyboard inputs for Emscripten builds.
@@ -661,7 +661,7 @@ const EMSCRIPTEN_CANVAS_SELECTOR = "SDL_EMSCRIPTEN_CANVAS_SELECTOR";
 
  This hint should be set before creating a window.
 *>
-const EMSCRIPTEN_KEYBOARD_ELEMENT = "SDL_EMSCRIPTEN_KEYBOARD_ELEMENT";
+const HINT_EMSCRIPTEN_KEYBOARD_ELEMENT = "SDL_EMSCRIPTEN_KEYBOARD_ELEMENT";
 
 <*
  A variable that controls whether the on-screen keyboard should be shown
@@ -677,7 +677,7 @@ const EMSCRIPTEN_KEYBOARD_ELEMENT = "SDL_EMSCRIPTEN_KEYBOARD_ELEMENT";
 
  This hint must be set before SDL_StartTextInput() is called
 *>
-const ENABLE_SCREEN_KEYBOARD = "SDL_ENABLE_SCREEN_KEYBOARD";
+const HINT_ENABLE_SCREEN_KEYBOARD = "SDL_ENABLE_SCREEN_KEYBOARD";
 
 <*
  A variable containing a list of evdev devices to use if udev is not
@@ -693,7 +693,7 @@ const ENABLE_SCREEN_KEYBOARD = "SDL_ENABLE_SCREEN_KEYBOARD";
 
  This hint should be set before SDL is initialized.
 *>
-const EVDEV_DEVICES = "SDL_EVDEV_DEVICES";
+const HINT_EVDEV_DEVICES = "SDL_EVDEV_DEVICES";
 
 <*
  A variable controlling verbosity of the logging of SDL events pushed onto
@@ -716,7 +716,7 @@ const EVDEV_DEVICES = "SDL_EVDEV_DEVICES";
 
  This hint can be set anytime.
 *>
-const EVENT_LOGGING = "SDL_EVENT_LOGGING";
+const HINT_EVENT_LOGGING = "SDL_EVENT_LOGGING";
 
 <*
  A variable controlling whether raising the window should be done more
@@ -735,7 +735,7 @@ const EVENT_LOGGING = "SDL_EVENT_LOGGING";
 
  This hint can be set anytime.
 *>
-const FORCE_RAISEWINDOW = "SDL_FORCE_RAISEWINDOW";
+const HINT_FORCE_RAISEWINDOW = "SDL_FORCE_RAISEWINDOW";
 
 <*
  A variable controlling how 3D acceleration is used to accelerate the SDL
@@ -755,7 +755,7 @@ const FORCE_RAISEWINDOW = "SDL_FORCE_RAISEWINDOW";
 
  This hint should be set before calling SDL_GetWindowSurface()
 *>
-const FRAMEBUFFER_ACCELERATION = "SDL_FRAMEBUFFER_ACCELERATION";
+const HINT_FRAMEBUFFER_ACCELERATION = "SDL_FRAMEBUFFER_ACCELERATION";
 
 <*
  A variable that lets you manually hint extra gamecontroller db entries.
@@ -769,7 +769,7 @@ const FRAMEBUFFER_ACCELERATION = "SDL_FRAMEBUFFER_ACCELERATION";
 
  This hint should be set before SDL is initialized.
 *>
-const GAMECONTROLLERCONFIG = "SDL_GAMECONTROLLERCONFIG";
+const HINT_GAMECONTROLLERCONFIG = "SDL_GAMECONTROLLERCONFIG";
 
 <*
  A variable that lets you provide a file with extra gamecontroller db
@@ -784,7 +784,7 @@ const GAMECONTROLLERCONFIG = "SDL_GAMECONTROLLERCONFIG";
 
  This hint should be set before SDL is initialized.
 *>
-const GAMECONTROLLERCONFIG_FILE = "SDL_GAMECONTROLLERCONFIG_FILE";
+const HINT_GAMECONTROLLERCONFIG_FILE = "SDL_GAMECONTROLLERCONFIG_FILE";
 
 <*
  A variable that overrides the automatic controller type detection.
@@ -807,7 +807,7 @@ const GAMECONTROLLERCONFIG_FILE = "SDL_GAMECONTROLLERCONFIG_FILE";
 
  This hint should be set before SDL is initialized.
 *>
-const GAMECONTROLLERTYPE = "SDL_GAMECONTROLLERTYPE";
+const HINT_GAMECONTROLLERTYPE = "SDL_GAMECONTROLLERTYPE";
 
 <*
  A variable containing a list of devices to skip when scanning for game
@@ -824,7 +824,7 @@ const GAMECONTROLLERTYPE = "SDL_GAMECONTROLLERTYPE";
 
  This hint can be set anytime.
 *>
-const GAMECONTROLLER_IGNORE_DEVICES = "SDL_GAMECONTROLLER_IGNORE_DEVICES";
+const HINT_GAMECONTROLLER_IGNORE_DEVICES = "SDL_GAMECONTROLLER_IGNORE_DEVICES";
 
 <*
  If set, all devices will be skipped when scanning for game controllers
@@ -841,7 +841,7 @@ const GAMECONTROLLER_IGNORE_DEVICES = "SDL_GAMECONTROLLER_IGNORE_DEVICES";
 
  This hint can be set anytime.
 *>
-const GAMECONTROLLER_IGNORE_DEVICES_EXCEPT = "SDL_GAMECONTROLLER_IGNORE_DEVICES_EXCEPT";
+const HINT_GAMECONTROLLER_IGNORE_DEVICES_EXCEPT = "SDL_GAMECONTROLLER_IGNORE_DEVICES_EXCEPT";
 
 <*
  A variable that controls whether the device's built-in accelerometer and
@@ -863,7 +863,7 @@ const GAMECONTROLLER_IGNORE_DEVICES_EXCEPT = "SDL_GAMECONTROLLER_IGNORE_DEVICES_
 
  This hint should be set before a gamepad is opened.
 *>
-const GAMECONTROLLER_SENSOR_FUSION = "SDL_GAMECONTROLLER_SENSOR_FUSION";
+const HINT_GAMECONTROLLER_SENSOR_FUSION = "SDL_GAMECONTROLLER_SENSOR_FUSION";
 
 <*
  This variable sets the default text of the TextInput window on GDK
@@ -874,7 +874,7 @@ const GAMECONTROLLER_SENSOR_FUSION = "SDL_GAMECONTROLLER_SENSOR_FUSION";
 
  This hint should be set before calling SDL_StartTextInput()
 *>
-const GDK_TEXTINPUT_DEFAULT_TEXT = "SDL_GDK_TEXTINPUT_DEFAULT_TEXT";
+const HINT_GDK_TEXTINPUT_DEFAULT_TEXT = "SDL_GDK_TEXTINPUT_DEFAULT_TEXT";
 
 <*
  This variable sets the description of the TextInput window on GDK
@@ -885,7 +885,7 @@ const GDK_TEXTINPUT_DEFAULT_TEXT = "SDL_GDK_TEXTINPUT_DEFAULT_TEXT";
 
  This hint should be set before calling SDL_StartTextInput()
 *>
-const GDK_TEXTINPUT_DESCRIPTION = "SDL_GDK_TEXTINPUT_DESCRIPTION";
+const HINT_GDK_TEXTINPUT_DESCRIPTION = "SDL_GDK_TEXTINPUT_DESCRIPTION";
 
 <*
  This variable sets the maximum input length of the TextInput window on GDK
@@ -899,7 +899,7 @@ const GDK_TEXTINPUT_DESCRIPTION = "SDL_GDK_TEXTINPUT_DESCRIPTION";
 
  This hint should be set before calling SDL_StartTextInput()
 *>
-const GDK_TEXTINPUT_MAX_LENGTH = "SDL_GDK_TEXTINPUT_MAX_LENGTH";
+const HINT_GDK_TEXTINPUT_MAX_LENGTH = "SDL_GDK_TEXTINPUT_MAX_LENGTH";
 
 <*
  This variable sets the input scope of the TextInput window on GDK
@@ -914,7 +914,7 @@ const GDK_TEXTINPUT_MAX_LENGTH = "SDL_GDK_TEXTINPUT_MAX_LENGTH";
 
  This hint should be set before calling SDL_StartTextInput()
 *>
-const GDK_TEXTINPUT_SCOPE = "SDL_GDK_TEXTINPUT_SCOPE";
+const HINT_GDK_TEXTINPUT_SCOPE = "SDL_GDK_TEXTINPUT_SCOPE";
 
 <*
  This variable sets the title of the TextInput window on GDK platforms.
@@ -924,7 +924,7 @@ const GDK_TEXTINPUT_SCOPE = "SDL_GDK_TEXTINPUT_SCOPE";
 
  This hint should be set before calling SDL_StartTextInput()
 *>
-const GDK_TEXTINPUT_TITLE = "SDL_GDK_TEXTINPUT_TITLE";
+const HINT_GDK_TEXTINPUT_TITLE = "SDL_GDK_TEXTINPUT_TITLE";
 
 <*
  A variable to control whether HIDAPI uses libusb for device access.
@@ -941,7 +941,7 @@ const GDK_TEXTINPUT_TITLE = "SDL_GDK_TEXTINPUT_TITLE";
 
  This hint should be set before SDL is initialized.
 *>
-const HIDAPI_LIBUSB = "SDL_HIDAPI_LIBUSB";
+const HINT_HIDAPI_LIBUSB = "SDL_HIDAPI_LIBUSB";
 
 <*
  A variable to control whether HIDAPI uses libusb only for whitelisted
@@ -958,7 +958,7 @@ const HIDAPI_LIBUSB = "SDL_HIDAPI_LIBUSB";
 
  This hint should be set before SDL is initialized.
 *>
-const HIDAPI_LIBUSB_WHITELIST = "SDL_HIDAPI_LIBUSB_WHITELIST";
+const HINT_HIDAPI_LIBUSB_WHITELIST = "SDL_HIDAPI_LIBUSB_WHITELIST";
 
 <*
  A variable to control whether HIDAPI uses udev for device detection.
@@ -971,7 +971,7 @@ const HIDAPI_LIBUSB_WHITELIST = "SDL_HIDAPI_LIBUSB_WHITELIST";
 
  This hint should be set before SDL is initialized.
 *>
-const HIDAPI_UDEV = "SDL_HIDAPI_UDEV";
+const HINT_HIDAPI_UDEV = "SDL_HIDAPI_UDEV";
 
 <*
  A variable that specifies a GPU backend to use.
@@ -984,7 +984,7 @@ const HIDAPI_UDEV = "SDL_HIDAPI_UDEV";
 
  This hint should be set before any GPU functions are called.
 *>
-const GPU_DRIVER = "SDL_GPU_DRIVER";
+const HINT_GPU_DRIVER = "SDL_GPU_DRIVER";
 
 <*
  A variable to control whether SDL_hid_enumerate() enumerates all HID
@@ -1002,7 +1002,7 @@ const GPU_DRIVER = "SDL_GPU_DRIVER";
 
  This hint can be set anytime.
 *>
-const HIDAPI_ENUMERATE_ONLY_CONTROLLERS = "SDL_HIDAPI_ENUMERATE_ONLY_CONTROLLERS";
+const HINT_HIDAPI_ENUMERATE_ONLY_CONTROLLERS = "SDL_HIDAPI_ENUMERATE_ONLY_CONTROLLERS";
 
 <*
  A variable containing a list of devices to ignore in SDL_hid_enumerate().
@@ -1018,7 +1018,7 @@ const HIDAPI_ENUMERATE_ONLY_CONTROLLERS = "SDL_HIDAPI_ENUMERATE_ONLY_CONTROLLERS
 
  This hint can be set anytime.
 *>
-const HIDAPI_IGNORE_DEVICES = "SDL_HIDAPI_IGNORE_DEVICES";
+const HINT_HIDAPI_IGNORE_DEVICES = "SDL_HIDAPI_IGNORE_DEVICES";
 
 <*
  A variable describing what IME UI elements the application can display.
@@ -1040,7 +1040,7 @@ const HIDAPI_IGNORE_DEVICES = "SDL_HIDAPI_IGNORE_DEVICES";
 
  This hint should be set before SDL is initialized.
 *>
-const IME_IMPLEMENTED_UI = "SDL_IME_IMPLEMENTED_UI";
+const HINT_IME_IMPLEMENTED_UI = "SDL_IME_IMPLEMENTED_UI";
 
 <*
  A variable controlling whether the home indicator bar on iPhone X should be
@@ -1058,7 +1058,7 @@ const IME_IMPLEMENTED_UI = "SDL_IME_IMPLEMENTED_UI";
 
  This hint can be set anytime.
 *>
-const IOS_HIDE_HOME_INDICATOR = "SDL_IOS_HIDE_HOME_INDICATOR";
+const HINT_IOS_HIDE_HOME_INDICATOR = "SDL_IOS_HIDE_HOME_INDICATOR";
 
 <*
  A variable that lets you enable joystick (and gamecontroller) events even
@@ -1074,7 +1074,7 @@ const IOS_HIDE_HOME_INDICATOR = "SDL_IOS_HIDE_HOME_INDICATOR";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_ALLOW_BACKGROUND_EVENTS = "SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS";
+const HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS = "SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS";
 
 <*
  A variable containing a list of arcade stick style controllers.
@@ -1090,7 +1090,7 @@ const JOYSTICK_ALLOW_BACKGROUND_EVENTS = "SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_ARCADESTICK_DEVICES = "SDL_JOYSTICK_ARCADESTICK_DEVICES";
+const HINT_JOYSTICK_ARCADESTICK_DEVICES = "SDL_JOYSTICK_ARCADESTICK_DEVICES";
 
 <*
  A variable containing a list of devices that are not arcade stick style
@@ -1110,7 +1110,7 @@ const JOYSTICK_ARCADESTICK_DEVICES = "SDL_JOYSTICK_ARCADESTICK_DEVICES";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_ARCADESTICK_DEVICES_EXCLUDED = "SDL_JOYSTICK_ARCADESTICK_DEVICES_EXCLUDED";
+const HINT_JOYSTICK_ARCADESTICK_DEVICES_EXCLUDED = "SDL_JOYSTICK_ARCADESTICK_DEVICES_EXCLUDED";
 
 <*
  A variable containing a list of devices that should not be considered
@@ -1127,7 +1127,7 @@ const JOYSTICK_ARCADESTICK_DEVICES_EXCLUDED = "SDL_JOYSTICK_ARCADESTICK_DEVICES_
 
  This hint can be set anytime.
 *>
-const JOYSTICK_BLACKLIST_DEVICES = "SDL_JOYSTICK_BLACKLIST_DEVICES";
+const HINT_JOYSTICK_BLACKLIST_DEVICES = "SDL_JOYSTICK_BLACKLIST_DEVICES";
 
 <*
  A variable containing a list of devices that should be considered
@@ -1147,7 +1147,7 @@ const JOYSTICK_BLACKLIST_DEVICES = "SDL_JOYSTICK_BLACKLIST_DEVICES";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_BLACKLIST_DEVICES_EXCLUDED = "SDL_JOYSTICK_BLACKLIST_DEVICES_EXCLUDED";
+const HINT_JOYSTICK_BLACKLIST_DEVICES_EXCLUDED = "SDL_JOYSTICK_BLACKLIST_DEVICES_EXCLUDED";
 
 <*
  A variable containing a comma separated list of devices to open as
@@ -1156,7 +1156,7 @@ const JOYSTICK_BLACKLIST_DEVICES_EXCLUDED = "SDL_JOYSTICK_BLACKLIST_DEVICES_EXCL
 
  This variable is currently only used by the Linux joystick driver.
 *>
-const JOYSTICK_DEVICE = "SDL_JOYSTICK_DEVICE";
+const HINT_JOYSTICK_DEVICE = "SDL_JOYSTICK_DEVICE";
 
 <*
  A variable controlling whether enhanced reports should be used for
@@ -1180,7 +1180,7 @@ const JOYSTICK_DEVICE = "SDL_JOYSTICK_DEVICE";
 
  This hint can be enabled anytime.
 *>
-const JOYSTICK_ENHANCED_REPORTS = "SDL_JOYSTICK_ENHANCED_REPORTS";
+const HINT_JOYSTICK_ENHANCED_REPORTS = "SDL_JOYSTICK_ENHANCED_REPORTS";
 
 <*
  A variable containing a list of flightstick style controllers.
@@ -1196,7 +1196,7 @@ const JOYSTICK_ENHANCED_REPORTS = "SDL_JOYSTICK_ENHANCED_REPORTS";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_FLIGHTSTICK_DEVICES = "SDL_JOYSTICK_FLIGHTSTICK_DEVICES";
+const HINT_JOYSTICK_FLIGHTSTICK_DEVICES = "SDL_JOYSTICK_FLIGHTSTICK_DEVICES";
 
 <*
  A variable containing a list of devices that are not flightstick style
@@ -1216,7 +1216,7 @@ const JOYSTICK_FLIGHTSTICK_DEVICES = "SDL_JOYSTICK_FLIGHTSTICK_DEVICES";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_FLIGHTSTICK_DEVICES_EXCLUDED = "SDL_JOYSTICK_FLIGHTSTICK_DEVICES_EXCLUDED";
+const HINT_JOYSTICK_FLIGHTSTICK_DEVICES_EXCLUDED = "SDL_JOYSTICK_FLIGHTSTICK_DEVICES_EXCLUDED";
 
 <*
  A variable controlling whether GameInput should be used for controller
@@ -1232,7 +1232,7 @@ const JOYSTICK_FLIGHTSTICK_DEVICES_EXCLUDED = "SDL_JOYSTICK_FLIGHTSTICK_DEVICES_
 
  This hint should be set before SDL is initialized.
 *>
-const JOYSTICK_GAMEINPUT = "SDL_JOYSTICK_GAMEINPUT";
+const HINT_JOYSTICK_GAMEINPUT = "SDL_JOYSTICK_GAMEINPUT";
 
 <*
  A variable containing a list of devices known to have a GameCube form
@@ -1249,7 +1249,7 @@ const JOYSTICK_GAMEINPUT = "SDL_JOYSTICK_GAMEINPUT";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_GAMECUBE_DEVICES = "SDL_JOYSTICK_GAMECUBE_DEVICES";
+const HINT_JOYSTICK_GAMECUBE_DEVICES = "SDL_JOYSTICK_GAMECUBE_DEVICES";
 
 <*
  A variable containing a list of devices known not to have a GameCube form
@@ -1269,7 +1269,7 @@ const JOYSTICK_GAMECUBE_DEVICES = "SDL_JOYSTICK_GAMECUBE_DEVICES";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_GAMECUBE_DEVICES_EXCLUDED = "SDL_JOYSTICK_GAMECUBE_DEVICES_EXCLUDED";
+const HINT_JOYSTICK_GAMECUBE_DEVICES_EXCLUDED = "SDL_JOYSTICK_GAMECUBE_DEVICES_EXCLUDED";
 
 <*
  A variable controlling whether the HIDAPI joystick drivers should be used.
@@ -1285,7 +1285,7 @@ const JOYSTICK_GAMECUBE_DEVICES_EXCLUDED = "SDL_JOYSTICK_GAMECUBE_DEVICES_EXCLUD
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI = "SDL_JOYSTICK_HIDAPI";
+const HINT_JOYSTICK_HIDAPI = "SDL_JOYSTICK_HIDAPI";
 
 <*
  A variable controlling whether Nintendo Switch Joy-Con controllers will be
@@ -1301,7 +1301,7 @@ const JOYSTICK_HIDAPI = "SDL_JOYSTICK_HIDAPI";
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_COMBINE_JOY_CONS = "SDL_JOYSTICK_HIDAPI_COMBINE_JOY_CONS";
+const HINT_JOYSTICK_HIDAPI_COMBINE_JOY_CONS = "SDL_JOYSTICK_HIDAPI_COMBINE_JOY_CONS";
 
 <*
  A variable controlling whether the HIDAPI driver for Nintendo GameCube
@@ -1317,7 +1317,7 @@ const JOYSTICK_HIDAPI_COMBINE_JOY_CONS = "SDL_JOYSTICK_HIDAPI_COMBINE_JOY_CONS";
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_GAMECUBE = "SDL_JOYSTICK_HIDAPI_GAMECUBE";
+const HINT_JOYSTICK_HIDAPI_GAMECUBE = "SDL_JOYSTICK_HIDAPI_GAMECUBE";
 
 <*
  A variable controlling whether rumble is used to implement the GameCube
@@ -1337,7 +1337,7 @@ const JOYSTICK_HIDAPI_GAMECUBE = "SDL_JOYSTICK_HIDAPI_GAMECUBE";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_HIDAPI_GAMECUBE_RUMBLE_BRAKE = "SDL_JOYSTICK_HIDAPI_GAMECUBE_RUMBLE_BRAKE";
+const HINT_JOYSTICK_HIDAPI_GAMECUBE_RUMBLE_BRAKE = "SDL_JOYSTICK_HIDAPI_GAMECUBE_RUMBLE_BRAKE";
 
 <*
  A variable controlling whether the HIDAPI driver for Nintendo Switch
@@ -1353,7 +1353,7 @@ const JOYSTICK_HIDAPI_GAMECUBE_RUMBLE_BRAKE = "SDL_JOYSTICK_HIDAPI_GAMECUBE_RUMB
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_JOY_CONS = "SDL_JOYSTICK_HIDAPI_JOY_CONS";
+const HINT_JOYSTICK_HIDAPI_JOY_CONS = "SDL_JOYSTICK_HIDAPI_JOY_CONS";
 
 <*
  A variable controlling whether the Home button LED should be turned on when
@@ -1371,7 +1371,7 @@ const JOYSTICK_HIDAPI_JOY_CONS = "SDL_JOYSTICK_HIDAPI_JOY_CONS";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_HIDAPI_JOYCON_HOME_LED = "SDL_JOYSTICK_HIDAPI_JOYCON_HOME_LED";
+const HINT_JOYSTICK_HIDAPI_JOYCON_HOME_LED = "SDL_JOYSTICK_HIDAPI_JOYCON_HOME_LED";
 
 <*
  A variable controlling whether the HIDAPI driver for Amazon Luna
@@ -1387,7 +1387,7 @@ const JOYSTICK_HIDAPI_JOYCON_HOME_LED = "SDL_JOYSTICK_HIDAPI_JOYCON_HOME_LED";
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_LUNA = "SDL_JOYSTICK_HIDAPI_LUNA";
+const HINT_JOYSTICK_HIDAPI_LUNA = "SDL_JOYSTICK_HIDAPI_LUNA";
 
 <*
  A variable controlling whether the HIDAPI driver for Nintendo Online
@@ -1403,7 +1403,7 @@ const JOYSTICK_HIDAPI_LUNA = "SDL_JOYSTICK_HIDAPI_LUNA";
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_NINTENDO_CLASSIC = "SDL_JOYSTICK_HIDAPI_NINTENDO_CLASSIC";
+const HINT_JOYSTICK_HIDAPI_NINTENDO_CLASSIC = "SDL_JOYSTICK_HIDAPI_NINTENDO_CLASSIC";
 
 <*
  A variable controlling whether the HIDAPI driver for PS3 controllers should
@@ -1424,7 +1424,7 @@ const JOYSTICK_HIDAPI_NINTENDO_CLASSIC = "SDL_JOYSTICK_HIDAPI_NINTENDO_CLASSIC";
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_PS3 = "SDL_JOYSTICK_HIDAPI_PS3";
+const HINT_JOYSTICK_HIDAPI_PS3 = "SDL_JOYSTICK_HIDAPI_PS3";
 
 <*
  A variable controlling whether the Sony driver (sixaxis.sys) for PS3
@@ -1440,7 +1440,7 @@ const JOYSTICK_HIDAPI_PS3 = "SDL_JOYSTICK_HIDAPI_PS3";
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_PS3_SIXAXIS_DRIVER = "SDL_JOYSTICK_HIDAPI_PS3_SIXAXIS_DRIVER";
+const HINT_JOYSTICK_HIDAPI_PS3_SIXAXIS_DRIVER = "SDL_JOYSTICK_HIDAPI_PS3_SIXAXIS_DRIVER";
 
 <*
  A variable controlling whether the HIDAPI driver for PS4 controllers should
@@ -1456,7 +1456,7 @@ const JOYSTICK_HIDAPI_PS3_SIXAXIS_DRIVER = "SDL_JOYSTICK_HIDAPI_PS3_SIXAXIS_DRIV
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_PS4 = "SDL_JOYSTICK_HIDAPI_PS4";
+const HINT_JOYSTICK_HIDAPI_PS4 = "SDL_JOYSTICK_HIDAPI_PS4";
 
 <*
  A variable controlling the update rate of the PS4 controller over Bluetooth
@@ -1470,7 +1470,7 @@ const JOYSTICK_HIDAPI_PS4 = "SDL_JOYSTICK_HIDAPI_PS4";
  This hint can be set anytime, but only takes effect when extended input
  reports are enabled.
 *>
-const JOYSTICK_HIDAPI_PS4_REPORT_INTERVAL = "SDL_JOYSTICK_HIDAPI_PS4_REPORT_INTERVAL";
+const HINT_JOYSTICK_HIDAPI_PS4_REPORT_INTERVAL = "SDL_JOYSTICK_HIDAPI_PS4_REPORT_INTERVAL";
 
 <*
  A variable controlling whether the HIDAPI driver for PS5 controllers should
@@ -1486,7 +1486,7 @@ const JOYSTICK_HIDAPI_PS4_REPORT_INTERVAL = "SDL_JOYSTICK_HIDAPI_PS4_REPORT_INTE
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_PS5 = "SDL_JOYSTICK_HIDAPI_PS5";
+const HINT_JOYSTICK_HIDAPI_PS5 = "SDL_JOYSTICK_HIDAPI_PS5";
 
 <*
  A variable controlling whether the player LEDs should be lit to indicate
@@ -1498,7 +1498,7 @@ const JOYSTICK_HIDAPI_PS5 = "SDL_JOYSTICK_HIDAPI_PS5";
  - "0": player LEDs are not enabled.
  - "1": player LEDs are enabled. (default)
 *>
-const JOYSTICK_HIDAPI_PS5_PLAYER_LED = "SDL_JOYSTICK_HIDAPI_PS5_PLAYER_LED";
+const HINT_JOYSTICK_HIDAPI_PS5_PLAYER_LED = "SDL_JOYSTICK_HIDAPI_PS5_PLAYER_LED";
 
 <*
  A variable controlling whether the HIDAPI driver for NVIDIA SHIELD
@@ -1514,7 +1514,7 @@ const JOYSTICK_HIDAPI_PS5_PLAYER_LED = "SDL_JOYSTICK_HIDAPI_PS5_PLAYER_LED";
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_SHIELD = "SDL_JOYSTICK_HIDAPI_SHIELD";
+const HINT_JOYSTICK_HIDAPI_SHIELD = "SDL_JOYSTICK_HIDAPI_SHIELD";
 
 <*
  A variable controlling whether the HIDAPI driver for Google Stadia
@@ -1528,7 +1528,7 @@ const JOYSTICK_HIDAPI_SHIELD = "SDL_JOYSTICK_HIDAPI_SHIELD";
 
  The default is the value of SDL_HINT_JOYSTICK_HIDAPI.
 *>
-const JOYSTICK_HIDAPI_STADIA = "SDL_JOYSTICK_HIDAPI_STADIA";
+const HINT_JOYSTICK_HIDAPI_STADIA = "SDL_JOYSTICK_HIDAPI_STADIA";
 
 <*
  A variable controlling whether the HIDAPI driver for Bluetooth Steam
@@ -1544,7 +1544,7 @@ const JOYSTICK_HIDAPI_STADIA = "SDL_JOYSTICK_HIDAPI_STADIA";
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_STEAM = "SDL_JOYSTICK_HIDAPI_STEAM";
+const HINT_JOYSTICK_HIDAPI_STEAM = "SDL_JOYSTICK_HIDAPI_STEAM";
 
 <*
  A variable controlling whether the Steam button LED should be turned on
@@ -1562,7 +1562,7 @@ const JOYSTICK_HIDAPI_STEAM = "SDL_JOYSTICK_HIDAPI_STEAM";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_HIDAPI_STEAM_HOME_LED = "SDL_JOYSTICK_HIDAPI_STEAM_HOME_LED";
+const HINT_JOYSTICK_HIDAPI_STEAM_HOME_LED = "SDL_JOYSTICK_HIDAPI_STEAM_HOME_LED";
 
 <*
  A variable controlling whether the HIDAPI driver for the Steam Deck builtin
@@ -1578,7 +1578,7 @@ const JOYSTICK_HIDAPI_STEAM_HOME_LED = "SDL_JOYSTICK_HIDAPI_STEAM_HOME_LED";
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_STEAMDECK = "SDL_JOYSTICK_HIDAPI_STEAMDECK";
+const HINT_JOYSTICK_HIDAPI_STEAMDECK = "SDL_JOYSTICK_HIDAPI_STEAMDECK";
 
 <*
  A variable controlling whether the HIDAPI driver for HORI licensed Steam
@@ -1590,7 +1590,7 @@ const JOYSTICK_HIDAPI_STEAMDECK = "SDL_JOYSTICK_HIDAPI_STEAMDECK";
 
  The default is the value of SDL_HINT_JOYSTICK_HIDAPI
 *>
-const JOYSTICK_HIDAPI_STEAM_HORI = "SDL_JOYSTICK_HIDAPI_STEAM_HORI";
+const HINT_JOYSTICK_HIDAPI_STEAM_HORI = "SDL_JOYSTICK_HIDAPI_STEAM_HORI";
 
 <*
  A variable controlling whether the HIDAPI driver for Nintendo Switch
@@ -1605,7 +1605,7 @@ const JOYSTICK_HIDAPI_STEAM_HORI = "SDL_JOYSTICK_HIDAPI_STEAM_HORI";
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_SWITCH = "SDL_JOYSTICK_HIDAPI_SWITCH";
+const HINT_JOYSTICK_HIDAPI_SWITCH = "SDL_JOYSTICK_HIDAPI_SWITCH";
 
 <*
  A variable controlling whether the Home button LED should be turned on when
@@ -1623,7 +1623,7 @@ const JOYSTICK_HIDAPI_SWITCH = "SDL_JOYSTICK_HIDAPI_SWITCH";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_HIDAPI_SWITCH_HOME_LED = "SDL_JOYSTICK_HIDAPI_SWITCH_HOME_LED";
+const HINT_JOYSTICK_HIDAPI_SWITCH_HOME_LED = "SDL_JOYSTICK_HIDAPI_SWITCH_HOME_LED";
 
 <*
  A variable controlling whether the player LEDs should be lit to indicate
@@ -1637,7 +1637,7 @@ const JOYSTICK_HIDAPI_SWITCH_HOME_LED = "SDL_JOYSTICK_HIDAPI_SWITCH_HOME_LED";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_HIDAPI_SWITCH_PLAYER_LED = "SDL_JOYSTICK_HIDAPI_SWITCH_PLAYER_LED";
+const HINT_JOYSTICK_HIDAPI_SWITCH_PLAYER_LED = "SDL_JOYSTICK_HIDAPI_SWITCH_PLAYER_LED";
 
 <*
  A variable controlling whether Nintendo Switch Joy-Con controllers will be
@@ -1652,7 +1652,7 @@ const JOYSTICK_HIDAPI_SWITCH_PLAYER_LED = "SDL_JOYSTICK_HIDAPI_SWITCH_PLAYER_LED
 
  This hint should be set before opening a Joy-Con controller.
 *>
-const JOYSTICK_HIDAPI_VERTICAL_JOY_CONS = "SDL_JOYSTICK_HIDAPI_VERTICAL_JOY_CONS";
+const HINT_JOYSTICK_HIDAPI_VERTICAL_JOY_CONS = "SDL_JOYSTICK_HIDAPI_VERTICAL_JOY_CONS";
 
 <*
  A variable controlling whether the HIDAPI driver for Nintendo Wii and Wii U
@@ -1669,7 +1669,7 @@ const JOYSTICK_HIDAPI_VERTICAL_JOY_CONS = "SDL_JOYSTICK_HIDAPI_VERTICAL_JOY_CONS
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_WII = "SDL_JOYSTICK_HIDAPI_WII";
+const HINT_JOYSTICK_HIDAPI_WII = "SDL_JOYSTICK_HIDAPI_WII";
 
 <*
  A variable controlling whether the player LEDs should be lit to indicate
@@ -1683,7 +1683,7 @@ const JOYSTICK_HIDAPI_WII = "SDL_JOYSTICK_HIDAPI_WII";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_HIDAPI_WII_PLAYER_LED = "SDL_JOYSTICK_HIDAPI_WII_PLAYER_LED";
+const HINT_JOYSTICK_HIDAPI_WII_PLAYER_LED = "SDL_JOYSTICK_HIDAPI_WII_PLAYER_LED";
 
 <*
  A variable controlling whether the HIDAPI driver for XBox controllers
@@ -1700,7 +1700,7 @@ const JOYSTICK_HIDAPI_WII_PLAYER_LED = "SDL_JOYSTICK_HIDAPI_WII_PLAYER_LED";
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_XBOX = "SDL_JOYSTICK_HIDAPI_XBOX";
+const HINT_JOYSTICK_HIDAPI_XBOX = "SDL_JOYSTICK_HIDAPI_XBOX";
 
 <*
  A variable controlling whether the HIDAPI driver for XBox 360 controllers
@@ -1716,7 +1716,7 @@ const JOYSTICK_HIDAPI_XBOX = "SDL_JOYSTICK_HIDAPI_XBOX";
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_XBOX_360 = "SDL_JOYSTICK_HIDAPI_XBOX_360";
+const HINT_JOYSTICK_HIDAPI_XBOX_360 = "SDL_JOYSTICK_HIDAPI_XBOX_360";
 
 <*
  A variable controlling whether the player LEDs should be lit to indicate
@@ -1730,7 +1730,7 @@ const JOYSTICK_HIDAPI_XBOX_360 = "SDL_JOYSTICK_HIDAPI_XBOX_360";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_HIDAPI_XBOX_360_PLAYER_LED = "SDL_JOYSTICK_HIDAPI_XBOX_360_PLAYER_LED";
+const HINT_JOYSTICK_HIDAPI_XBOX_360_PLAYER_LED = "SDL_JOYSTICK_HIDAPI_XBOX_360_PLAYER_LED";
 
 <*
  A variable controlling whether the HIDAPI driver for XBox 360 wireless
@@ -1746,7 +1746,7 @@ const JOYSTICK_HIDAPI_XBOX_360_PLAYER_LED = "SDL_JOYSTICK_HIDAPI_XBOX_360_PLAYER
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_XBOX_360_WIRELESS = "SDL_JOYSTICK_HIDAPI_XBOX_360_WIRELESS";
+const HINT_JOYSTICK_HIDAPI_XBOX_360_WIRELESS = "SDL_JOYSTICK_HIDAPI_XBOX_360_WIRELESS";
 
 <*
  A variable controlling whether the HIDAPI driver for XBox One controllers
@@ -1762,7 +1762,7 @@ const JOYSTICK_HIDAPI_XBOX_360_WIRELESS = "SDL_JOYSTICK_HIDAPI_XBOX_360_WIRELESS
 
  This hint should be set before initializing joysticks and gamepads.
 *>
-const JOYSTICK_HIDAPI_XBOX_ONE = "SDL_JOYSTICK_HIDAPI_XBOX_ONE";
+const HINT_JOYSTICK_HIDAPI_XBOX_ONE = "SDL_JOYSTICK_HIDAPI_XBOX_ONE";
 
 <*
  A variable controlling whether the Home button LED should be turned on when
@@ -1780,7 +1780,7 @@ const JOYSTICK_HIDAPI_XBOX_ONE = "SDL_JOYSTICK_HIDAPI_XBOX_ONE";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_HIDAPI_XBOX_ONE_HOME_LED = "SDL_JOYSTICK_HIDAPI_XBOX_ONE_HOME_LED";
+const HINT_JOYSTICK_HIDAPI_XBOX_ONE_HOME_LED = "SDL_JOYSTICK_HIDAPI_XBOX_ONE_HOME_LED";
 
 <*
  A variable controlling whether IOKit should be used for controller
@@ -1794,7 +1794,7 @@ const JOYSTICK_HIDAPI_XBOX_ONE_HOME_LED = "SDL_JOYSTICK_HIDAPI_XBOX_ONE_HOME_LED
 
  This hint should be set before SDL is initialized.
 *>
-const JOYSTICK_IOKIT = "SDL_JOYSTICK_IOKIT";
+const HINT_JOYSTICK_IOKIT = "SDL_JOYSTICK_IOKIT";
 
 <*
  A variable controlling whether to use the classic /dev/input/js* joystick
@@ -1808,7 +1808,7 @@ const JOYSTICK_IOKIT = "SDL_JOYSTICK_IOKIT";
 
  This hint should be set before SDL is initialized.
 *>
-const JOYSTICK_LINUX_CLASSIC = "SDL_JOYSTICK_LINUX_CLASSIC";
+const HINT_JOYSTICK_LINUX_CLASSIC = "SDL_JOYSTICK_LINUX_CLASSIC";
 
 <*
  A variable controlling whether joysticks on Linux adhere to their
@@ -1822,7 +1822,7 @@ const JOYSTICK_LINUX_CLASSIC = "SDL_JOYSTICK_LINUX_CLASSIC";
 
  This hint should be set before a controller is opened.
 *>
-const JOYSTICK_LINUX_DEADZONES = "SDL_JOYSTICK_LINUX_DEADZONES";
+const HINT_JOYSTICK_LINUX_DEADZONES = "SDL_JOYSTICK_LINUX_DEADZONES";
 
 <*
  A variable controlling whether joysticks on Linux will always treat 'hat'
@@ -1839,7 +1839,7 @@ const JOYSTICK_LINUX_DEADZONES = "SDL_JOYSTICK_LINUX_DEADZONES";
 
  This hint should be set before a controller is opened.
 *>
-const JOYSTICK_LINUX_DIGITAL_HATS = "SDL_JOYSTICK_LINUX_DIGITAL_HATS";
+const HINT_JOYSTICK_LINUX_DIGITAL_HATS = "SDL_JOYSTICK_LINUX_DIGITAL_HATS";
 
 <*
  A variable controlling whether digital hats on Linux will apply deadzones
@@ -1854,7 +1854,7 @@ const JOYSTICK_LINUX_DIGITAL_HATS = "SDL_JOYSTICK_LINUX_DIGITAL_HATS";
 
  This hint should be set before a controller is opened.
 *>
-const JOYSTICK_LINUX_HAT_DEADZONES = "SDL_JOYSTICK_LINUX_HAT_DEADZONES";
+const HINT_JOYSTICK_LINUX_HAT_DEADZONES = "SDL_JOYSTICK_LINUX_HAT_DEADZONES";
 
 <*
  A variable controlling whether GCController should be used for controller
@@ -1868,7 +1868,7 @@ const JOYSTICK_LINUX_HAT_DEADZONES = "SDL_JOYSTICK_LINUX_HAT_DEADZONES";
 
  This hint should be set before SDL is initialized.
 *>
-const JOYSTICK_MFI = "SDL_JOYSTICK_MFI";
+const HINT_JOYSTICK_MFI = "SDL_JOYSTICK_MFI";
 
 <*
  A variable controlling whether the RAWINPUT joystick drivers should be used
@@ -1882,7 +1882,7 @@ const JOYSTICK_MFI = "SDL_JOYSTICK_MFI";
 
  This hint should be set before SDL is initialized.
 *>
-const JOYSTICK_RAWINPUT = "SDL_JOYSTICK_RAWINPUT";
+const HINT_JOYSTICK_RAWINPUT = "SDL_JOYSTICK_RAWINPUT";
 
 <*
  A variable controlling whether the RAWINPUT driver should pull correlated
@@ -1898,7 +1898,7 @@ const JOYSTICK_RAWINPUT = "SDL_JOYSTICK_RAWINPUT";
 
  This hint should be set before a gamepad is opened.
 *>
-const JOYSTICK_RAWINPUT_CORRELATE_XINPUT = "SDL_JOYSTICK_RAWINPUT_CORRELATE_XINPUT";
+const HINT_JOYSTICK_RAWINPUT_CORRELATE_XINPUT = "SDL_JOYSTICK_RAWINPUT_CORRELATE_XINPUT";
 
 <*
  A variable controlling whether the ROG Chakram mice should show up as
@@ -1912,7 +1912,7 @@ const JOYSTICK_RAWINPUT_CORRELATE_XINPUT = "SDL_JOYSTICK_RAWINPUT_CORRELATE_XINP
 
  This hint should be set before SDL is initialized.
 *>
-const JOYSTICK_ROG_CHAKRAM = "SDL_JOYSTICK_ROG_CHAKRAM";
+const HINT_JOYSTICK_ROG_CHAKRAM = "SDL_JOYSTICK_ROG_CHAKRAM";
 
 <*
  A variable controlling whether a separate thread should be used for
@@ -1926,7 +1926,7 @@ const JOYSTICK_ROG_CHAKRAM = "SDL_JOYSTICK_ROG_CHAKRAM";
 
  This hint should be set before SDL is initialized.
 *>
-const JOYSTICK_THREAD = "SDL_JOYSTICK_THREAD";
+const HINT_JOYSTICK_THREAD = "SDL_JOYSTICK_THREAD";
 
 <*
  A variable containing a list of throttle style controllers.
@@ -1942,7 +1942,7 @@ const JOYSTICK_THREAD = "SDL_JOYSTICK_THREAD";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_THROTTLE_DEVICES = "SDL_JOYSTICK_THROTTLE_DEVICES";
+const HINT_JOYSTICK_THROTTLE_DEVICES = "SDL_JOYSTICK_THROTTLE_DEVICES";
 
 <*
  A variable containing a list of devices that are not throttle style
@@ -1962,7 +1962,7 @@ const JOYSTICK_THROTTLE_DEVICES = "SDL_JOYSTICK_THROTTLE_DEVICES";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_THROTTLE_DEVICES_EXCLUDED = "SDL_JOYSTICK_THROTTLE_DEVICES_EXCLUDED";
+const HINT_JOYSTICK_THROTTLE_DEVICES_EXCLUDED = "SDL_JOYSTICK_THROTTLE_DEVICES_EXCLUDED";
 
 <*
  A variable controlling whether Windows.Gaming.Input should be used for
@@ -1976,7 +1976,7 @@ const JOYSTICK_THROTTLE_DEVICES_EXCLUDED = "SDL_JOYSTICK_THROTTLE_DEVICES_EXCLUD
 
  This hint should be set before SDL is initialized.
 *>
-const JOYSTICK_WGI = "SDL_JOYSTICK_WGI";
+const HINT_JOYSTICK_WGI = "SDL_JOYSTICK_WGI";
 
 <*
  A variable containing a list of wheel style controllers.
@@ -1992,7 +1992,7 @@ const JOYSTICK_WGI = "SDL_JOYSTICK_WGI";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_WHEEL_DEVICES = "SDL_JOYSTICK_WHEEL_DEVICES";
+const HINT_JOYSTICK_WHEEL_DEVICES = "SDL_JOYSTICK_WHEEL_DEVICES";
 
 <*
  A variable containing a list of devices that are not wheel style
@@ -2012,7 +2012,7 @@ const JOYSTICK_WHEEL_DEVICES = "SDL_JOYSTICK_WHEEL_DEVICES";
 
  This hint can be set anytime.
 *>
-const JOYSTICK_WHEEL_DEVICES_EXCLUDED = "SDL_JOYSTICK_WHEEL_DEVICES_EXCLUDED";
+const HINT_JOYSTICK_WHEEL_DEVICES_EXCLUDED = "SDL_JOYSTICK_WHEEL_DEVICES_EXCLUDED";
 
 <*
  A variable containing a list of devices known to have all axes centered at
@@ -2029,7 +2029,7 @@ const JOYSTICK_WHEEL_DEVICES_EXCLUDED = "SDL_JOYSTICK_WHEEL_DEVICES_EXCLUDED";
 
  This hint should be set before a controller is opened.
 *>
-const JOYSTICK_ZERO_CENTERED_DEVICES = "SDL_JOYSTICK_ZERO_CENTERED_DEVICES";
+const HINT_JOYSTICK_ZERO_CENTERED_DEVICES = "SDL_JOYSTICK_ZERO_CENTERED_DEVICES";
 
 <*
  A variable containing a list of devices and their desired number of haptic
@@ -2050,7 +2050,7 @@ const JOYSTICK_ZERO_CENTERED_DEVICES = "SDL_JOYSTICK_ZERO_CENTERED_DEVICES";
  This hint should be set before a controller is opened. The number of haptic
  axes won't exceed the number of real axes found on the device.
 *>
-const JOYSTICK_HAPTIC_AXES = "SDL_JOYSTICK_HAPTIC_AXES";
+const HINT_JOYSTICK_HAPTIC_AXES = "SDL_JOYSTICK_HAPTIC_AXES";
 
 <*
  A variable that controls keycode representation in keyboard events.
@@ -2083,7 +2083,7 @@ const JOYSTICK_HAPTIC_AXES = "SDL_JOYSTICK_HAPTIC_AXES";
 
  This hint can be set anytime.
 *>
-const KEYCODE_OPTIONS = "SDL_KEYCODE_OPTIONS";
+const HINT_KEYCODE_OPTIONS = "SDL_KEYCODE_OPTIONS";
 
 <*
  A variable that controls what KMSDRM device to use.
@@ -2096,7 +2096,7 @@ const KEYCODE_OPTIONS = "SDL_KEYCODE_OPTIONS";
 
  This hint should be set before SDL is initialized.
 *>
-const KMSDRM_DEVICE_INDEX = "SDL_KMSDRM_DEVICE_INDEX";
+const HINT_KMSDRM_DEVICE_INDEX = "SDL_KMSDRM_DEVICE_INDEX";
 
 <*
  A variable that controls whether SDL requires DRM master access in order to
@@ -2123,7 +2123,7 @@ const KMSDRM_DEVICE_INDEX = "SDL_KMSDRM_DEVICE_INDEX";
 
  This hint should be set before SDL is initialized.
 *>
-const KMSDRM_REQUIRE_DRM_MASTER = "SDL_KMSDRM_REQUIRE_DRM_MASTER";
+const HINT_KMSDRM_REQUIRE_DRM_MASTER = "SDL_KMSDRM_REQUIRE_DRM_MASTER";
 
 <*
  A variable controlling the default SDL log levels.
@@ -2148,7 +2148,7 @@ const KMSDRM_REQUIRE_DRM_MASTER = "SDL_KMSDRM_REQUIRE_DRM_MASTER";
 
  This hint can be set anytime.
 *>
-const LOGGING = "SDL_LOGGING";
+const HINT_LOGGING = "SDL_LOGGING";
 
 <*
  A variable controlling whether to force the application to become the
@@ -2163,7 +2163,7 @@ const LOGGING = "SDL_LOGGING";
 
  This hint needs to be set before SDL_Init().
 *>
-const MAC_BACKGROUND_APP = "SDL_MAC_BACKGROUND_APP";
+const HINT_MAC_BACKGROUND_APP = "SDL_MAC_BACKGROUND_APP";
 
 <*
  A variable that determines whether Ctrl+Click should generate a right-click
@@ -2178,7 +2178,7 @@ const MAC_BACKGROUND_APP = "SDL_MAC_BACKGROUND_APP";
 
  This hint can be set anytime.
 *>
-const MAC_CTRL_CLICK_EMULATE_RIGHT_CLICK = "SDL_MAC_CTRL_CLICK_EMULATE_RIGHT_CLICK";
+const HINT_MAC_CTRL_CLICK_EMULATE_RIGHT_CLICK = "SDL_MAC_CTRL_CLICK_EMULATE_RIGHT_CLICK";
 
 <*
  A variable controlling whether dispatching OpenGL context updates should
@@ -2200,7 +2200,7 @@ const MAC_CTRL_CLICK_EMULATE_RIGHT_CLICK = "SDL_MAC_CTRL_CLICK_EMULATE_RIGHT_CLI
 
  This hint can be set anytime.
 *>
-const MAC_OPENGL_ASYNC_DISPATCH = "SDL_MAC_OPENGL_ASYNC_DISPATCH";
+const HINT_MAC_OPENGL_ASYNC_DISPATCH = "SDL_MAC_OPENGL_ASYNC_DISPATCH";
 
 <*
  A variable controlling whether the Option key on macOS should be remapped
@@ -2224,7 +2224,7 @@ const MAC_OPENGL_ASYNC_DISPATCH = "SDL_MAC_OPENGL_ASYNC_DISPATCH";
 
  This hint can be set anytime.
 *>
-const MAC_OPTION_AS_ALT = "SDL_MAC_OPTION_AS_ALT";
+const HINT_MAC_OPTION_AS_ALT = "SDL_MAC_OPTION_AS_ALT";
 
 <*
  A variable controlling whether SDL_EVENT_MOUSE_WHEEL event values will have
@@ -2238,7 +2238,7 @@ const MAC_OPTION_AS_ALT = "SDL_MAC_OPTION_AS_ALT";
 
  This hint needs to be set before SDL_Init().
 *>
-const MAC_SCROLL_MOMENTUM = "SDL_MAC_SCROLL_MOMENTUM";
+const HINT_MAC_SCROLL_MOMENTUM = "SDL_MAC_SCROLL_MOMENTUM";
 
 <*
  Request SDL_AppIterate() be called at a specific rate.
@@ -2263,7 +2263,7 @@ const MAC_SCROLL_MOMENTUM = "SDL_MAC_SCROLL_MOMENTUM";
 
  This hint can be set anytime.
 *>
-const MAIN_CALLBACK_RATE = "SDL_MAIN_CALLBACK_RATE";
+const HINT_MAIN_CALLBACK_RATE = "SDL_MAIN_CALLBACK_RATE";
 
 <*
  A variable controlling whether the mouse is captured while mouse buttons
@@ -2281,7 +2281,7 @@ const MAIN_CALLBACK_RATE = "SDL_MAIN_CALLBACK_RATE";
 
  This hint can be set anytime.
 *>
-const MOUSE_AUTO_CAPTURE = "SDL_MOUSE_AUTO_CAPTURE";
+const HINT_MOUSE_AUTO_CAPTURE = "SDL_MOUSE_AUTO_CAPTURE";
 
 <*
  A variable setting the double click radius, in pixels.
@@ -2289,7 +2289,7 @@ const MOUSE_AUTO_CAPTURE = "SDL_MOUSE_AUTO_CAPTURE";
 
  This hint can be set anytime.
 *>
-const MOUSE_DOUBLE_CLICK_RADIUS = "SDL_MOUSE_DOUBLE_CLICK_RADIUS";
+const HINT_MOUSE_DOUBLE_CLICK_RADIUS = "SDL_MOUSE_DOUBLE_CLICK_RADIUS";
 
 <*
  A variable setting the double click time, in milliseconds.
@@ -2297,7 +2297,7 @@ const MOUSE_DOUBLE_CLICK_RADIUS = "SDL_MOUSE_DOUBLE_CLICK_RADIUS";
 
  This hint can be set anytime.
 *>
-const MOUSE_DOUBLE_CLICK_TIME = "SDL_MOUSE_DOUBLE_CLICK_TIME";
+const HINT_MOUSE_DOUBLE_CLICK_TIME = "SDL_MOUSE_DOUBLE_CLICK_TIME";
 
 <*
  A variable setting which system cursor to use as the default cursor.
@@ -2308,7 +2308,7 @@ const MOUSE_DOUBLE_CLICK_TIME = "SDL_MOUSE_DOUBLE_CLICK_TIME";
 
  This hint needs to be set before SDL_Init().
 *>
-const MOUSE_DEFAULT_SYSTEM_CURSOR = "SDL_MOUSE_DEFAULT_SYSTEM_CURSOR";
+const HINT_MOUSE_DEFAULT_SYSTEM_CURSOR = "SDL_MOUSE_DEFAULT_SYSTEM_CURSOR";
 
 <*
  A variable controlling whether warping a hidden mouse cursor will activate
@@ -2339,7 +2339,7 @@ const MOUSE_DEFAULT_SYSTEM_CURSOR = "SDL_MOUSE_DEFAULT_SYSTEM_CURSOR";
 
  This hint can be set anytime.
 *>
-const MOUSE_EMULATE_WARP_WITH_RELATIVE = "SDL_MOUSE_EMULATE_WARP_WITH_RELATIVE";
+const HINT_MOUSE_EMULATE_WARP_WITH_RELATIVE = "SDL_MOUSE_EMULATE_WARP_WITH_RELATIVE";
 
 <*
  Allow mouse click events when clicking to focus an SDL window.
@@ -2352,7 +2352,7 @@ const MOUSE_EMULATE_WARP_WITH_RELATIVE = "SDL_MOUSE_EMULATE_WARP_WITH_RELATIVE";
 
  This hint can be set anytime.
 *>
-const MOUSE_FOCUS_CLICKTHROUGH = "SDL_MOUSE_FOCUS_CLICKTHROUGH";
+const HINT_MOUSE_FOCUS_CLICKTHROUGH = "SDL_MOUSE_FOCUS_CLICKTHROUGH";
 
 <*
  A variable setting the speed scale for mouse motion, in floating point,
@@ -2361,7 +2361,7 @@ const MOUSE_FOCUS_CLICKTHROUGH = "SDL_MOUSE_FOCUS_CLICKTHROUGH";
 
  This hint can be set anytime.
 *>
-const MOUSE_NORMAL_SPEED_SCALE = "SDL_MOUSE_NORMAL_SPEED_SCALE";
+const HINT_MOUSE_NORMAL_SPEED_SCALE = "SDL_MOUSE_NORMAL_SPEED_SCALE";
 
 <*
  A variable controlling whether relative mouse mode constrains the mouse to
@@ -2381,7 +2381,7 @@ const MOUSE_NORMAL_SPEED_SCALE = "SDL_MOUSE_NORMAL_SPEED_SCALE";
 
  This hint can be set anytime.
 *>
-const MOUSE_RELATIVE_MODE_CENTER = "SDL_MOUSE_RELATIVE_MODE_CENTER";
+const HINT_MOUSE_RELATIVE_MODE_CENTER = "SDL_MOUSE_RELATIVE_MODE_CENTER";
 
 <*
  A variable setting the scale for mouse motion, in floating point, when the
@@ -2390,7 +2390,7 @@ const MOUSE_RELATIVE_MODE_CENTER = "SDL_MOUSE_RELATIVE_MODE_CENTER";
 
  This hint can be set anytime.
 *>
-const MOUSE_RELATIVE_SPEED_SCALE = "SDL_MOUSE_RELATIVE_SPEED_SCALE";
+const HINT_MOUSE_RELATIVE_SPEED_SCALE = "SDL_MOUSE_RELATIVE_SPEED_SCALE";
 
 <*
  A variable controlling whether the system mouse acceleration curve is used
@@ -2408,7 +2408,7 @@ const MOUSE_RELATIVE_SPEED_SCALE = "SDL_MOUSE_RELATIVE_SPEED_SCALE";
 
  This hint can be set anytime.
 *>
-const MOUSE_RELATIVE_SYSTEM_SCALE = "SDL_MOUSE_RELATIVE_SYSTEM_SCALE";
+const HINT_MOUSE_RELATIVE_SYSTEM_SCALE = "SDL_MOUSE_RELATIVE_SYSTEM_SCALE";
 
 <*
  A variable controlling whether a motion event should be generated for mouse
@@ -2426,7 +2426,7 @@ const MOUSE_RELATIVE_SYSTEM_SCALE = "SDL_MOUSE_RELATIVE_SYSTEM_SCALE";
 
  This hint can be set anytime.
 *>
-const MOUSE_RELATIVE_WARP_MOTION = "SDL_MOUSE_RELATIVE_WARP_MOTION";
+const HINT_MOUSE_RELATIVE_WARP_MOTION = "SDL_MOUSE_RELATIVE_WARP_MOTION";
 
 <*
  A variable controlling whether the hardware cursor stays visible when
@@ -2444,7 +2444,7 @@ const MOUSE_RELATIVE_WARP_MOTION = "SDL_MOUSE_RELATIVE_WARP_MOTION";
 
  This hint can be set anytime.
 *>
-const MOUSE_RELATIVE_CURSOR_VISIBLE = "SDL_MOUSE_RELATIVE_CURSOR_VISIBLE";
+const HINT_MOUSE_RELATIVE_CURSOR_VISIBLE = "SDL_MOUSE_RELATIVE_CURSOR_VISIBLE";
 
 <*
  A variable controlling whether mouse events should generate synthetic touch
@@ -2460,7 +2460,7 @@ const MOUSE_RELATIVE_CURSOR_VISIBLE = "SDL_MOUSE_RELATIVE_CURSOR_VISIBLE";
 
  This hint can be set anytime.
 *>
-const MOUSE_TOUCH_EVENTS = "SDL_MOUSE_TOUCH_EVENTS";
+const HINT_MOUSE_TOUCH_EVENTS = "SDL_MOUSE_TOUCH_EVENTS";
 
 <*
  A variable controlling whether the keyboard should be muted on the console.
@@ -2477,7 +2477,7 @@ const MOUSE_TOUCH_EVENTS = "SDL_MOUSE_TOUCH_EVENTS";
 
  This hint should be set before SDL is initialized.
 *>
-const MUTE_CONSOLE_KEYBOARD = "SDL_MUTE_CONSOLE_KEYBOARD";
+const HINT_MUTE_CONSOLE_KEYBOARD = "SDL_MUTE_CONSOLE_KEYBOARD";
 
 <*
  Tell SDL not to catch the SIGINT or SIGTERM signals on POSIX platforms.
@@ -2491,7 +2491,7 @@ const MUTE_CONSOLE_KEYBOARD = "SDL_MUTE_CONSOLE_KEYBOARD";
 
  This hint should be set before SDL is initialized.
 *>
-const NO_SIGNAL_HANDLERS = "SDL_NO_SIGNAL_HANDLERS";
+const HINT_NO_SIGNAL_HANDLERS = "SDL_NO_SIGNAL_HANDLERS";
 
 <*
  Specify the OpenGL library to load.
@@ -2501,7 +2501,7 @@ const NO_SIGNAL_HANDLERS = "SDL_NO_SIGNAL_HANDLERS";
  OpenGL context. If this hint isn't set, SDL will choose a reasonable
  default.
 *>
-const OPENGL_LIBRARY = "SDL_OPENGL_LIBRARY";
+const HINT_OPENGL_LIBRARY = "SDL_OPENGL_LIBRARY";
 
 <*
  Specify the EGL library to load.
@@ -2512,7 +2512,7 @@ const OPENGL_LIBRARY = "SDL_OPENGL_LIBRARY";
  OpenGL contexts. If this hint isn't set, SDL will choose a reasonable
  default.
 *>
-const EGL_LIBRARY = "SDL_EGL_LIBRARY";
+const HINT_EGL_LIBRARY = "SDL_EGL_LIBRARY";
 
 <*
  A variable controlling what driver to use for OpenGL ES contexts.
@@ -2545,7 +2545,7 @@ const EGL_LIBRARY = "SDL_EGL_LIBRARY";
 
  This hint should be set before SDL is initialized.
 *>
-const OPENGL_ES_DRIVER = "SDL_OPENGL_ES_DRIVER";
+const HINT_OPENGL_ES_DRIVER = "SDL_OPENGL_ES_DRIVER";
 
 <*
  Mechanism to specify openvr_api library location
@@ -2556,7 +2556,7 @@ const OPENGL_ES_DRIVER = "SDL_OPENGL_ES_DRIVER";
  specify that by using this hint. This should be the full or relative path
  to a .dll on Windows or .so on Linux.
 *>
-const OPENVR_LIBRARY = "SDL_OPENVR_LIBRARY";
+const HINT_OPENVR_LIBRARY = "SDL_OPENVR_LIBRARY";
 
 <*
  A variable controlling which orientations are allowed on iOS/Android.
@@ -2574,7 +2574,7 @@ const OPENVR_LIBRARY = "SDL_OPENVR_LIBRARY";
 
  This hint should be set before SDL is initialized.
 *>
-const ORIENTATIONS = "SDL_ORIENTATIONS";
+const HINT_ORIENTATIONS = "SDL_ORIENTATIONS";
 
 <*
  A variable controlling the use of a sentinel event when polling the event
@@ -2593,7 +2593,7 @@ const ORIENTATIONS = "SDL_ORIENTATIONS";
 
  This hint can be set anytime.
 *>
-const POLL_SENTINEL = "SDL_POLL_SENTINEL";
+const HINT_POLL_SENTINEL = "SDL_POLL_SENTINEL";
 
 <*
  Override for SDL_GetPreferredLocales().
@@ -2610,7 +2610,7 @@ const POLL_SENTINEL = "SDL_POLL_SENTINEL";
 
  This hint can be set anytime.
 *>
-const PREFERRED_LOCALES = "SDL_PREFERRED_LOCALES";
+const HINT_PREFERRED_LOCALES = "SDL_PREFERRED_LOCALES";
 
 <*
  A variable that decides whether to send SDL_EVENT_QUIT when closing the
@@ -2632,7 +2632,7 @@ const PREFERRED_LOCALES = "SDL_PREFERRED_LOCALES";
 
  This hint can be set anytime.
 *>
-const QUIT_ON_LAST_WINDOW_CLOSE = "SDL_QUIT_ON_LAST_WINDOW_CLOSE";
+const HINT_QUIT_ON_LAST_WINDOW_CLOSE = "SDL_QUIT_ON_LAST_WINDOW_CLOSE";
 
 <*
  A variable controlling whether the Direct3D device is initialized for
@@ -2646,7 +2646,7 @@ const QUIT_ON_LAST_WINDOW_CLOSE = "SDL_QUIT_ON_LAST_WINDOW_CLOSE";
 
  This hint should be set before creating a renderer.
 *>
-const RENDER_DIRECT3D_THREADSAFE = "SDL_RENDER_DIRECT3D_THREADSAFE";
+const HINT_RENDER_DIRECT3D_THREADSAFE = "SDL_RENDER_DIRECT3D_THREADSAFE";
 
 <*
  A variable controlling whether to enable Direct3D 11+'s Debug Layer.
@@ -2661,7 +2661,7 @@ const RENDER_DIRECT3D_THREADSAFE = "SDL_RENDER_DIRECT3D_THREADSAFE";
 
  This hint should be set before creating a renderer.
 *>
-const RENDER_DIRECT3D11_DEBUG = "SDL_RENDER_DIRECT3D11_DEBUG";
+const HINT_RENDER_DIRECT3D11_DEBUG = "SDL_RENDER_DIRECT3D11_DEBUG";
 
 <*
  A variable controlling whether to enable Vulkan Validation Layers.
@@ -2674,7 +2674,7 @@ const RENDER_DIRECT3D11_DEBUG = "SDL_RENDER_DIRECT3D11_DEBUG";
 
  By default, SDL does not use Vulkan Validation Layers.
 *>
-const RENDER_VULKAN_DEBUG = "SDL_RENDER_VULKAN_DEBUG";
+const HINT_RENDER_VULKAN_DEBUG = "SDL_RENDER_VULKAN_DEBUG";
 
 <*
  A variable controlling whether to create the GPU device in debug mode.
@@ -2687,7 +2687,7 @@ const RENDER_VULKAN_DEBUG = "SDL_RENDER_VULKAN_DEBUG";
 
  This hint should be set before creating a renderer.
 *>
-const RENDER_GPU_DEBUG = "SDL_RENDER_GPU_DEBUG";
+const HINT_RENDER_GPU_DEBUG = "SDL_RENDER_GPU_DEBUG";
 
 <*
  A variable controlling whether to prefer a low-power GPU on multi-GPU
@@ -2701,7 +2701,7 @@ const RENDER_GPU_DEBUG = "SDL_RENDER_GPU_DEBUG";
 
  This hint should be set before creating a renderer.
 *>
-const RENDER_GPU_LOW_POWER = "SDL_RENDER_GPU_LOW_POWER";
+const HINT_RENDER_GPU_LOW_POWER = "SDL_RENDER_GPU_LOW_POWER";
 
 <*
  A variable specifying which render driver to use.
@@ -2733,7 +2733,7 @@ const RENDER_GPU_LOW_POWER = "SDL_RENDER_GPU_LOW_POWER";
 
  This hint should be set before creating a renderer.
 *>
-const RENDER_DRIVER = "SDL_RENDER_DRIVER";
+const HINT_RENDER_DRIVER = "SDL_RENDER_DRIVER";
 
 <*
  A variable controlling how the 2D render API renders lines.
@@ -2750,7 +2750,7 @@ const RENDER_DRIVER = "SDL_RENDER_DRIVER";
 
  This hint should be set before creating a renderer.
 *>
-const RENDER_LINE_METHOD = "SDL_RENDER_LINE_METHOD";
+const HINT_RENDER_LINE_METHOD = "SDL_RENDER_LINE_METHOD";
 
 <*
  A variable controlling whether the Metal render driver select low power
@@ -2764,7 +2764,7 @@ const RENDER_LINE_METHOD = "SDL_RENDER_LINE_METHOD";
 
  This hint should be set before creating a renderer.
 *>
-const RENDER_METAL_PREFER_LOW_POWER_DEVICE = "SDL_RENDER_METAL_PREFER_LOW_POWER_DEVICE";
+const HINT_RENDER_METAL_PREFER_LOW_POWER_DEVICE = "SDL_RENDER_METAL_PREFER_LOW_POWER_DEVICE";
 
 <*
  A variable controlling whether updates to the SDL screen surface should be
@@ -2780,7 +2780,7 @@ const RENDER_METAL_PREFER_LOW_POWER_DEVICE = "SDL_RENDER_METAL_PREFER_LOW_POWER_
 
  This hint should be set before creating a renderer.
 *>
-const RENDER_VSYNC = "SDL_RENDER_VSYNC";
+const HINT_RENDER_VSYNC = "SDL_RENDER_VSYNC";
 
 <*
  A variable to control whether the return key on the soft keyboard should
@@ -2796,7 +2796,7 @@ const RENDER_VSYNC = "SDL_RENDER_VSYNC";
 
  This hint can be set anytime.
 *>
-const RETURN_KEY_HIDES_IME = "SDL_RETURN_KEY_HIDES_IME";
+const HINT_RETURN_KEY_HIDES_IME = "SDL_RETURN_KEY_HIDES_IME";
 
 <*
  A variable containing a list of ROG gamepad capable mice.
@@ -2812,7 +2812,7 @@ const RETURN_KEY_HIDES_IME = "SDL_RETURN_KEY_HIDES_IME";
 
  This hint should be set before SDL is initialized.
 *>
-const ROG_GAMEPAD_MICE = "SDL_ROG_GAMEPAD_MICE";
+const HINT_ROG_GAMEPAD_MICE = "SDL_ROG_GAMEPAD_MICE";
 
 <*
  A variable containing a list of devices that are not ROG gamepad capable
@@ -2831,7 +2831,7 @@ const ROG_GAMEPAD_MICE = "SDL_ROG_GAMEPAD_MICE";
 
  This hint should be set before SDL is initialized.
 *>
-const ROG_GAMEPAD_MICE_EXCLUDED = "SDL_ROG_GAMEPAD_MICE_EXCLUDED";
+const HINT_ROG_GAMEPAD_MICE_EXCLUDED = "SDL_ROG_GAMEPAD_MICE_EXCLUDED";
 
 <*
  A variable controlling which Dispmanx layer to use on a Raspberry PI.
@@ -2842,7 +2842,7 @@ const ROG_GAMEPAD_MICE_EXCLUDED = "SDL_ROG_GAMEPAD_MICE_EXCLUDED";
 
  This hint should be set before SDL is initialized.
 *>
-const RPI_VIDEO_LAYER = "SDL_RPI_VIDEO_LAYER";
+const HINT_RPI_VIDEO_LAYER = "SDL_RPI_VIDEO_LAYER";
 
 <*
  Specify an "activity name" for screensaver inhibition.
@@ -2863,7 +2863,7 @@ const RPI_VIDEO_LAYER = "SDL_RPI_VIDEO_LAYER";
 
  This hint should be set before calling SDL_DisableScreenSaver()
 *>
-const SCREENSAVER_INHIBIT_ACTIVITY_NAME = "SDL_SCREENSAVER_INHIBIT_ACTIVITY_NAME";
+const HINT_SCREENSAVER_INHIBIT_ACTIVITY_NAME = "SDL_SCREENSAVER_INHIBIT_ACTIVITY_NAME";
 
 <*
  A variable controlling whether SDL calls dbus_shutdown() on quit.
@@ -2881,7 +2881,7 @@ const SCREENSAVER_INHIBIT_ACTIVITY_NAME = "SDL_SCREENSAVER_INHIBIT_ACTIVITY_NAME
 
  This hint can be set anytime.
 *>
-const SHUTDOWN_DBUS_ON_QUIT = "SDL_SHUTDOWN_DBUS_ON_QUIT";
+const HINT_SHUTDOWN_DBUS_ON_QUIT = "SDL_SHUTDOWN_DBUS_ON_QUIT";
 
 <*
  A variable that specifies a backend to use for title storage.
@@ -2894,7 +2894,7 @@ const SHUTDOWN_DBUS_ON_QUIT = "SDL_SHUTDOWN_DBUS_ON_QUIT";
 
  This hint should be set before SDL is initialized.
 *>
-const STORAGE_TITLE_DRIVER = "SDL_STORAGE_TITLE_DRIVER";
+const HINT_STORAGE_TITLE_DRIVER = "SDL_STORAGE_TITLE_DRIVER";
 
 <*
  A variable that specifies a backend to use for user storage.
@@ -2907,7 +2907,7 @@ const STORAGE_TITLE_DRIVER = "SDL_STORAGE_TITLE_DRIVER";
 
  This hint should be set before SDL is initialized.
 *>
-const STORAGE_USER_DRIVER = "SDL_STORAGE_USER_DRIVER";
+const HINT_STORAGE_USER_DRIVER = "SDL_STORAGE_USER_DRIVER";
 
 <*
  Specifies whether SDL_THREAD_PRIORITY_TIME_CRITICAL should be treated as
@@ -2935,7 +2935,7 @@ const STORAGE_USER_DRIVER = "SDL_STORAGE_USER_DRIVER";
 
  This hint should be set before calling SDL_SetCurrentThreadPriority()
 *>
-const THREAD_FORCE_REALTIME_TIME_CRITICAL = "SDL_THREAD_FORCE_REALTIME_TIME_CRITICAL";
+const HINT_THREAD_FORCE_REALTIME_TIME_CRITICAL = "SDL_THREAD_FORCE_REALTIME_TIME_CRITICAL";
 
 <*
  A string specifying additional information to use with
@@ -2957,7 +2957,7 @@ const THREAD_FORCE_REALTIME_TIME_CRITICAL = "SDL_THREAD_FORCE_REALTIME_TIME_CRIT
 
  This hint should be set before calling SDL_SetCurrentThreadPriority()
 *>
-const THREAD_PRIORITY_POLICY = "SDL_THREAD_PRIORITY_POLICY";
+const HINT_THREAD_PRIORITY_POLICY = "SDL_THREAD_PRIORITY_POLICY";
 
 <*
  A variable that controls the timer resolution, in milliseconds.
@@ -2976,7 +2976,7 @@ const THREAD_PRIORITY_POLICY = "SDL_THREAD_PRIORITY_POLICY";
 
  This hint can be set anytime.
 *>
-const TIMER_RESOLUTION = "SDL_TIMER_RESOLUTION";
+const HINT_TIMER_RESOLUTION = "SDL_TIMER_RESOLUTION";
 
 <*
  A variable controlling whether touch events should generate synthetic mouse
@@ -2990,7 +2990,7 @@ const TIMER_RESOLUTION = "SDL_TIMER_RESOLUTION";
 
  This hint can be set anytime.
 *>
-const TOUCH_MOUSE_EVENTS = "SDL_TOUCH_MOUSE_EVENTS";
+const HINT_TOUCH_MOUSE_EVENTS = "SDL_TOUCH_MOUSE_EVENTS";
 
 <*
  A variable controlling whether trackpads should be treated as touch
@@ -3010,7 +3010,7 @@ const TOUCH_MOUSE_EVENTS = "SDL_TOUCH_MOUSE_EVENTS";
 
  This hint should be set before SDL is initialized.
 *>
-const TRACKPAD_IS_TOUCH_ONLY = "SDL_TRACKPAD_IS_TOUCH_ONLY";
+const HINT_TRACKPAD_IS_TOUCH_ONLY = "SDL_TRACKPAD_IS_TOUCH_ONLY";
 
 <*
  A variable controlling whether the Android / tvOS remotes should be listed
@@ -3024,7 +3024,7 @@ const TRACKPAD_IS_TOUCH_ONLY = "SDL_TRACKPAD_IS_TOUCH_ONLY";
 
  This hint should be set before SDL is initialized.
 *>
-const TV_REMOTE_AS_JOYSTICK = "SDL_TV_REMOTE_AS_JOYSTICK";
+const HINT_TV_REMOTE_AS_JOYSTICK = "SDL_TV_REMOTE_AS_JOYSTICK";
 
 <*
  A variable controlling whether the screensaver is enabled.
@@ -3037,7 +3037,7 @@ const TV_REMOTE_AS_JOYSTICK = "SDL_TV_REMOTE_AS_JOYSTICK";
 
  This hint should be set before SDL is initialized.
 *>
-const VIDEO_ALLOW_SCREENSAVER = "SDL_VIDEO_ALLOW_SCREENSAVER";
+const HINT_VIDEO_ALLOW_SCREENSAVER = "SDL_VIDEO_ALLOW_SCREENSAVER";
 
 <*
  A comma separated list containing the names of the displays that SDL should
@@ -3061,7 +3061,7 @@ const VIDEO_ALLOW_SCREENSAVER = "SDL_VIDEO_ALLOW_SCREENSAVER";
 
  This hint should be set before SDL is initialized.
 *>
-const VIDEO_DISPLAY_PRIORITY = "SDL_VIDEO_DISPLAY_PRIORITY";
+const HINT_VIDEO_DISPLAY_PRIORITY = "SDL_VIDEO_DISPLAY_PRIORITY";
 
 <*
  Tell the video driver that we only want a double buffer.
@@ -3083,7 +3083,7 @@ const VIDEO_DISPLAY_PRIORITY = "SDL_VIDEO_DISPLAY_PRIORITY";
 
  This hint should be set before SDL is initialized.
 *>
-const VIDEO_DOUBLE_BUFFER = "SDL_VIDEO_DOUBLE_BUFFER";
+const HINT_VIDEO_DOUBLE_BUFFER = "SDL_VIDEO_DOUBLE_BUFFER";
 
 <*
  A variable that specifies a video backend to use.
@@ -3100,7 +3100,7 @@ const VIDEO_DOUBLE_BUFFER = "SDL_VIDEO_DOUBLE_BUFFER";
 
  This hint should be set before SDL is initialized.
 *>
-const VIDEO_DRIVER = "SDL_VIDEO_DRIVER";
+const HINT_VIDEO_DRIVER = "SDL_VIDEO_DRIVER";
 
 <*
  A variable controlling whether the dummy video driver saves output frames.
@@ -3112,7 +3112,7 @@ const VIDEO_DRIVER = "SDL_VIDEO_DRIVER";
 
  This hint can be set anytime.
 *>
-const VIDEO_DUMMY_SAVE_FRAMES = "SDL_VIDEO_DUMMY_SAVE_FRAMES";
+const HINT_VIDEO_DUMMY_SAVE_FRAMES = "SDL_VIDEO_DUMMY_SAVE_FRAMES";
 
 <*
  If eglGetPlatformDisplay fails, fall back to calling eglGetDisplay.
@@ -3125,7 +3125,7 @@ const VIDEO_DUMMY_SAVE_FRAMES = "SDL_VIDEO_DUMMY_SAVE_FRAMES";
 
  This hint should be set before SDL is initialized.
 *>
-const VIDEO_EGL_ALLOW_GETDISPLAY_FALLBACK = "SDL_VIDEO_EGL_ALLOW_GETDISPLAY_FALLBACK";
+const HINT_VIDEO_EGL_ALLOW_GETDISPLAY_FALLBACK = "SDL_VIDEO_EGL_ALLOW_GETDISPLAY_FALLBACK";
 
 <*
  A variable controlling whether the OpenGL context should be created with
@@ -3140,7 +3140,7 @@ const VIDEO_EGL_ALLOW_GETDISPLAY_FALLBACK = "SDL_VIDEO_EGL_ALLOW_GETDISPLAY_FALL
 
  This hint should be set before SDL is initialized.
 *>
-const VIDEO_FORCE_EGL = "SDL_VIDEO_FORCE_EGL";
+const HINT_VIDEO_FORCE_EGL = "SDL_VIDEO_FORCE_EGL";
 
 <*
  A variable that specifies the policy for fullscreen Spaces on macOS.
@@ -3157,7 +3157,7 @@ const VIDEO_FORCE_EGL = "SDL_VIDEO_FORCE_EGL";
 
  This hint should be set before creating a window.
 *>
-const VIDEO_MAC_FULLSCREEN_SPACES = "SDL_VIDEO_MAC_FULLSCREEN_SPACES";
+const HINT_VIDEO_MAC_FULLSCREEN_SPACES = "SDL_VIDEO_MAC_FULLSCREEN_SPACES";
 
 <*
  A variable that specifies the menu visibility when a window is fullscreen
@@ -3177,7 +3177,7 @@ const VIDEO_MAC_FULLSCREEN_SPACES = "SDL_VIDEO_MAC_FULLSCREEN_SPACES";
 
  This hint can be set anytime.
 *>
-const VIDEO_MAC_FULLSCREEN_MENU_VISIBILITY = "SDL_VIDEO_MAC_FULLSCREEN_MENU_VISIBILITY";
+const HINT_VIDEO_MAC_FULLSCREEN_MENU_VISIBILITY = "SDL_VIDEO_MAC_FULLSCREEN_MENU_VISIBILITY";
 
 <*
  A variable controlling whether fullscreen windows are minimized when they
@@ -3192,7 +3192,7 @@ const VIDEO_MAC_FULLSCREEN_MENU_VISIBILITY = "SDL_VIDEO_MAC_FULLSCREEN_MENU_VISI
 
  This hint can be set anytime.
 *>
-const VIDEO_MINIMIZE_ON_FOCUS_LOSS = "SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS";
+const HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS = "SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS";
 
 <*
  A variable controlling whether the offscreen video driver saves output
@@ -3208,7 +3208,7 @@ const VIDEO_MINIMIZE_ON_FOCUS_LOSS = "SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS";
 
  This hint can be set anytime.
 *>
-const VIDEO_OFFSCREEN_SAVE_FRAMES = "SDL_VIDEO_OFFSCREEN_SAVE_FRAMES";
+const HINT_VIDEO_OFFSCREEN_SAVE_FRAMES = "SDL_VIDEO_OFFSCREEN_SAVE_FRAMES";
 
 <*
  A variable controlling whether all window operations will block until
@@ -3233,7 +3233,7 @@ const VIDEO_OFFSCREEN_SAVE_FRAMES = "SDL_VIDEO_OFFSCREEN_SAVE_FRAMES";
 
  This hint can be set anytime.
 *>
-const VIDEO_SYNC_WINDOW_OPERATIONS = "SDL_VIDEO_SYNC_WINDOW_OPERATIONS";
+const HINT_VIDEO_SYNC_WINDOW_OPERATIONS = "SDL_VIDEO_SYNC_WINDOW_OPERATIONS";
 
 <*
  A variable controlling whether the libdecor Wayland backend is allowed to
@@ -3250,7 +3250,7 @@ const VIDEO_SYNC_WINDOW_OPERATIONS = "SDL_VIDEO_SYNC_WINDOW_OPERATIONS";
 
  This hint should be set before SDL is initialized.
 *>
-const VIDEO_WAYLAND_ALLOW_LIBDECOR = "SDL_VIDEO_WAYLAND_ALLOW_LIBDECOR";
+const HINT_VIDEO_WAYLAND_ALLOW_LIBDECOR = "SDL_VIDEO_WAYLAND_ALLOW_LIBDECOR";
 
 <*
  A variable controlling whether video mode emulation is enabled under
@@ -3269,7 +3269,7 @@ const VIDEO_WAYLAND_ALLOW_LIBDECOR = "SDL_VIDEO_WAYLAND_ALLOW_LIBDECOR";
 
  This hint should be set before SDL is initialized.
 *>
-const VIDEO_WAYLAND_MODE_EMULATION = "SDL_VIDEO_WAYLAND_MODE_EMULATION";
+const HINT_VIDEO_WAYLAND_MODE_EMULATION = "SDL_VIDEO_WAYLAND_MODE_EMULATION";
 
 <*
  A variable controlling how modes with a non-native aspect ratio are
@@ -3290,7 +3290,7 @@ const VIDEO_WAYLAND_MODE_EMULATION = "SDL_VIDEO_WAYLAND_MODE_EMULATION";
 
  This hint should be set before creating a window.
 *>
-const VIDEO_WAYLAND_MODE_SCALING = "SDL_VIDEO_WAYLAND_MODE_SCALING";
+const HINT_VIDEO_WAYLAND_MODE_SCALING = "SDL_VIDEO_WAYLAND_MODE_SCALING";
 
 <*
  A variable controlling whether the libdecor Wayland backend is preferred
@@ -3309,7 +3309,7 @@ const VIDEO_WAYLAND_MODE_SCALING = "SDL_VIDEO_WAYLAND_MODE_SCALING";
 
  This hint should be set before SDL is initialized.
 *>
-const VIDEO_WAYLAND_PREFER_LIBDECOR = "SDL_VIDEO_WAYLAND_PREFER_LIBDECOR";
+const HINT_VIDEO_WAYLAND_PREFER_LIBDECOR = "SDL_VIDEO_WAYLAND_PREFER_LIBDECOR";
 
 <*
  A variable forcing non-DPI-aware Wayland windows to output at 1:1 scaling.
@@ -3347,7 +3347,7 @@ const VIDEO_WAYLAND_PREFER_LIBDECOR = "SDL_VIDEO_WAYLAND_PREFER_LIBDECOR";
 
  This hint should be set before creating a window.
 *>
-const VIDEO_WAYLAND_SCALE_TO_DISPLAY = "SDL_VIDEO_WAYLAND_SCALE_TO_DISPLAY";
+const HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY = "SDL_VIDEO_WAYLAND_SCALE_TO_DISPLAY";
 
 <*
  A variable specifying which shader compiler to preload when using the
@@ -3368,7 +3368,7 @@ const VIDEO_WAYLAND_SCALE_TO_DISPLAY = "SDL_VIDEO_WAYLAND_SCALE_TO_DISPLAY";
 
  This hint should be set before SDL is initialized.
 *>
-const VIDEO_WIN_D3DCOMPILER = "SDL_VIDEO_WIN_D3DCOMPILER";
+const HINT_VIDEO_WIN_D3DCOMPILER = "SDL_VIDEO_WIN_D3DCOMPILER";
 
 <*
  A variable controlling whether SDL should call XSelectInput() to enable
@@ -3383,7 +3383,7 @@ const VIDEO_WIN_D3DCOMPILER = "SDL_VIDEO_WIN_D3DCOMPILER";
 
  This hint should be set before creating a window.
 *>
-const VIDEO_X11_EXTERNAL_WINDOW_INPUT = "SDL_VIDEO_X11_EXTERNAL_WINDOW_INPUT";
+const HINT_VIDEO_X11_EXTERNAL_WINDOW_INPUT = "SDL_VIDEO_X11_EXTERNAL_WINDOW_INPUT";
 
 <*
  A variable controlling whether the X11 _NET_WM_BYPASS_COMPOSITOR hint
@@ -3397,7 +3397,7 @@ const VIDEO_X11_EXTERNAL_WINDOW_INPUT = "SDL_VIDEO_X11_EXTERNAL_WINDOW_INPUT";
 
  This hint should be set before creating a window.
 *>
-const VIDEO_X11_NET_WM_BYPASS_COMPOSITOR = "SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR";
+const HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR = "SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR";
 
 <*
  A variable controlling whether the X11 _NET_WM_PING protocol should be
@@ -3415,7 +3415,7 @@ const VIDEO_X11_NET_WM_BYPASS_COMPOSITOR = "SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSIT
 
  This hint should be set before creating a window.
 *>
-const VIDEO_X11_NET_WM_PING = "SDL_VIDEO_X11_NET_WM_PING";
+const HINT_VIDEO_X11_NET_WM_PING = "SDL_VIDEO_X11_NET_WM_PING";
 
 <*
  A variable controlling whether SDL uses DirectColor visuals.
@@ -3428,7 +3428,7 @@ const VIDEO_X11_NET_WM_PING = "SDL_VIDEO_X11_NET_WM_PING";
 
  This hint should be set before initializing the video subsystem.
 *>
-const VIDEO_X11_NODIRECTCOLOR = "SDL_VIDEO_X11_NODIRECTCOLOR";
+const HINT_VIDEO_X11_NODIRECTCOLOR = "SDL_VIDEO_X11_NODIRECTCOLOR";
 
 <*
  A variable forcing the content scaling factor for X11 displays.
@@ -3438,7 +3438,7 @@ const VIDEO_X11_NODIRECTCOLOR = "SDL_VIDEO_X11_NODIRECTCOLOR";
 
  This hint should be set before SDL is initialized.
 *>
-const VIDEO_X11_SCALING_FACTOR = "SDL_VIDEO_X11_SCALING_FACTOR";
+const HINT_VIDEO_X11_SCALING_FACTOR = "SDL_VIDEO_X11_SCALING_FACTOR";
 
 <*
  A variable forcing the visual ID used for X11 display modes.
@@ -3446,7 +3446,7 @@ const VIDEO_X11_SCALING_FACTOR = "SDL_VIDEO_X11_SCALING_FACTOR";
 
  This hint should be set before initializing the video subsystem.
 *>
-const VIDEO_X11_VISUALID = "SDL_VIDEO_X11_VISUALID";
+const HINT_VIDEO_X11_VISUALID = "SDL_VIDEO_X11_VISUALID";
 
 <*
  A variable forcing the visual ID chosen for new X11 windows.
@@ -3454,7 +3454,7 @@ const VIDEO_X11_VISUALID = "SDL_VIDEO_X11_VISUALID";
 
  This hint should be set before creating a window.
 *>
-const VIDEO_X11_WINDOW_VISUALID = "SDL_VIDEO_X11_WINDOW_VISUALID";
+const HINT_VIDEO_X11_WINDOW_VISUALID = "SDL_VIDEO_X11_WINDOW_VISUALID";
 
 <*
  A variable controlling whether the X11 XRandR extension should be used.
@@ -3467,7 +3467,7 @@ const VIDEO_X11_WINDOW_VISUALID = "SDL_VIDEO_X11_WINDOW_VISUALID";
 
  This hint should be set before SDL is initialized.
 *>
-const VIDEO_X11_XRANDR = "SDL_VIDEO_X11_XRANDR";
+const HINT_VIDEO_X11_XRANDR = "SDL_VIDEO_X11_XRANDR";
 
 <*
  A variable controlling whether touch should be enabled on the back panel of
@@ -3481,7 +3481,7 @@ const VIDEO_X11_XRANDR = "SDL_VIDEO_X11_XRANDR";
 
  This hint should be set before SDL is initialized.
 *>
-const VITA_ENABLE_BACK_TOUCH = "SDL_VITA_ENABLE_BACK_TOUCH";
+const HINT_VITA_ENABLE_BACK_TOUCH = "SDL_VITA_ENABLE_BACK_TOUCH";
 
 <*
  A variable controlling whether touch should be enabled on the front panel
@@ -3495,7 +3495,7 @@ const VITA_ENABLE_BACK_TOUCH = "SDL_VITA_ENABLE_BACK_TOUCH";
 
  This hint should be set before SDL is initialized.
 *>
-const VITA_ENABLE_FRONT_TOUCH = "SDL_VITA_ENABLE_FRONT_TOUCH";
+const HINT_VITA_ENABLE_FRONT_TOUCH = "SDL_VITA_ENABLE_FRONT_TOUCH";
 
 <*
  A variable controlling the module path on the PlayStation Vita.
@@ -3505,7 +3505,7 @@ const VITA_ENABLE_FRONT_TOUCH = "SDL_VITA_ENABLE_FRONT_TOUCH";
 
  This hint should be set before SDL is initialized.
 *>
-const VITA_MODULE_PATH = "SDL_VITA_MODULE_PATH";
+const HINT_VITA_MODULE_PATH = "SDL_VITA_MODULE_PATH";
 
 <*
  A variable controlling whether to perform PVR initialization on the
@@ -3517,7 +3517,7 @@ const VITA_MODULE_PATH = "SDL_VITA_MODULE_PATH";
 
  This hint should be set before SDL is initialized.
 *>
-const VITA_PVR_INIT = "SDL_VITA_PVR_INIT";
+const HINT_VITA_PVR_INIT = "SDL_VITA_PVR_INIT";
 
 <*
  A variable overriding the resolution reported on the PlayStation Vita.
@@ -3531,7 +3531,7 @@ const VITA_PVR_INIT = "SDL_VITA_PVR_INIT";
 
  This hint should be set before SDL is initialized.
 *>
-const VITA_RESOLUTION = "SDL_VITA_RESOLUTION";
+const HINT_VITA_RESOLUTION = "SDL_VITA_RESOLUTION";
 
 <*
  A variable controlling whether OpenGL should be used instead of OpenGL ES
@@ -3545,7 +3545,7 @@ const VITA_RESOLUTION = "SDL_VITA_RESOLUTION";
 
  This hint should be set before SDL is initialized.
 *>
-const VITA_PVR_OPENGL = "SDL_VITA_PVR_OPENGL";
+const HINT_VITA_PVR_OPENGL = "SDL_VITA_PVR_OPENGL";
 
 <*
  A variable controlling which touchpad should generate synthetic mouse
@@ -3560,7 +3560,7 @@ const VITA_PVR_OPENGL = "SDL_VITA_PVR_OPENGL";
 
  This hint can be set anytime.
 *>
-const VITA_TOUCH_MOUSE_DEVICE = "SDL_VITA_TOUCH_MOUSE_DEVICE";
+const HINT_VITA_TOUCH_MOUSE_DEVICE = "SDL_VITA_TOUCH_MOUSE_DEVICE";
 
 <*
  A variable overriding the display index used in SDL_Vulkan_CreateSurface()
@@ -3570,7 +3570,7 @@ const VITA_TOUCH_MOUSE_DEVICE = "SDL_VITA_TOUCH_MOUSE_DEVICE";
 
  This hint should be set before calling SDL_Vulkan_CreateSurface()
 *>
-const VULKAN_DISPLAY = "SDL_VULKAN_DISPLAY";
+const HINT_VULKAN_DISPLAY = "SDL_VULKAN_DISPLAY";
 
 <*
  Specify the Vulkan library to load.
@@ -3579,7 +3579,7 @@ const VULKAN_DISPLAY = "SDL_VULKAN_DISPLAY";
  This hint should be set before creating a Vulkan window or calling
  SDL_Vulkan_LoadLibrary().
 *>
-const VULKAN_LIBRARY = "SDL_VULKAN_LIBRARY";
+const HINT_VULKAN_LIBRARY = "SDL_VULKAN_LIBRARY";
 
 <*
  A variable controlling how the fact chunk affects the loading of a WAVE
@@ -3610,7 +3610,7 @@ const VULKAN_LIBRARY = "SDL_VULKAN_LIBRARY";
 
  This hint should be set before calling SDL_LoadWAV() or SDL_LoadWAV_IO()
 *>
-const WAVE_FACT_CHUNK = "SDL_WAVE_FACT_CHUNK";
+const HINT_WAVE_FACT_CHUNK = "SDL_WAVE_FACT_CHUNK";
 
 <*
  A variable controlling the maximum number of chunks in a WAVE file.
@@ -3621,7 +3621,7 @@ const WAVE_FACT_CHUNK = "SDL_WAVE_FACT_CHUNK";
 
  This hint should be set before calling SDL_LoadWAV() or SDL_LoadWAV_IO()
 *>
-const WAVE_CHUNK_LIMIT = "SDL_WAVE_CHUNK_LIMIT";
+const HINT_WAVE_CHUNK_LIMIT = "SDL_WAVE_CHUNK_LIMIT";
 
 <*
  A variable controlling how the size of the RIFF chunk affects the loading
@@ -3648,7 +3648,7 @@ const WAVE_CHUNK_LIMIT = "SDL_WAVE_CHUNK_LIMIT";
 
  This hint should be set before calling SDL_LoadWAV() or SDL_LoadWAV_IO()
 *>
-const WAVE_RIFF_CHUNK_SIZE = "SDL_WAVE_RIFF_CHUNK_SIZE";
+const HINT_WAVE_RIFF_CHUNK_SIZE = "SDL_WAVE_RIFF_CHUNK_SIZE";
 
 <*
  A variable controlling how a truncated WAVE file is handled.
@@ -3667,7 +3667,7 @@ const WAVE_RIFF_CHUNK_SIZE = "SDL_WAVE_RIFF_CHUNK_SIZE";
 
  This hint should be set before calling SDL_LoadWAV() or SDL_LoadWAV_IO()
 *>
-const WAVE_TRUNCATION = "SDL_WAVE_TRUNCATION";
+const HINT_WAVE_TRUNCATION = "SDL_WAVE_TRUNCATION";
 
 <*
  A variable controlling whether the window is activated when the
@@ -3683,7 +3683,7 @@ const WAVE_TRUNCATION = "SDL_WAVE_TRUNCATION";
 
  This hint can be set anytime.
 *>
-const WINDOW_ACTIVATE_WHEN_RAISED = "SDL_WINDOW_ACTIVATE_WHEN_RAISED";
+const HINT_WINDOW_ACTIVATE_WHEN_RAISED = "SDL_WINDOW_ACTIVATE_WHEN_RAISED";
 
 <*
  A variable controlling whether the window is activated when the
@@ -3699,7 +3699,7 @@ const WINDOW_ACTIVATE_WHEN_RAISED = "SDL_WINDOW_ACTIVATE_WHEN_RAISED";
 
  This hint can be set anytime.
 *>
-const WINDOW_ACTIVATE_WHEN_SHOWN = "SDL_WINDOW_ACTIVATE_WHEN_SHOWN";
+const HINT_WINDOW_ACTIVATE_WHEN_SHOWN = "SDL_WINDOW_ACTIVATE_WHEN_SHOWN";
 
 <*
  If set to "0" then never set the top-most flag on an SDL Window even if the
@@ -3716,7 +3716,7 @@ const WINDOW_ACTIVATE_WHEN_SHOWN = "SDL_WINDOW_ACTIVATE_WHEN_SHOWN";
 
  This hint can be set anytime.
 *>
-const WINDOW_ALLOW_TOPMOST = "SDL_WINDOW_ALLOW_TOPMOST";
+const HINT_WINDOW_ALLOW_TOPMOST = "SDL_WINDOW_ALLOW_TOPMOST";
 
 <*
  A variable controlling whether the window frame and title bar are
@@ -3731,7 +3731,7 @@ const WINDOW_ALLOW_TOPMOST = "SDL_WINDOW_ALLOW_TOPMOST";
 
  This hint can be set anytime.
 *>
-const WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN = "SDL_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN";
+const HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN = "SDL_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN";
 
 <*
  A variable controlling whether SDL generates window-close events for Alt+F4
@@ -3746,7 +3746,7 @@ const WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN = "SDL_WINDOW_FRAME_USABLE_WHILE_C
 
  This hint can be set anytime.
 *>
-const WINDOWS_CLOSE_ON_ALT_F4 = "SDL_WINDOWS_CLOSE_ON_ALT_F4";
+const HINT_WINDOWS_CLOSE_ON_ALT_F4 = "SDL_WINDOWS_CLOSE_ON_ALT_F4";
 
 <*
  A variable controlling whether menus can be opened with their keyboard
@@ -3774,7 +3774,7 @@ const WINDOWS_CLOSE_ON_ALT_F4 = "SDL_WINDOWS_CLOSE_ON_ALT_F4";
 
  This hint can be set anytime.
 *>
-const WINDOWS_ENABLE_MENU_MNEMONICS = "SDL_WINDOWS_ENABLE_MENU_MNEMONICS";
+const HINT_WINDOWS_ENABLE_MENU_MNEMONICS = "SDL_WINDOWS_ENABLE_MENU_MNEMONICS";
 
 <*
  A variable controlling whether the windows message loop is processed by
@@ -3788,7 +3788,7 @@ const WINDOWS_ENABLE_MENU_MNEMONICS = "SDL_WINDOWS_ENABLE_MENU_MNEMONICS";
 
  This hint can be set anytime.
 *>
-const WINDOWS_ENABLE_MESSAGELOOP = "SDL_WINDOWS_ENABLE_MESSAGELOOP";
+const HINT_WINDOWS_ENABLE_MESSAGELOOP = "SDL_WINDOWS_ENABLE_MESSAGELOOP";
 
 <*
  A variable controlling whether GameInput is used for raw keyboard and mouse
@@ -3803,7 +3803,7 @@ const WINDOWS_ENABLE_MESSAGELOOP = "SDL_WINDOWS_ENABLE_MESSAGELOOP";
 
  This hint should be set before SDL is initialized.
 *>
-const WINDOWS_GAMEINPUT = "SDL_WINDOWS_GAMEINPUT";
+const HINT_WINDOWS_GAMEINPUT = "SDL_WINDOWS_GAMEINPUT";
 
 <*
  A variable controlling whether raw keyboard events are used on Windows.
@@ -3816,7 +3816,7 @@ const WINDOWS_GAMEINPUT = "SDL_WINDOWS_GAMEINPUT";
 
  This hint can be set anytime.
 *>
-const WINDOWS_RAW_KEYBOARD = "SDL_WINDOWS_RAW_KEYBOARD";
+const HINT_WINDOWS_RAW_KEYBOARD = "SDL_WINDOWS_RAW_KEYBOARD";
 
 <*
  A variable controlling whether SDL uses Kernel Semaphores on Windows.
@@ -3836,7 +3836,7 @@ const WINDOWS_RAW_KEYBOARD = "SDL_WINDOWS_RAW_KEYBOARD";
 
  This hint should be set before SDL is initialized.
 *>
-const WINDOWS_FORCE_SEMAPHORE_KERNEL = "SDL_WINDOWS_FORCE_SEMAPHORE_KERNEL";
+const HINT_WINDOWS_FORCE_SEMAPHORE_KERNEL = "SDL_WINDOWS_FORCE_SEMAPHORE_KERNEL";
 
 <*
  A variable to specify custom icon resource id from RC file on Windows
@@ -3845,7 +3845,7 @@ const WINDOWS_FORCE_SEMAPHORE_KERNEL = "SDL_WINDOWS_FORCE_SEMAPHORE_KERNEL";
 
  This hint should be set before SDL is initialized.
 *>
-const WINDOWS_INTRESOURCE_ICON = "SDL_WINDOWS_INTRESOURCE_ICON";
+const HINT_WINDOWS_INTRESOURCE_ICON = "SDL_WINDOWS_INTRESOURCE_ICON";
 
 <*
  A variable to specify custom icon resource id from RC file on Windows
@@ -3854,7 +3854,7 @@ const WINDOWS_INTRESOURCE_ICON = "SDL_WINDOWS_INTRESOURCE_ICON";
 
  This hint should be set before SDL is initialized.
 *>
-const WINDOWS_INTRESOURCE_ICON_SMALL = "SDL_WINDOWS_INTRESOURCE_ICON_SMALL";
+const HINT_WINDOWS_INTRESOURCE_ICON_SMALL = "SDL_WINDOWS_INTRESOURCE_ICON_SMALL";
 
 <*
  A variable controlling whether SDL uses the D3D9Ex API introduced in
@@ -3879,7 +3879,7 @@ const WINDOWS_INTRESOURCE_ICON_SMALL = "SDL_WINDOWS_INTRESOURCE_ICON_SMALL";
 
  This hint should be set before SDL is initialized.
 *>
-const WINDOWS_USE_D3D9EX = "SDL_WINDOWS_USE_D3D9EX";
+const HINT_WINDOWS_USE_D3D9EX = "SDL_WINDOWS_USE_D3D9EX";
 
 <*
  A variable controlling whether SDL will clear the window contents when the
@@ -3895,7 +3895,7 @@ const WINDOWS_USE_D3D9EX = "SDL_WINDOWS_USE_D3D9EX";
 
  This hint should be set before creating a window.
 *>
-const WINDOWS_ERASE_BACKGROUND_MODE = "SDL_WINDOWS_ERASE_BACKGROUND_MODE";
+const HINT_WINDOWS_ERASE_BACKGROUND_MODE = "SDL_WINDOWS_ERASE_BACKGROUND_MODE";
 
 <*
  A variable controlling whether X11 windows are marked as override-redirect.
@@ -3915,7 +3915,7 @@ const WINDOWS_ERASE_BACKGROUND_MODE = "SDL_WINDOWS_ERASE_BACKGROUND_MODE";
 
  This hint should be set before creating a window.
 *>
-const X11_FORCE_OVERRIDE_REDIRECT = "SDL_X11_FORCE_OVERRIDE_REDIRECT";
+const HINT_X11_FORCE_OVERRIDE_REDIRECT = "SDL_X11_FORCE_OVERRIDE_REDIRECT";
 
 <*
  A variable specifying the type of an X11 window.
@@ -3931,7 +3931,7 @@ const X11_FORCE_OVERRIDE_REDIRECT = "SDL_X11_FORCE_OVERRIDE_REDIRECT";
 
  This hint should be set before creating a window.
 *>
-const X11_WINDOW_TYPE = "SDL_X11_WINDOW_TYPE";
+const HINT_X11_WINDOW_TYPE = "SDL_X11_WINDOW_TYPE";
 
 <*
  Specify the XCB library to load for the X11 driver.
@@ -3941,7 +3941,7 @@ const X11_WINDOW_TYPE = "SDL_X11_WINDOW_TYPE";
 
  This hint should be set before initializing the video subsystem.
 *>
-const X11_XCB_LIBRARY = "SDL_X11_XCB_LIBRARY";
+const HINT_X11_XCB_LIBRARY = "SDL_X11_XCB_LIBRARY";
 
 <*
  A variable controlling whether XInput should be used for controller
@@ -3955,7 +3955,7 @@ const X11_XCB_LIBRARY = "SDL_X11_XCB_LIBRARY";
 
  This hint should be set before SDL is initialized.
 *>
-const XINPUT_ENABLED = "SDL_XINPUT_ENABLED";
+const HINT_XINPUT_ENABLED = "SDL_XINPUT_ENABLED";
 
 <*
  A variable controlling response to SDL_assert failures.
@@ -3978,7 +3978,7 @@ const XINPUT_ENABLED = "SDL_XINPUT_ENABLED";
  This hint should be set before an assertion failure is triggered and can be
  changed at any time.
 *>
-const ASSERT = "SDL_ASSERT";
+const HINT_ASSERT = "SDL_ASSERT";
 
 <*
  A variable controlling whether pen events should generate synthetic mouse
@@ -3992,7 +3992,7 @@ const ASSERT = "SDL_ASSERT";
 
  This hint can be set anytime.
 *>
-const PEN_MOUSE_EVENTS = "SDL_PEN_MOUSE_EVENTS";
+const HINT_PEN_MOUSE_EVENTS = "SDL_PEN_MOUSE_EVENTS";
 
 <*
  A variable controlling whether pen events should generate synthetic touch
@@ -4006,9 +4006,8 @@ const PEN_MOUSE_EVENTS = "SDL_PEN_MOUSE_EVENTS";
 
  This hint can be set anytime.
 *>
-const PEN_TOUCH_EVENTS = "SDL_PEN_TOUCH_EVENTS";
+const HINT_PEN_TOUCH_EVENTS = "SDL_PEN_TOUCH_EVENTS";
 
-module sdl;
 <*
  An enumeration of hint priorities.
  This enum is available since SDL 3.2.0.
