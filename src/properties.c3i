@@ -36,14 +36,14 @@ typedef SDLPropertiesID = uint;
  SDL property type
  This enum is available since SDL 3.2.0.
 *>
-enum SDLPropertyType : const
+enum SDLPropertyType : const CInt
 {
     INVALID,
     POINTER,
     STRING,
     NUMBER,
     FLOAT,
-    BOOLEAN
+    BOOLEAN,
 }
 
 <*
@@ -105,7 +105,7 @@ extern fn bool SDLPropertiesID.copy_to(src, SDLPropertiesID dst) @extern("SDL_Co
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLPropertiesID.lock(SDLPropertiesID props) @extern("SDL_LockProperties");
+extern fn bool SDLPropertiesID.lock(props) @extern("SDL_LockProperties");
 
 <*
  Unlock a group of properties.
@@ -115,7 +115,7 @@ extern fn bool SDLPropertiesID.lock(SDLPropertiesID props) @extern("SDL_LockProp
 
  @param props : `the properties to unlock.`
 *>
-extern fn bool SDLPropertiesID.unlock(SDLPropertiesID props) @extern("SDL_UnlockProperties");
+extern fn bool SDLPropertiesID.unlock(props) @extern("SDL_UnlockProperties");
 
 <*
  A callback used to free resources when a property is deleted.
@@ -162,7 +162,7 @@ alias SDLCleanupPropertyCallback = fn void(void* userdata, void* value);
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLPropertiesID.set_pointer_with_cleanup(SDLPropertiesID props, ZString name, void* value, SDLCleanupPropertyCallback cleanup, void* userdata) @extern("SDL_SetPointerPropertyWithCleanup");
+extern fn bool SDLPropertiesID.set_pointer_with_cleanup(props, ZString name, void* value, SDLCleanupPropertyCallback cleanup, void* userdata) @extern("SDL_SetPointerPropertyWithCleanup");
 
 <*
  Set a pointer property in a group of properties.
@@ -176,7 +176,7 @@ extern fn bool SDLPropertiesID.set_pointer_with_cleanup(SDLPropertiesID props, Z
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLPropertiesID.set_pointer(SDLPropertiesID props, ZString name, void* value) @extern("SDL_SetPointerProperty");
+extern fn bool SDLPropertiesID.set_pointer(props, ZString name, void* value) @extern("SDL_SetPointerProperty");
 
 <*
  Set a string property in a group of properties.
@@ -193,7 +193,7 @@ extern fn bool SDLPropertiesID.set_pointer(SDLPropertiesID props, ZString name, 
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLPropertiesID.set_string(SDLPropertiesID props, ZString name, ZString value) @extern("SDL_SetStringProperty");
+extern fn bool SDLPropertiesID.set_string(props, ZString name, ZString value) @extern("SDL_SetStringProperty");
 
 <*
  Set an integer property in a group of properties.
@@ -207,7 +207,7 @@ extern fn bool SDLPropertiesID.set_string(SDLPropertiesID props, ZString name, Z
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLPropertiesID.set_number(SDLPropertiesID props, ZString name, long value) @extern("SDL_SetNumberProperty");
+extern fn bool SDLPropertiesID.set_number(props, ZString name, long value) @extern("SDL_SetNumberProperty");
 
 <*
  Set a floating point property in a group of properties.
@@ -221,7 +221,7 @@ extern fn bool SDLPropertiesID.set_number(SDLPropertiesID props, ZString name, l
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLPropertiesID.set_float(SDLPropertiesID props, ZString name, float value) @extern("SDL_SetFloatProperty");
+extern fn bool SDLPropertiesID.set_float(props, ZString name, float value) @extern("SDL_SetFloatProperty");
 
 <*
  Set a boolean property in a group of properties.
@@ -235,7 +235,7 @@ extern fn bool SDLPropertiesID.set_float(SDLPropertiesID props, ZString name, fl
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLPropertiesID.set_boolean(SDLPropertiesID props, ZString name, bool value) @extern("SDL_SetBooleanProperty");
+extern fn bool SDLPropertiesID.set_boolean(props, ZString name, bool value) @extern("SDL_SetBooleanProperty");
 
 <*
  Return whether a property exists in a group of properties.
@@ -248,7 +248,7 @@ extern fn bool SDLPropertiesID.set_boolean(SDLPropertiesID props, ZString name, 
  @return `true if the property exists, or false if it doesn't.`
 
 *>
-extern fn bool SDLPropertiesID.has_property(SDLPropertiesID props, ZString name) @extern("SDL_HasProperty");
+extern fn bool SDLPropertiesID.has_property(props, ZString name) @extern("SDL_HasProperty");
 
 <*
  Get the type of a property in a group of properties.
@@ -261,7 +261,7 @@ extern fn bool SDLPropertiesID.has_property(SDLPropertiesID props, ZString name)
  @return `the type of the property, or SDL_PROPERTY_TYPE_INVALID if it is
           not set.`
 *>
-extern fn SDLPropertyType SDLPropertiesID.get_type(SDLPropertiesID props, ZString name) @extern("SDL_GetPropertyType");
+extern fn SDLPropertyType SDLPropertiesID.get_type(props, ZString name) @extern("SDL_GetPropertyType");
 
 <*
  Get a pointer property from a group of properties.
@@ -285,7 +285,7 @@ extern fn SDLPropertyType SDLPropertiesID.get_type(SDLPropertiesID props, ZStrin
  @return `the value of the property, or 'default_value' if it is not set or
           not a pointer property.`
 *>
-extern fn void* SDLPropertiesID.get_pointer(SDLPropertiesID props, ZString name, void* default_value) @extern("SDL_GetPointerProperty");
+extern fn void* SDLPropertiesID.get_pointer(props, ZString name, void* default_value) @extern("SDL_GetPointerProperty");
 
 <*
  Get a string property from a group of properties.
@@ -304,7 +304,7 @@ extern fn void* SDLPropertiesID.get_pointer(SDLPropertiesID props, ZString name,
  @return `the value of the property, or 'default_value' if it is not set or
           not a string property.`
 *>
-extern fn ZString SDLPropertiesID.get_string(SDLPropertiesID props, ZString name, ZString default_value) @extern("SDL_GetStringProperty");
+extern fn ZString SDLPropertiesID.get_string(props, ZString name, ZString default_value) @extern("SDL_GetStringProperty");
 
 <*
  Get a number property from a group of properties.
@@ -321,7 +321,7 @@ extern fn ZString SDLPropertiesID.get_string(SDLPropertiesID props, ZString name
  @return `the value of the property, or 'default_value' if it is not set or
           not a number property.`
 *>
-extern fn long SDLPropertiesID.get_number(SDLPropertiesID props, ZString name, long default_value) @extern("SDL_GetNumberProperty");
+extern fn long SDLPropertiesID.get_number(props, ZString name, long default_value) @extern("SDL_GetNumberProperty");
 
 <*
  Get a floating point property from a group of properties.
@@ -338,7 +338,7 @@ extern fn long SDLPropertiesID.get_number(SDLPropertiesID props, ZString name, l
  @return `the value of the property, or 'default_value' if it is not set or
           not a float property.`
 *>
-extern fn float SDLPropertiesID.get_float(SDLPropertiesID props, ZString name, float default_value) @extern("SDL_GetFloatProperty");
+extern fn float SDLPropertiesID.get_float(props, ZString name, float default_value) @extern("SDL_GetFloatProperty");
 
 <*
  Get a boolean property from a group of properties.
@@ -355,7 +355,7 @@ extern fn float SDLPropertiesID.get_float(SDLPropertiesID props, ZString name, f
  @return `the value of the property, or 'default_value' if it is not set or
           not a boolean property.`
 *>
-extern fn bool SDLPropertiesID.get_boolean(SDLPropertiesID props, ZString name, bool default_value) @extern("SDL_GetBooleanProperty");
+extern fn bool SDLPropertiesID.get_boolean(props, ZString name, bool default_value) @extern("SDL_GetBooleanProperty");
 
 <*
  Clear a property from a group of properties.
@@ -368,7 +368,7 @@ extern fn bool SDLPropertiesID.get_boolean(SDLPropertiesID props, ZString name, 
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLPropertiesID.clean_property(SDLPropertiesID props, ZString name) @extern("SDL_ClearProperty");
+extern fn bool SDLPropertiesID.clean_property(props, ZString name) @extern("SDL_ClearProperty");
 
 <*
  A callback used to enumerate all the properties in a group of properties.
@@ -401,7 +401,7 @@ alias SDLEnumeratePropertiesCallback = fn void(void* userdata, SDLPropertiesID p
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLPropertiesID.enumerate(SDLPropertiesID props, SDLEnumeratePropertiesCallback callback, void* userdata) @extern("SDL_EnumerateProperties");
+extern fn bool SDLPropertiesID.enumerate(props, SDLEnumeratePropertiesCallback callback, void* userdata) @extern("SDL_EnumerateProperties");
 
 <*
  Destroy a group of properties.
@@ -416,4 +416,4 @@ extern fn bool SDLPropertiesID.enumerate(SDLPropertiesID props, SDLEnumerateProp
 
  @param props : `the properties to destroy.`
 *>
-extern fn void SDLPropertiesID.destroy(SDLPropertiesID props) @extern("SDL_DestroyProperties");
+extern fn void SDLPropertiesID.destroy(props) @extern("SDL_DestroyProperties");
