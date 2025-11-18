@@ -91,21 +91,21 @@ alias SDLDialogFileCallback = fn void(void* userdata, ZString* filelist, int fil
                different one, depending on the OS's constraints.
 
  @param callback : `a function pointer to be invoked when the user selects a
-                 file and accepts, or cancels the dialog, or an error
-                 occurs.`
+                    file and accepts, or cancels the dialog, or an error
+                    occurs.`
  @param userdata : `an optional pointer to pass extra data to the callback when
-                 it will be invoked.`
+                    it will be invoked.`
  @param window : `the window that the dialog should be modal for, may be NULL.
-               Not all platforms support this option.`
+                  Not all platforms support this option.`
  @param filters : `a list of filters, may be NULL. Not all platforms support
-                this option, and platforms that do support it may allow the
-                user to ignore the filters. If non-NULL, it must remain
-                valid at least until the callback is invoked.`
+                   this option, and platforms that do support it may allow the
+                   user to ignore the filters. If non-NULL, it must remain
+                   valid at least until the callback is invoked.`
  @param nfilters : `the number of filters. Ignored if filters is NULL.`
  @param default_location : `the default folder or file to start the dialog at,
-                         may be NULL. Not all platforms support this option.`
+                            may be NULL. Not all platforms support this option.`
  @param allow_many : `if non-zero, the user will be allowed to select multiple
-                   entries. Not all platforms support this option.`
+                      entries. Not all platforms support this option.`
 *>
 extern fn void show_open_file_dialog(SDLDialogFileCallback callback, void* userdata, SDLWindow* window, SDLDialogFileFilter* filters, int nfilters, ZString default_location, bool allow_many) @extern("SDL_ShowOpenFileDialog");
 
@@ -135,19 +135,19 @@ extern fn void show_open_file_dialog(SDLDialogFileCallback callback, void* userd
                different one, depending on the OS's constraints.
 
  @param callback : `a function pointer to be invoked when the user selects a
-                 file and accepts, or cancels the dialog, or an error
-                 occurs.`
+                    file and accepts, or cancels the dialog, or an error
+                    occurs.`
  @param userdata : `an optional pointer to pass extra data to the callback when
-                 it will be invoked.`
+                    it will be invoked.`
  @param window : `the window that the dialog should be modal for, may be NULL.
-               Not all platforms support this option.`
+                  Not all platforms support this option.`
  @param filters : `a list of filters, may be NULL. Not all platforms support
-                this option, and platforms that do support it may allow the
-                user to ignore the filters. If non-NULL, it must remain
-                valid at least until the callback is invoked.`
+                   this option, and platforms that do support it may allow the
+                   user to ignore the filters. If non-NULL, it must remain
+                   valid at least until the callback is invoked.`
  @param nfilters : `the number of filters. Ignored if filters is NULL.`
  @param default_location : `the default folder or file to start the dialog at,
-                         may be NULL. Not all platforms support this option.`
+                            may be NULL. Not all platforms support this option.`
 *>
 extern fn void show_save_file_dialog(SDLDialogFileCallback callback, void* userdata, SDLWindow* window, SDLDialogFileFilter* filters, int nfilters, ZString default_location) @extern("SDL_ShowSaveFileDialog");
 
@@ -197,11 +197,11 @@ extern fn void show_open_folder_dialog(SDLDialogFileCallback callback, void* use
  This is used by SDL_ShowFileDialogWithProperties() to decide what kind of
  dialog to present to the user.
 *>
-enum SDLFileDialogType
+enum SDLFileDialogType : const CInt
 {
-	SDL_FILEDIALOG_OPENFILE,
-	SDL_FILEDIALOG_SAVEFILE,
-	SDL_FILEDIALOG_OPENFOLDER
+	OPENFILE,
+	SAVEFILE,
+	OPENFOLDER,
 }
 
 <*
@@ -243,7 +243,7 @@ enum SDLFileDialogType
                  it will be invoked.`
  @param props : `the properties to use.`
 *>
-extern fn void show_file_dialog_with_properties(SDLFileDialogType type, SDLDialogFileCallback callback, void* userdata, SDLPropFileDialog props) @extern("SDL_ShowFileDialogWithProperties");
+extern fn void show_file_dialog_with_properties(SDLFileDialogType type, SDLDialogFileCallback callback, void* userdata, SDLPropertiesID props) @extern("SDL_ShowFileDialogWithProperties");
 
 enum SDLPropFileDialog : const ZString
 {
