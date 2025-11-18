@@ -51,13 +51,10 @@ macro SDLThread* create_thread_with_properties(SDLPropThreadCreate props)
 	$endif
 }
 
-enum SDLPropThreadCreate : const ZString
-{
-	ENTRY_FUNCTION_POINTER  = "SDL.thread.create.entry_function",
-	NAME_STRING             = "SDL.thread.create.name",
-	USERDATA_POINTER        = "SDL.thread.create.userdata",
-	STACKSIZE_NUMBER        = "SDL.thread.create.stacksize",
-}
+const PROP_THREAD_CREATE_ENTRY_FUNCTION_POINTER  = "SDL.thread.create.entry_function";
+const PROP_THREAD_CREATE_NAME_STRING             = "SDL.thread.create.name";
+const PROP_THREAD_CREATE_USERDATA_POINTER        = "SDL.thread.create.userdata";
+const PROP_THREAD_CREATE_STACKSIZE_NUMBER        = "SDL.thread.create.stacksize";
 
 extern fn ZString SDLThread.get_name(&thread) @extern("SDL_GetThreadName");
 extern fn SDLThreadID get_current_thread_id() @extern("SDL_GetCurrentThreadID");

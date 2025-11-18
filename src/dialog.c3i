@@ -245,16 +245,11 @@ enum SDLFileDialogType : const CInt
 *>
 extern fn void show_file_dialog_with_properties(SDLFileDialogType type, SDLDialogFileCallback callback, void* userdata, SDLPropertiesID props) @extern("SDL_ShowFileDialogWithProperties");
 
-enum SDLPropFileDialog : const ZString
-{
-	FILTERS_POINTER    = "SDL.filedialog.filters",
-	NFILTERS_NUMBER    = "SDL.filedialog.nfilters",
-	WINDOW_POINTER     = "SDL.filedialog.window",
-	LOCATION_STRING    = "SDL.filedialog.location",
-	MANY_BOOLEAN       = "SDL.filedialog.many",
-	TITLE_STRING       = "SDL.filedialog.title",
-	ACCEPT_STRING      = "SDL.filedialog.accept",
-	CANCEL_STRING      = "SDL.filedialog.cancel",
-}
-
-
+const PROP_FILE_DIALOG_FILTERS_POINTER    = "SDL.filedialog.filters";
+const PROP_FILE_DIALOG_NFILTERS_NUMBER    = "SDL.filedialog.nfilters";
+const PROP_FILE_DIALOG_WINDOW_POINTER     = "SDL.filedialog.window";
+const PROP_FILE_DIALOG_LOCATION_STRING    = "SDL.filedialog.location";
+const PROP_FILE_DIALOG_MANY_BOOLEAN       = "SDL.filedialog.many";
+const PROP_FILE_DIALOG_TITLE_STRING       = "SDL.filedialog.title";
+const PROP_FILE_DIALOG_ACCEPT_STRING      = "SDL.filedialog.accept";
+const PROP_FILE_DIALOG_CANCEL_STRING      = "SDL.filedialog.cancel";

@@ -525,14 +525,11 @@ extern fn bool send_joystick_virtual_sensor_data(SDLJoystick* joystick, SDLSenso
 *>
 extern fn bool get_joystick_properties(SDLJoystick* joystick) @extern("SDL_GetJoystickProperties");
 
-enum SDLPropJoystickCap : const ZString
-{
-	MONO_LED_BOOLEAN       = "SDL.joystick.cap.mono_led",
-	RGB_LED_BOOLEAN        = "SDL.joystick.cap.rgb_led",
-	PLAYER_LED_BOOLEAN     = "SDL.joystick.cap.player_led",
-	RUMBLE_BOOLEAN         = "SDL.joystick.cap.rumble",
-	TRIGGER_RUMBLE_BOOLEAN = "SDL.joystick.cap.trigger_rumble",
-}
+const PROP_JOYSTICK_CAP_MONO_LED_BOOLEAN       = "SDL.joystick.cap.mono_led";
+const PROP_JOYSTICK_CAP_RGB_LED_BOOLEAN        = "SDL.joystick.cap.rgb_led";
+const PROP_JOYSTICK_CAP_PLAYER_LED_BOOLEAN     = "SDL.joystick.cap.player_led";
+const PROP_JOYSTICK_CAP_RUMBLE_BOOLEAN         = "SDL.joystick.cap.rumble";
+const PROP_JOYSTICK_CAP_TRIGGER_RUMBLE_BOOLEAN = "SDL.joystick.cap.trigger_rumble";
 
 <*
  Get the implementation dependent name of a joystick.
