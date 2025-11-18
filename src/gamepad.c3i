@@ -52,12 +52,11 @@
 *>
 module sdl;
 
-// TODO: I think this should be void and not void* need's tested.
 <*
  The structure used to identify an SDL gamepad
  This struct is available since SDL 3.2.0.
 *>
-typedef SDLGamepad = void*;
+typedef SDLGamepad = void;
 
 <*
  Standard gamepad types.
@@ -68,21 +67,21 @@ typedef SDLGamepad = void*;
  simply most closely match that console's controllers (does it have A/B/X/Y
  buttons or X/O/Square/Triangle? Does it have a touchpad? etc).
 *>
-enum SDLGamepadType : const
+enum SDLGamepadType : const CInt
 {
-	GAMEPAD_TYPE_UNKNOWN = 0,
-	GAMEPAD_TYPE_STANDARD,
-	GAMEPAD_TYPE_XBOX360,
-	GAMEPAD_TYPE_XBOXONE,
-	GAMEPAD_TYPE_PS3,
-	GAMEPAD_TYPE_PS4,
-	GAMEPAD_TYPE_PS5,
-	GAMEPAD_TYPE_NINTENDO_SWITCH_PRO,
-	GAMEPAD_TYPE_NINTENDO_SWITCH_JOYCON_LEFT,
-	GAMEPAD_TYPE_NINTENDO_SWITCH_JOYCON_RIGHT,
-	GAMEPAD_TYPE_NINTENDO_SWITCH_JOYCON_PAIR,
-	GAMEPAD_TYPE_GAMECUBE,
-	GAMEPAD_TYPE_COUNT
+    UNKNOWN = 0,
+    STANDARD,
+    XBOX360,
+    XBOXONE,
+    PS3,
+    PS4,
+    PS5,
+    NINTENDO_SWITCH_PRO,
+    NINTENDO_SWITCH_JOYCON_LEFT,
+    NINTENDO_SWITCH_JOYCON_RIGHT,
+    NINTENDO_SWITCH_JOYCON_PAIR,
+    GAMECUBE,
+    COUNT,
 }
 
 <*
@@ -107,36 +106,36 @@ enum SDLGamepadType : const
  You can query the labels for the face buttons using
  SDL_GetGamepadButtonLabel()
 *>
-enum SDLGamepadButton : const
+enum SDLGamepadButton : const CInt
 {
-    GAMEPAD_BUTTON_INVALID = -1,
-    GAMEPAD_BUTTON_SOUTH,           //Bottom face button (e.g. Xbox A button)
-    GAMEPAD_BUTTON_EAST,            //Right face button (e.g. Xbox B button)
-    GAMEPAD_BUTTON_WEST,            //Left face button (e.g. Xbox X button)
-    GAMEPAD_BUTTON_NORTH,           //Top face button (e.g. Xbox Y button)
-    GAMEPAD_BUTTON_BACK,
-    GAMEPAD_BUTTON_GUIDE,
-    GAMEPAD_BUTTON_START,
-    GAMEPAD_BUTTON_LEFT_STICK,
-    GAMEPAD_BUTTON_RIGHT_STICK,
-    GAMEPAD_BUTTON_LEFT_SHOULDER,
-    GAMEPAD_BUTTON_RIGHT_SHOULDER,
-    GAMEPAD_BUTTON_DPAD_UP,
-    GAMEPAD_BUTTON_DPAD_DOWN,
-    GAMEPAD_BUTTON_DPAD_LEFT,
-    GAMEPAD_BUTTON_DPAD_RIGHT,
-    GAMEPAD_BUTTON_MISC1,           // Additional button (e.g. Xbox Series X share button, PS5 microphone button, Nintendo Switch Pro capture button, Amazon Luna microphone button, Google Stadia capture button)
-    GAMEPAD_BUTTON_RIGHT_PADDLE1,   // Upper or primary paddle, under your right hand (e.g. Xbox Elite paddle P1, DualSense Edge RB button, Right Joy-Con SR button)
-    GAMEPAD_BUTTON_LEFT_PADDLE1,    // Upper or primary paddle, under your left hand (e.g. Xbox Elite paddle P3, DualSense Edge LB button, Left Joy-Con SL button)
-    GAMEPAD_BUTTON_RIGHT_PADDLE2,   // Lower or secondary paddle, under your right hand (e.g. Xbox Elite paddle P2, DualSense Edge right Fn button, Right Joy-Con SL button)
-    GAMEPAD_BUTTON_LEFT_PADDLE2,    // Lower or secondary paddle, under your left hand (e.g. Xbox Elite paddle P4, DualSense Edge left Fn button, Left Joy-Con SR button)
-    GAMEPAD_BUTTON_TOUCHPAD,        // PS4/PS5 touchpad button
-    GAMEPAD_BUTTON_MISC2,           // Additional button
-    GAMEPAD_BUTTON_MISC3,           // Additional button (e.g. Nintendo GameCube left trigger click)
-    GAMEPAD_BUTTON_MISC4,           // Additional button (e.g. Nintendo GameCube right trigger click)
-    GAMEPAD_BUTTON_MISC5,           // Additional button
-    GAMEPAD_BUTTON_MISC6,           // Additional button
-    GAMEPAD_BUTTON_COUNT
+    INVALID = -1,
+    SOUTH,           //Bottom face button (e.g. Xbox A button)
+    EAST,            //Right face button (e.g. Xbox B button)
+    WEST,            //Left face button (e.g. Xbox X button)
+    NORTH,           //Top face button (e.g. Xbox Y button)
+    BACK,
+    GUIDE,
+    START,
+    LEFT_STICK,
+    RIGHT_STICK,
+    LEFT_SHOULDER,
+    RIGHT_SHOULDER,
+    DPAD_UP,
+    DPAD_DOWN,
+    DPAD_LEFT,
+    DPAD_RIGHT,
+    MISC1,           // Additional button (e.g. Xbox Series X share button, PS5 microphone button, Nintendo Switch Pro capture button, Amazon Luna microphone button, Google Stadia capture button)
+    RIGHT_PADDLE1,   // Upper or primary paddle, under your right hand (e.g. Xbox Elite paddle P1, DualSense Edge RB button, Right Joy-Con SR button)
+    LEFT_PADDLE1,    // Upper or primary paddle, under your left hand (e.g. Xbox Elite paddle P3, DualSense Edge LB button, Left Joy-Con SL button)
+    RIGHT_PADDLE2,   // Lower or secondary paddle, under your right hand (e.g. Xbox Elite paddle P2, DualSense Edge right Fn button, Right Joy-Con SL button)
+    LEFT_PADDLE2,    // Lower or secondary paddle, under your left hand (e.g. Xbox Elite paddle P4, DualSense Edge left Fn button, Left Joy-Con SR button)
+    TOUCHPAD,        // PS4/PS5 touchpad button
+    MISC2,           // Additional button
+    MISC3,           // Additional button (e.g. Nintendo GameCube left trigger click)
+    MISC4,           // Additional button (e.g. Nintendo GameCube right trigger click)
+    MISC5,           // Additional button
+    MISC6,           // Additional button
+    COUNT,
 }
 
 <*
@@ -149,17 +148,17 @@ enum SDLGamepadButton : const
  For a complete set, you should look at the button and gamepad type and have
  a set of symbols that work well with your art style.
 *>
-enum SDLGamepadButtonLabel
+enum SDLGamepadButtonLabel : const CInt
 {
-    GAMEPAD_BUTTON_LABEL_UNKNOWN,
-    GAMEPAD_BUTTON_LABEL_A,
-    GAMEPAD_BUTTON_LABEL_B,
-    GAMEPAD_BUTTON_LABEL_X,
-    GAMEPAD_BUTTON_LABEL_Y,
-    GAMEPAD_BUTTON_LABEL_CROSS,
-    GAMEPAD_BUTTON_LABEL_CIRCLE,
-    GAMEPAD_BUTTON_LABEL_SQUARE,
-    GAMEPAD_BUTTON_LABEL_TRIANGLE
+    UNKNOWN,
+    A,
+    B,
+    X,
+    Y,
+    CROSS,
+    CIRCLE,
+    SQUARE,
+    TRIANGLE,
 }
 
 <*
@@ -175,16 +174,16 @@ enum SDLGamepadButtonLabel
  pressed) when reported by SDL_GetGamepadAxis(). Note that this is not the
  same range that will be reported by the lower-level SDL_GetJoystickAxis().
 *>
-enum SDLGamepadAxis : const
+enum SDLGamepadAxis : const CInt
 {
-    GAMEPAD_AXIS_INVALID = -1,
-    GAMEPAD_AXIS_LEFTX,
-    GAMEPAD_AXIS_LEFTY,
-    GAMEPAD_AXIS_RIGHTX,
-    GAMEPAD_AXIS_RIGHTY,
-    GAMEPAD_AXIS_LEFT_TRIGGER,
-    GAMEPAD_AXIS_RIGHT_TRIGGER,
-    GAMEPAD_AXIS_COUNT
+    INVALID = -1,
+    LEFTX,
+    LEFTY,
+    RIGHTX,
+    RIGHTY,
+    LEFT_TRIGGER,
+    RIGHT_TRIGGER,
+    COUNT,
 }
 
 <*
@@ -196,12 +195,12 @@ enum SDLGamepadAxis : const
  gamepad. This enum is used as part of SDL_GamepadBinding to specify those
  mappings.
 *>
-enum SDLGamepadBindingType : const
+enum SDLGamepadBindingType : const CInt
 {
     GAMEPAD_BINDTYPE_NONE = 0,
     GAMEPAD_BINDTYPE_BUTTON,
     GAMEPAD_BINDTYPE_AXIS,
-    GAMEPAD_BINDTYPE_HAT
+    GAMEPAD_BINDTYPE_HAT,
 }
 
 <*
@@ -286,7 +285,6 @@ struct SDLGamepadBinding
           -1 on failure; call SDL_GetError() for more information.`
 *>
 extern fn CInt add_gamepad_mapping(ZString mapping) @extern("SDL_AddGamepadMapping");
-
 
 <*
  Load a set of gamepad mappings from an SDL_IOStream.
@@ -390,7 +388,7 @@ extern fn ZString get_gamepad_mapping_for_guid(SDLGuid guid) @extern("SDL_GetGam
           available; call SDL_GetError() for more information. This should
           be freed with SDL_free() when it is no longer needed.`
 *>
-extern fn ZString SDLGamepad.get_gamepad_mapping(&gamepad) @extern("SDL_GetGamepadMapping");
+extern fn ZString SDLGamepad.get_mapping(&gamepad) @extern("SDL_GetGamepadMapping");
 
 <*
  Set the current mapping of a joystick or gamepad.
@@ -610,7 +608,7 @@ extern fn SDLGamepad* get_gamepad_from_player_index(int player_index) @extern("S
  @return `a valid property ID on success or 0 on failure; call
           SDL_GetError() for more information.`
 *>
-extern fn SDLPropertiesID SDLGamepad.get_gamepad_properties(&gamepad) @extern("SDL_GetGamepadProperties");
+extern fn SDLPropertiesID SDLGamepad.get_properties(&gamepad) @extern("SDL_GetGamepadProperties");
 
 //TODO: check if this is correct
 enum SDLPropGamepadCap : const ZString
@@ -631,7 +629,7 @@ enum SDLPropGamepadCap : const ZString
  @return `the instance ID of the specified gamepad on success or 0 on
           failure; call SDL_GetError() for more information.`
 *>
-extern fn SDLJoystickID SDLGamepad.get_gamepad_id(&gamepad) @extern("SDL_GetGamepadID");
+extern fn SDLJoystickID SDLGamepad.get_id(&gamepad) @extern("SDL_GetGamepadID");
 
 <*
  Get the implementation-dependent name for an opened gamepad.
@@ -642,7 +640,7 @@ extern fn SDLJoystickID SDLGamepad.get_gamepad_id(&gamepad) @extern("SDL_GetGame
  @return `the implementation dependent name for the gamepad, or NULL if
           there is no name or the identifier passed is invalid.`
 *>
-extern fn ZString SDLGamepad.get_gamepad_name(&gamepad) @extern("SDL_GetGamepadName");
+extern fn ZString SDLGamepad.get_name(&gamepad) @extern("SDL_GetGamepadName");
 
 <*
  Get the implementation-dependent path for an opened gamepad.
@@ -653,7 +651,7 @@ extern fn ZString SDLGamepad.get_gamepad_name(&gamepad) @extern("SDL_GetGamepadN
  @return `the implementation dependent path for the gamepad, or NULL if
           there is no path or the identifier passed is invalid.`
 *>
-extern fn ZString SDLGamepad.get_gamepad_path(&gamepad) @extern("SDL_GetGamepadPath");
+extern fn ZString SDLGamepad.get_path(&gamepad) @extern("SDL_GetGamepadPath");
 
 <*
  Get the type of an opened gamepad.
@@ -663,7 +661,7 @@ extern fn ZString SDLGamepad.get_gamepad_path(&gamepad) @extern("SDL_GetGamepadP
  @return `the gamepad type, or SDL_GAMEPAD_TYPE_UNKNOWN if it's not
           available.`
 *>
-extern fn SDLGamepadType SDLGamepad.get_gamepad_type(&gamepad) @extern("SDL_GetGamepadType");
+extern fn SDLGamepadType SDLGamepad.get_type(&gamepad) @extern("SDL_GetGamepadType");
 
 <*
  Get the type of an opened gamepad, ignoring any mapping override.
@@ -673,7 +671,7 @@ extern fn SDLGamepadType SDLGamepad.get_gamepad_type(&gamepad) @extern("SDL_GetG
  @return `the gamepad type, or SDL_GAMEPAD_TYPE_UNKNOWN if it's not
           available.`
 *>
-extern fn SDLGamepadType SDLGamepad.get_real_gamepad_path(&gamepad) @extern("SDL_GetRealGamepadType");
+extern fn SDLGamepadType SDLGamepad.get_real_path(&gamepad) @extern("SDL_GetRealGamepadType");
 
 <*
  Get the player index of an opened gamepad.
@@ -684,7 +682,7 @@ extern fn SDLGamepadType SDLGamepad.get_real_gamepad_path(&gamepad) @extern("SDL
  @param gamepad : `the gamepad object to query.`
  @return `the player index for gamepad, or -1 if it's not available.`
 *>
-extern fn CInt SDLGamepad.get_gamepad_player_index(&gamepad) @extern("SDL_GetGamepadPlayerIndex");
+extern fn CInt SDLGamepad.get_player_index(&gamepad) @extern("SDL_GetGamepadPlayerIndex");
 
 <*
  Set the player index of an opened gamepad.
@@ -696,7 +694,7 @@ extern fn CInt SDLGamepad.get_gamepad_player_index(&gamepad) @extern("SDL_GetGam
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLGamepad.set_gamepad_player_index(&gamepad, CInt player_index) @extern("SDL_SetGamepadPlayerIndex");
+extern fn bool SDLGamepad.set_player_index(&gamepad, CInt player_index) @extern("SDL_SetGamepadPlayerIndex");
 
 <*
  Get the USB vendor ID of an opened gamepad, if available.
@@ -707,7 +705,7 @@ extern fn bool SDLGamepad.set_gamepad_player_index(&gamepad, CInt player_index) 
  @param gamepad : `the gamepad object to query.`
  @return `the USB vendor ID, or zero if unavailable.`
 *>
-extern fn ushort SDLGamepad.get_gamepad_vendor(&gamepad) @extern("SDL_GetGamepadVendor");
+extern fn ushort SDLGamepad.get_vendor(&gamepad) @extern("SDL_GetGamepadVendor");
 
 <*
  Get the USB product ID of an opened gamepad, if available.
@@ -718,7 +716,7 @@ extern fn ushort SDLGamepad.get_gamepad_vendor(&gamepad) @extern("SDL_GetGamepad
  @param gamepad : `the gamepad object to query.`
  @return `the USB product ID, or zero if unavailable.`
 *>
-extern fn ushort SDLGamepad.get_gamepad_product(&gamepad) @extern("SDL_GetGamepadProduct");
+extern fn ushort SDLGamepad.get_product(&gamepad) @extern("SDL_GetGamepadProduct");
 
 <*
  Get the product version of an opened gamepad, if available.
@@ -729,7 +727,7 @@ extern fn ushort SDLGamepad.get_gamepad_product(&gamepad) @extern("SDL_GetGamepa
  @param gamepad : `the gamepad object to query.`
  @return `the USB product version, or zero if unavailable.`
 *>
-extern fn ushort SDLGamepad.get_gamepad_product_version(&gamepad) @extern("SDL_GetGamepadProductVersion");
+extern fn ushort SDLGamepad.get_product_version(&gamepad) @extern("SDL_GetGamepadProductVersion");
 
 <*
  Get the firmware version of an opened gamepad, if available.
@@ -740,7 +738,7 @@ extern fn ushort SDLGamepad.get_gamepad_product_version(&gamepad) @extern("SDL_G
  @param gamepad : `the gamepad object to query.`
  @return `the gamepad firmware version, or zero if unavailable.`
 *>
-extern fn ushort SDLGamepad.get_gamepad_firmware_version(&gamepad) @extern("SDL_GetGamepadFirmwareVersion");
+extern fn ushort SDLGamepad.get_firmware_version(&gamepad) @extern("SDL_GetGamepadFirmwareVersion");
 
 <*
  Get the serial number of an opened gamepad, if available.
@@ -751,7 +749,7 @@ extern fn ushort SDLGamepad.get_gamepad_firmware_version(&gamepad) @extern("SDL_
  @param gamepad : `the gamepad object to query.`
  @return `the serial number, or NULL if unavailable.`
 *>
-extern fn ZString SDLGamepad.get_gamepad_serial(&gamepad) @extern("SDL_GetGamepadSerial");
+extern fn ZString SDLGamepad.get_serial(&gamepad) @extern("SDL_GetGamepadSerial");
 
 <*
  Get the Steam Input handle of an opened gamepad, if available.
@@ -763,7 +761,7 @@ extern fn ZString SDLGamepad.get_gamepad_serial(&gamepad) @extern("SDL_GetGamepa
  @param gamepad : `the gamepad object to query.`
  @return `the gamepad handle, or 0 if unavailable.`
 *>
-extern fn ulong SDLGamepad.get_gamepad_steam_handle(&gamepad) @extern("SDL_GetGamepadSteamHandle");
+extern fn ulong SDLGamepad.get_steam_handle(&gamepad) @extern("SDL_GetGamepadSteamHandle");
 
 <*
  Get the connection state of a gamepad.
@@ -774,7 +772,7 @@ extern fn ulong SDLGamepad.get_gamepad_steam_handle(&gamepad) @extern("SDL_GetGa
           'SDL_JOYSTICK_CONNECTION_INVALID' on failure; call SDL_GetError()
           for more information.`
 *>
-extern fn SDLJoystickConnectionState SDLGamepad.get_gamepad_connection_state(&gamepad) @extern("SDL_GetGamepadConnectionState");
+extern fn SDLJoystickConnectionState SDLGamepad.get_connection_state(&gamepad) @extern("SDL_GetGamepadConnectionState");
 
 <*
  Get the battery state of a gamepad.
@@ -793,7 +791,7 @@ extern fn SDLJoystickConnectionState SDLGamepad.get_gamepad_connection_state(&ga
                 battery.`
  @return `the current battery state.`
 *>
-extern fn SDLPowerState SDLGamepad.get_gamepad_power_info(&gamepad, CInt* percent) @extern("SDL_GetGamepadPowerInfo");
+extern fn SDLPowerState SDLGamepad.get_power_info(&gamepad, CInt* percent) @extern("SDL_GetGamepadPowerInfo");
 
 <*
  Check if a gamepad has been opened and is currently connected.
@@ -804,7 +802,7 @@ extern fn SDLPowerState SDLGamepad.get_gamepad_power_info(&gamepad, CInt* percen
  @return `true if the gamepad has been opened and is currently connected, or
           false if not.`
 *>
-extern fn bool SDLGamepad.gamepad_connected(&gamepad) @extern("SDL_GamepadConnected");
+extern fn bool SDLGamepad.connected(&gamepad) @extern("SDL_GamepadConnected");
 
 <*
  Get the underlying joystick from a gamepad.
@@ -823,7 +821,7 @@ extern fn bool SDLGamepad.gamepad_connected(&gamepad) @extern("SDL_GamepadConnec
  @return `an SDL_Joystick object, or NULL on failure; call SDL_GetError()
           for more information.`
 *>
-extern fn SDLJoystick* SDLGamepad.get_gamepad_joystick(&gamepad) @extern("SDL_GetGamepadJoystick");
+extern fn SDLJoystick* SDLGamepad.get_joystick(&gamepad) @extern("SDL_GetGamepadJoystick");
 
 <*
  Set the state of gamepad event processing.
@@ -858,7 +856,7 @@ extern fn bool gamepad_events_enabled() @extern("SDL_GamepadEventsEnabled");
           single allocation that should be freed with SDL_free() when it is
           no longer needed.`
 *>
-extern fn SDLGamepadBinding** SDLGamepad.get_gamepad_bindings(&gamepad, CInt* count) @extern("SDL_GetGamepadBindings");
+extern fn SDLGamepadBinding** SDLGamepad.get_bindings(&gamepad, CInt* count) @extern("SDL_GetGamepadBindings");
 
 <*
  Manually pump gamepad updates if not using the loop.
@@ -937,7 +935,7 @@ extern fn ZString get_gamepad_string_from_axis(SDLGamepadAxis axis) @extern("SDL
  @param axis : `an axis enum value (an SDL_GamepadAxis value).`
  @return `true if the gamepad has this axis, false otherwise.`
 *>
-extern fn bool SDLGamepad.gamepad_has_axis(&gamepad, SDLGamepadAxis axis) @extern("SDL_GamepadHasAxis");
+extern fn bool SDLGamepad.has_axis(&gamepad, SDLGamepadAxis axis) @extern("SDL_GamepadHasAxis");
 
 <*
  Get the current state of an axis control on a gamepad.
@@ -957,7 +955,7 @@ extern fn bool SDLGamepad.gamepad_has_axis(&gamepad, SDLGamepadAxis axis) @exter
  @return `axis state (including 0) on success or 0 (also) on failure; call
           SDL_GetError() for more information.`
 *>
-extern fn short SDLGamepad.get_gamepad_axis(&gamepad, SDLGamepadAxis axis) @extern("SDL_GetGamepadAxis");
+extern fn short SDLGamepad.get_axis(&gamepad, SDLGamepadAxis axis) @extern("SDL_GetGamepadAxis");
 
 <*
  Convert a string into an SDL_GamepadButton enum.
@@ -996,7 +994,7 @@ extern fn ZString get_gamepad_string_for_button(SDLGamepadButton button) @extern
  @param button : `a button enum value (an SDL_GamepadButton value).`
  @return `true if the gamepad has this button, false otherwise.`
 *>
-extern fn bool SDLGamepad.gamepad_has_button(&gamepad, SDLGamepadButton button) @extern("SDL_GamepadHasButton");
+extern fn bool SDLGamepad.has_button(&gamepad, SDLGamepadButton button) @extern("SDL_GamepadHasButton");
 
 <*
  Get the current state of a button on a gamepad.
@@ -1006,7 +1004,7 @@ extern fn bool SDLGamepad.gamepad_has_button(&gamepad, SDLGamepadButton button) 
  @param button : `a button index (one of the SDL_GamepadButton values).`
  @return `true if the button is pressed, false otherwise.`
 *>
-extern fn bool SDLGamepad.get_gamepad_button(&gamepad, SDLGamepadButton button) @extern("SDL_GetGamepadButton");
+extern fn bool SDLGamepad.get_button(&gamepad, SDLGamepadButton button) @extern("SDL_GetGamepadButton");
 
 <*
  Get the label of a button on a gamepad.
@@ -1026,7 +1024,7 @@ extern fn SDLGamepadButtonLabel get_gamepad_button_label_for_type(SDLGamepadType
  @param button : `a button index (one of the SDL_GamepadButton values).`
  @return `the SDL_GamepadButtonLabel enum corresponding to the button label.`
 *>
-extern fn SDLGamepadButtonLabel SDLGamepad.get_gamepad_button_label(&gamepad, SDLGamepadButton button) @extern("SDL_GetGamepadButtonLabel");
+extern fn SDLGamepadButtonLabel SDLGamepad.get_button_label(&gamepad, SDLGamepadButton button) @extern("SDL_GetGamepadButtonLabel");
 
 <*
  Get the number of touchpads on a gamepad.
@@ -1035,7 +1033,7 @@ extern fn SDLGamepadButtonLabel SDLGamepad.get_gamepad_button_label(&gamepad, SD
  @param gamepad : `a gamepad.`
  @return `number of touchpads.`
 *>
-extern fn CInt SDLGamepad.get_num_gamepad_touchpads(&gamepad) @extern("SDL_GetNumGamepadTouchpads");
+extern fn CInt SDLGamepad.get_num_touchpads(&gamepad) @extern("SDL_GetNumGamepadTouchpads");
 
 <*
  Get the number of supported simultaneous fingers on a touchpad on a game
@@ -1046,7 +1044,7 @@ extern fn CInt SDLGamepad.get_num_gamepad_touchpads(&gamepad) @extern("SDL_GetNu
  @param touchpad : `a touchpad.`
  @return `number of supported simultaneous fingers.`
 *>
-extern fn CInt SDLGamepad.get_num_gamepad_touchpads_fingers(&gamepad, CInt touchpad) @extern("SDL_GetNumGamepadTouchpadFingers");
+extern fn CInt SDLGamepad.get_num_touchpad_fingers(&gamepad, CInt touchpad) @extern("SDL_GetNumGamepadTouchpadFingers");
 
 <*
  Get the current state of a finger on a touchpad on a gamepad.
@@ -1065,7 +1063,7 @@ extern fn CInt SDLGamepad.get_num_gamepad_touchpads_fingers(&gamepad, CInt touch
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLGamepad.get_gamepad_touchpad_finger(&gamepad, CInt touchpad, CInt finger, bool* down, float* x, float* y, float* pressure) @extern("SDL_GetGamepadTouchpadFinger");
+extern fn bool SDLGamepad.get_touchpad_finger(&gamepad, CInt touchpad, CInt finger, bool* down, float* x, float* y, float* pressure) @extern("SDL_GetGamepadTouchpadFinger");
 
 <*
  Return whether a gamepad has a particular sensor.
@@ -1075,7 +1073,7 @@ extern fn bool SDLGamepad.get_gamepad_touchpad_finger(&gamepad, CInt touchpad, C
  @param type : `the type of sensor to query.`
  @return `true if the sensor exists, false otherwise.`
 *>
-extern fn bool SDLGamepad.gamepad_has_sensor(&gamepad, SDLSensorType type) @extern("SDL_GamepadHasSensor");
+extern fn bool SDLGamepad.has_sensor(&gamepad, SDLSensorType type) @extern("SDL_GamepadHasSensor");
 
 <*
  Set whether data reporting for a gamepad sensor is enabled.
@@ -1087,7 +1085,7 @@ extern fn bool SDLGamepad.gamepad_has_sensor(&gamepad, SDLSensorType type) @exte
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLGamepad.set_gamepad_sensor_enabled(&gamepad, SDLSensorType type, bool enabled) @extern("SDL_SetGamepadSensorEnabled");
+extern fn bool SDLGamepad.set_sensor_enabled(&gamepad, SDLSensorType type, bool enabled) @extern("SDL_SetGamepadSensorEnabled");
 
 <*
  Query whether sensor data reporting is enabled for a gamepad.
@@ -1097,7 +1095,7 @@ extern fn bool SDLGamepad.set_gamepad_sensor_enabled(&gamepad, SDLSensorType typ
  @param type : `the type of sensor to query.`
  @return `true if the sensor is enabled, false otherwise.`
 *>
-extern fn bool SDLGamepad.gamepad_sensor_enabled(&gamepad, SDLSensorType type) @extern("SDL_GamepadSensorEnabled");
+extern fn bool SDLGamepad.sensor_enabled(&gamepad, SDLSensorType type) @extern("SDL_GamepadSensorEnabled");
 
 <*
  Get the data rate (number of events per second) of a gamepad sensor.
@@ -1107,7 +1105,7 @@ extern fn bool SDLGamepad.gamepad_sensor_enabled(&gamepad, SDLSensorType type) @
  @param type : `the type of sensor to query.`
  @return `the data rate, or 0.0f if the data rate is not available.`
 *>
-extern fn float SDLGamepad.get_gamepad_sensor_data_rate(&gamepad, SDLSensorType type) @extern("SDL_GetGamepadSensorDataRate");
+extern fn float SDLGamepad.get_sensor_data_rate(&gamepad, SDLSensorType type) @extern("SDL_GetGamepadSensorDataRate");
 
 <*
  Get the current state of a gamepad sensor.
@@ -1123,7 +1121,7 @@ extern fn float SDLGamepad.get_gamepad_sensor_data_rate(&gamepad, SDLSensorType 
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLGamepad.get_gamepad_sensor_data(&gamepad, SDLSensorType type, float* data, CInt num_values) @extern("SDL_GetGamepadSensorData");
+extern fn bool SDLGamepad.get_sensor_data(&gamepad, SDLSensorType type, float* data, CInt num_values) @extern("SDL_GetGamepadSensorData");
 
 <*
  Start a rumble effect on a gamepad.
@@ -1144,7 +1142,7 @@ extern fn bool SDLGamepad.get_gamepad_sensor_data(&gamepad, SDLSensorType type, 
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLGamepad.rumble_gamepad(&gamepad, ushort low_frequency_rumble, ushort high_frequency_rumble, uint duration_ms) @extern("SDL_RumbleGamepad");
+extern fn bool SDLGamepad.rumble(&gamepad, ushort low_frequency_rumble, ushort high_frequency_rumble, uint duration_ms) @extern("SDL_RumbleGamepad");
 
 <*
  Start a rumble effect in the gamepad's triggers.
@@ -1169,7 +1167,7 @@ extern fn bool SDLGamepad.rumble_gamepad(&gamepad, ushort low_frequency_rumble, 
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLGamepad.rumble_gamepad_triggers(&gamepad, ushort left_rumble, ushort right_rumble, uint duration_ms) @extern("SDL_RumbleGamepadTriggers");
+extern fn bool SDLGamepad.rumble_triggers(&gamepad, ushort left_rumble, ushort right_rumble, uint duration_ms) @extern("SDL_RumbleGamepadTriggers");
 
 <*
  Update a gamepad's LED color.
@@ -1188,7 +1186,7 @@ extern fn bool SDLGamepad.rumble_gamepad_triggers(&gamepad, ushort left_rumble, 
  @eeturn `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLGamepad.set_gamepad_led(&gamepad, char red, char green, char blue) @extern("SDL_SetGamepadLED");
+extern fn bool SDLGamepad.set_led(&gamepad, char red, char green, char blue) @extern("SDL_SetGamepadLED");
 
 <*
  Send a gamepad specific effect packet.
@@ -1200,7 +1198,7 @@ extern fn bool SDLGamepad.set_gamepad_led(&gamepad, char red, char green, char b
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLGamepad.set_gamepad_effect(&gamepad, void* data, CInt size) @extern("SDL_SendGamepadEffect");
+extern fn bool SDLGamepad.set_effect(&gamepad, void* data, CInt size) @extern("SDL_SendGamepadEffect");
 
 <*
  Close a gamepad previously opened with SDL_OpenGamepad().
@@ -1208,7 +1206,7 @@ extern fn bool SDLGamepad.set_gamepad_effect(&gamepad, void* data, CInt size) @e
  @param gamepad : `a gamepad identifier previously returned by
                    SDL_OpenGamepad().`
 *>
-extern fn void SDLGamepad.close_gamepad(&gamepad) @extern("SDL_CloseGamepad");
+extern fn void SDLGamepad.close(&gamepad) @extern("SDL_CloseGamepad");
 
 <*
  Return the sfSymbolsName for a given button on a gamepad on Apple
@@ -1219,7 +1217,7 @@ extern fn void SDLGamepad.close_gamepad(&gamepad) @extern("SDL_CloseGamepad");
  @param button : `a button on the gamepad.`
  @return `the sfSymbolsName or NULL if the name can't be found.`
 *>
-extern fn ZString SDLGamepad.get_gamepad_apple_sf_symbols_name_for_button(&gamepad, SDLGamepadButton button) @extern("SDL_GetGamepadAppleSFSymbolsNameForButton");
+extern fn ZString SDLGamepad.get_apple_sf_symbols_name_for_button(&gamepad, SDLGamepadButton button) @extern("SDL_GetGamepadAppleSFSymbolsNameForButton");
 
 <*
  Return the sfSymbolsName for a given axis on a gamepad on Apple platforms.
@@ -1229,4 +1227,4 @@ extern fn ZString SDLGamepad.get_gamepad_apple_sf_symbols_name_for_button(&gamep
  @param axis : `an axis on the gamepad.`
  @return `the sfSymbolsName or NULL if the name can't be found.`
 *>
-extern fn ZString SDLGamepad.get_gamepad_apple_sf_symbols_name_for_axis(&gamepad, SDLGamepadAxis axis) @extern("SDL_GetGamepadAppleSFSymbolsNameForAxis");
+extern fn ZString SDLGamepad.get_apple_sf_symbols_name_for_axis(&gamepad, SDLGamepadAxis axis) @extern("SDL_GetGamepadAppleSFSymbolsNameForAxis");
