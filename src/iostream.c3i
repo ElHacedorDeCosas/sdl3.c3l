@@ -17,12 +17,12 @@ module sdl;
 *>
 enum SDLIOStatus : const CInt
 {
-    READY,     /**< Everything is ready (no errors and not EOF). */
-    ERROR,     /**< Read or write I/O error */
-    EOF,       /**< End of file */
-    NOT_READY, /**< Non blocking I/O, not ready */
-    READONLY,  /**< Tried to write a read-only buffer */
-    WRITEONLY  /**< Tried to read a write-only buffer */
+	READY,     /**< Everything is ready (no errors and not EOF). */
+	ERROR,     /**< Read or write I/O error */
+	EOF,       /**< End of file */
+	NOT_READY, /**< Non blocking I/O, not ready */
+	READONLY,  /**< Tried to write a read-only buffer */
+	WRITEONLY  /**< Tried to read a write-only buffer */
 }
 
 <*
@@ -34,9 +34,9 @@ enum SDLIOStatus : const CInt
 *>
 enum SDLIOWhence : const CInt
 {
-    SET,  /**< Seek from the beginning of data */
-    CUR,  /**< Seek relative to current read point */
-    END   /**< Seek relative to the end of data */
+	SET,  /**< Seek from the beginning of data */
+	CUR,  /**< Seek relative to current read point */
+	END,  /**< Seek relative to the end of data */
 }
 
 alias Size_fnp = fn long(void* userdata);
@@ -58,77 +58,77 @@ alias Close_fnp = fn bool(void* userdata);
 *>
 struct SDLIOStreamInterface
 {
-    /* The version of this interface */
-    uint version;
+	/* The version of this interface */
+	uint version;
 
-    /**
-     *  Return the number of bytes in this SDL_IOStream
-     *
-     *  \return the total size of the data stream, or -1 on error.
-     */
-    Size_fnp size;
-    // Sint64 (SDLCALL *size)(void *userdata);
+	/**
+	*  Return the number of bytes in this SDL_IOStream
+	*
+	*  \return the total size of the data stream, or -1 on error.
+	*/
+	Size_fnp size;
+	// Sint64 (SDLCALL *size)(void *userdata);
 
-    /**
-     *  Seek to `offset` relative to `whence`, one of stdio's whence values:
-     *  SDL_IO_SEEK_SET, SDL_IO_SEEK_CUR, SDL_IO_SEEK_END
-     *
-     *  @return `the final offset in the data stream, or -1 on error.`
-     */
-    Seek_fnp seek;
-    // Sint64 (SDLCALL *seek)(void *userdata, Sint64 offset, SDL_IOWhence whence);
+	/**
+	*  Seek to `offset` relative to `whence`, one of stdio's whence values:
+	*  SDL_IO_SEEK_SET, SDL_IO_SEEK_CUR, SDL_IO_SEEK_END
+	*
+	*  @return `the final offset in the data stream, or -1 on error.`
+	*/
+	Seek_fnp seek;
+	// Sint64 (SDLCALL *seek)(void *userdata, Sint64 offset, SDL_IOWhence whence);
 
-    /**
-     *  Read up to `size` bytes from the data stream to the area pointed
-     *  at by `ptr`.
-     *
-     *  On an incomplete read, you should set `*status` to a value from the
-     *  SDL_IOStatus enum. You do not have to explicitly set this on
-     *  a complete, successful read.
-     *
-     *  @retur `the number of bytes read`
-     */
-    ReedWrite_fnp read;
-    // size_t (SDLCALL *read)(void *userdata, void *ptr, size_t size, SDL_IOStatus *status);
+	/**
+	 *  Read up to `size` bytes from the data stream to the area pointed
+	 *  at by `ptr`.
+	 *
+	 *  On an incomplete read, you should set `*status` to a value from the
+	 *  SDL_IOStatus enum. You do not have to explicitly set this on
+	 *  a complete, successful read.
+	 *
+	 *  @retur `the number of bytes read`
+	 */
+	ReedWrite_fnp read;
+	// size_t (SDLCALL *read)(void *userdata, void *ptr, size_t size, SDL_IOStatus *status);
 
-    /**
-     *  Write exactly `size` bytes from the area pointed at by `ptr`
-     *  to data stream.
-     *
-     *  On an incomplete write, you should set `*status` to a value from the
-     *  SDL_IOStatus enum. You do not have to explicitly set this on
-     *  a complete, successful write.
-     *
-     *  @return `the number of bytes written`
-     */
-    ReedWrite_fnp write;
-    // size_t (SDLCALL *write)(void *userdata, const void *ptr, size_t size, SDL_IOStatus *status);
+	/**
+	 *  Write exactly `size` bytes from the area pointed at by `ptr`
+	 *  to data stream.
+	 *
+	 *  On an incomplete write, you should set `*status` to a value from the
+	 *  SDL_IOStatus enum. You do not have to explicitly set this on
+	 *  a complete, successful write.
+	 *
+	 *  @return `the number of bytes written`
+	 */
+	ReedWrite_fnp write;
+	// size_t (SDLCALL *write)(void *userdata, const void *ptr, size_t size, SDL_IOStatus *status);
 
-    /**
-     *  If the stream is buffering, make sure the data is written out.
-     *
-     *  On failure, you should set `*status` to a value from the
-     *  SDL_IOStatus enum. You do not have to explicitly set this on
-     *  a successful flush.
-     *
-     *  @return `true if successful or false on write error when flushing data.`
-     */
-    Flush_fnp flush;
-    // bool (SDLCALL *flush)(void *userdata, SDL_IOStatus *status);
+	/**
+	 *  If the stream is buffering, make sure the data is written out.
+	 *
+	 *  On failure, you should set `*status` to a value from the
+	 *  SDL_IOStatus enum. You do not have to explicitly set this on
+	 *  a successful flush.
+	 *
+	 *  @return `true if successful or false on write error when flushing data.`
+	 */
+	Flush_fnp flush;
+	// bool (SDLCALL *flush)(void *userdata, SDL_IOStatus *status);
 
-    /**
-     *  Close and free any allocated resources.
-     *
-     *  This does not guarantee file writes will sync to physical media; they
-     *  can be in the system's file cache, waiting to go to disk.
-     *
-     *  The SDL_IOStream is still destroyed even if this fails, so clean up anything
-     *  even if flushing buffers, etc, returns an error.
-     *
-     *  \return true if successful or false on write error when flushing data.
-     */
-    Close_fnp close;
-    // bool (SDLCALL *close)(void *userdata);
+	/**
+	 *  Close and free any allocated resources.
+	 *
+	 *  This does not guarantee file writes will sync to physical media; they
+	 *  can be in the system's file cache, waiting to go to disk.
+	 *
+	 *  The SDL_IOStream is still destroyed even if this fails, so clean up anything
+	 *  even if flushing buffers, etc, returns an error.
+	 *
+	 *  \return true if successful or false on write error when flushing data.
+	 */
+	Close_fnp close;
+	// bool (SDLCALL *close)(void *userdata);
 }
 
 /* Check the size of SDL_IOStreamInterface
@@ -138,8 +138,8 @@ struct SDLIOStreamInterface
  * the code using this interface should be updated to handle the old version.
  */
 $assert(
-    ((void*).sizeof == 4 && SDLIOStreamInterface.sizeof == 28) ||
-    ((void*).sizeof == 8 && SDLIOStreamInterface.sizeof == 56));
+	((void*).sizeof == 4 && SDLIOStreamInterface.sizeof == 28) ||
+	((void*).sizeof == 8 && SDLIOStreamInterface.sizeof == 56));
 
 <*
  The read/write operation structure.
@@ -151,7 +151,6 @@ $assert(
  struct's abstract interface.
 *>
 typedef SDLIOStream = void;
-
 
 /*
   IOFrom functions
@@ -229,17 +228,17 @@ typedef SDLIOStream = void;
 
  @param file : `a UTF-8 string representing the filename to open.`
  @param mode : `an ASCII string representing the mode to be used for opening
-                the file.`
+				the file.`
  @return `a pointer to the SDL_IOStream structure that is created or NULL on
-          failure; call SDL_GetError() for more information.`
+		  failure; call SDL_GetError() for more information.`
 *>
 extern fn SDLIOStream* io_from_file(ZString file, ZString mode) @extern("SDL_IOFromFile");
 
 enum SDLPropIOStream : const ZString {
-    WINDOWS_HANDLE_POINTER 	= "SDL.iostream.windows.handle",
-    STDIO_FILE_POINTER 	    = "SDL.iostream.stdio.file",
-    FILE_DESCRIPTOR_NUMBER 	= "SDL.iostream.file_descriptor",
-    ANDROID_AASSET_POINTER 	= "SDL.iostream.android.aasset",
+	WINDOWS_HANDLE_POINTER 	= "SDL.iostream.windows.handle",
+	STDIO_FILE_POINTER 	    = "SDL.iostream.stdio.file",
+	FILE_DESCRIPTOR_NUMBER 	= "SDL.iostream.file_descriptor",
+	ANDROID_AASSET_POINTER 	= "SDL.iostream.android.aasset",
 }
 
 <*
@@ -270,13 +269,13 @@ enum SDLPropIOStream : const ZString {
  @param mem : `a pointer to a buffer to feed an SDL_IOStream stream.`
  @param size : `the buffer size, in bytes.`
  @return `a pointer to a new SDL_IOStream structure or NULL on failure; call
-          SDL_GetError() for more information.`
+		  SDL_GetError() for more information.`
 *>
 extern fn SDLIOStream* io_from_mem(void* mem, usz size) @extern("SDL_IOFromMem");
 
 enum SDLPropIOStreamMemory : const ZString {
-    POINTER         = "SDL.iostream.memory.base",
-    SIZE_NUMBER     =  "SDL.iostream.memory.size",
+	POINTER         = "SDL.iostream.memory.base",
+	SIZE_NUMBER     =  "SDL.iostream.memory.size",
 }
 
 <*
@@ -309,7 +308,7 @@ enum SDLPropIOStreamMemory : const ZString {
  @param mem : `a pointer to a read-only buffer to feed an SDL_IOStream stream.`
  @param size : `the buffer size, in bytes.`
  @return `a pointer to a new SDL_IOStream structure or NULL on failure; call
-          SDL_GetError() for more information.`
+		  SDL_GetError() for more information.`
 *>
 extern fn SDLIOStream* io_from_const_mem(void* mem, usz size) @extern("SDL_IOFromConstMem");
 
@@ -332,13 +331,13 @@ extern fn SDLIOStream* io_from_const_mem(void* mem, usz size) @extern("SDL_IOFro
  threadsafety: It is safe to call this function from any thread.
 
  @return `a pointer to a new SDL_IOStream structure or NULL on failure; call
-          SDL_GetError() for more information.`
+		  SDL_GetError() for more information.`
 *>
 extern fn SDLIOStream* io_from_dynamic_mem() @extern("SDL_IOFromDynamicMem");
 
 enum SDLPropIOStreamDynamic : const ZString {
-    MEMORY_POINTER   = "SDL.iostream.dynamic.memory",
-    CHUNKSIZE_NUMBER = "SDL.iostream.dynamic.chunksize",
+	MEMORY_POINTER   = "SDL.iostream.dynamic.memory",
+	CHUNKSIZE_NUMBER = "SDL.iostream.dynamic.chunksize",
 }
 
 <*
@@ -356,12 +355,12 @@ enum SDLPropIOStreamDynamic : const ZString {
  threadsafety: It is safe to call this function from any thread.
 
  @param iface : `the interface that implements this SDL_IOStream, initialized
-                 using SDL_INIT_INTERFACE().`
+				 using SDL_INIT_INTERFACE().`
  @param userdata : `the pointer that will be passed to the interface functions.`
  @return `a pointer to the allocated memory on success or NULL on failure;
-          call SDL_GetError() for more information.`
+		  call SDL_GetError() for more information.`
 *>
-extern fn SDLIOStream* open_io(SDLIOStreamInterface* iface, void* userdata) @extern("SDL_OpenIO");
+extern fn SDLIOStream* open(SDLIOStreamInterface* iface, void* userdata) @extern("SDL_OpenIO");
 
 <*
  Close and free an allocated SDL_IOStream structure.
@@ -388,9 +387,9 @@ extern fn SDLIOStream* open_io(SDLIOStreamInterface* iface, void* userdata) @ext
 
  @param context : `SDL_IOStream structure to close.`
  @return `true on success or false on failure; call SDL_GetError() for more
-          information.`
+		  information.`
 *>
-extern fn bool close_io(SDLIOStream* context) @extern("SDL_CloseIO");
+extern fn bool SDLIOStream.close(&context) @extern("SDL_CloseIO");
 
 <*
  Get the properties associated with an SDL_IOStream.
@@ -400,9 +399,9 @@ extern fn bool close_io(SDLIOStream* context) @extern("SDL_CloseIO");
 
  @param context : `a pointer to an SDL_IOStream structure.`
  @return `a valid property ID on success or 0 on failure; call
-          SDL_GetError() for more information.`
+		  SDL_GetError() for more information.`
 *>
-extern fn SDLPropertiesID get_io_properties(SDLIOStream* context) @extern("SDL_GetIOProperties");
+extern fn SDLPropertiesID SDLIOStream.get_properties(&context) @extern("SDL_GetIOProperties");
 
 <*
  Query the stream status of an SDL_IOStream.
@@ -421,7 +420,7 @@ extern fn SDLPropertiesID get_io_properties(SDLIOStream* context) @extern("SDL_G
  @param context : `the SDL_IOStream to query.`
  @return `an SDL_IOStatus enum with the current state.`
 *>
-extern fn SDLIOStatus get_io_status(SDLIOStream* context) @extern("SDL_GetIOStatus");
+extern fn SDLIOStatus SDLIOStream.get_status(&context) @extern("SDL_GetIOStatus");
 
 <*
  Use this function to get the size of the data stream in an SDL_IOStream.
@@ -431,10 +430,10 @@ extern fn SDLIOStatus get_io_status(SDLIOStream* context) @extern("SDL_GetIOStat
 
  @param context : `the SDL_IOStream to get the size of the data stream from.`
  @return `the size of the data stream in the SDL_IOStream on success or a
-          negative error code on failure; call SDL_GetError() for more
-          information.`
+		  negative error code on failure; call SDL_GetError() for more
+		  information.`
 *>
-extern fn long get_io_size(SDLIOStream* context) @extern("SDL_GetIOSize");
+extern fn long SDLIOStream.get_size(&context) @extern("SDL_GetIOSize");
 
 <*
  Seek within an SDL_IOStream data stream.
@@ -454,13 +453,13 @@ extern fn long get_io_size(SDLIOStream* context) @extern("SDL_GetIOSize");
 
  @param context : `a pointer to an SDL_IOStream structure.`
  @param offset : `an offset in bytes, relative to 'whence' location; can be
-               negative.`
+			   negative.`
  @param whence : `any of 'SDL_IO_SEEK_SET', 'SDL_IO_SEEK_CUR',
-               'SDL_IO_SEEK_END'.`
+			   'SDL_IO_SEEK_END'.`
  @return `the final offset in the data stream after the seek or -1 on
-          failure; call SDL_GetError() for more information.`
+		  failure; call SDL_GetError() for more information.`
 *>
-extern fn long seek_io(SDLIOStream* context, long offset, SDLIOWhence whence) @extern("SDL_SeekIO");
+extern fn long SDLIOStream.seek(&context, long offset, SDLIOWhence whence) @extern("SDL_SeekIO");
 
 <*
  Determine the current read/write offset in an SDL_IOStream data stream.
@@ -473,11 +472,11 @@ extern fn long seek_io(SDLIOStream* context, long offset, SDLIOWhence whence) @e
  threadsafety: This function is not thread safe.
 
  @param context : `an SDL_IOStream data stream object from which to get the
-                   current offset.`
+				   current offset.`
  @return `the current offset in the stream, or -1 if the information can not
-          be determined.`
+		  be determined.`
 *>
-extern fn long tell_io(SDLIOStream* context) @extern("SDL_TellIO");
+extern fn long SDLIOStream.tell(&context) @extern("SDL_TellIO");
 
 <*
  Read from a data source.
@@ -497,9 +496,9 @@ extern fn long tell_io(SDLIOStream* context) @extern("SDL_TellIO");
  @param ptr : `a pointer to a buffer to read data into.`
  @param size : `the number of bytes to read from the data source.`
  @return `the number of bytes read, or 0 on end of file or other failure;
-          call SDL_GetError() for more information.`
+		  call SDL_GetError() for more information.`
 *>
-extern fn usz read_io(SDLIOStream* context, void* ptr, usz size) @extern("SDL_ReadIO");
+extern fn usz SDLIOStream.read(&context, void* ptr, usz size) @extern("SDL_ReadIO");
 
 <*
  Write to an SDL_IOStream data stream.
@@ -519,9 +518,9 @@ extern fn usz read_io(SDLIOStream* context, void* ptr, usz size) @extern("SDL_Re
  @param ptr : `a pointer to a buffer containing data to write.`
  @param size : `the number of bytes to write.`
  @return `the number of bytes written, which will be less than 'size' on
-          failure; call SDL_GetError() for more information.`
+		  failure; call SDL_GetError() for more information.`
 *>
-extern fn usz write_io(SDLIOStream* context, void* ptr, usz size) @extern("SDL_WriteIO");
+extern fn usz SDLIOStream.write(&context, void* ptr, usz size) @extern("SDL_WriteIO");
 
 <*
  Print to an SDL_IOStream data stream.
@@ -531,11 +530,11 @@ extern fn usz write_io(SDLIOStream* context, void* ptr, usz size) @extern("SDL_W
  @param context : `a pointer to an SDL_IOStream structure.`
  @param fmt : `a printf() style format string.`
  @param args : `additional parameters matching % tokens in the 'fmt' string, if
-            any.`
+			any.`
  @return `the number of bytes written or 0 on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn usz io_printf(SDLIOStream* context, ZString fmt, args...) @extern("SDL_IOprintf");
+extern fn usz SDLIOStream.printf(&context, ZString fmt, args...) @extern("SDL_IOprintf");
 
 // TODO: Don't think C3 can pass C va_args
 // <*
@@ -567,9 +566,9 @@ extern fn usz io_printf(SDLIOStream* context, ZString fmt, args...) @extern("SDL
 
  @param context : `SDL_IOStream structure to flush.`
  @return `true on success or false on failure; call SDL_GetError() for more
-          information.`
+		  information.`
 *>
-extern fn bool flush_io(SDLIOStream* context) @extern ("SDL_FlushIO");
+extern fn bool SDLIOStream.flush(&context) @extern ("SDL_FlushIO");
 
 <*
  Load all the data from an SDL data stream.
@@ -585,13 +584,13 @@ extern fn bool flush_io(SDLIOStream* context) @extern ("SDL_FlushIO");
 
  @param src : `the SDL_IOStream to read all available data from.`
  @param datasize : `a pointer filled in with the number of bytes read, may be
-                 NULL.`
+				 NULL.`
  @param closeio : `if true, calls SDL_CloseIO() on 'src' before returning, even
-                in the case of an error.`
+				in the case of an error.`
  @return `the data or NULL on failure; call SDL_GetError() for more
-          information.`
+		  information.`
 *>
-extern fn void* load_file_io(SDLIOStream* src, usz* datasize, bool closeio) @extern("SDL_LoadFile_IO");
+extern fn void* SDLIOStream.load_file(&src, usz* datasize, bool closeio) @extern("SDL_LoadFile_IO");
 
 <*
  Load all the data from a file path.
@@ -608,7 +607,7 @@ extern fn void* load_file_io(SDLIOStream* src, usz* datasize, bool closeio) @ext
  @param file : `the path to read all available data from.`
  @param datasize : `if not NULL, will store the number of bytes read.`
  @return `the data or NULL on failure; call SDL_GetError() for more
-          information.`
+		  information.`
 *>
 extern fn void* load_file(ZString file, usz* datasize) @extern("SDL_LoadFile");
 
@@ -617,24 +616,24 @@ extern fn void* load_file(ZString file, usz* datasize) @extern("SDL_LoadFile");
 
  @param src : `the SDL_IOStream to write all data to.`
  @param data : `the data to be written. If datasize is 0, may be NULL or a
-             invalid pointer.`
+			 invalid pointer.`
  @param datasize : `the number of bytes to be written.`
  @param closeio : `if true, calls SDL_CloseIO() on 'src' before returning, even
-                in the case of an error.`
+				in the case of an error.`
  @return `true on success or false on failure; call SDL_GetError() for more
-          information.`
+		  information.`
 *>
-extern fn bool save_file_io(SDLIOStream* src, void* data, usz datasize, bool closeio) @extern("SDL_SaveFile_IO");
+extern fn bool SDLIOStream.save_file(&src, void* data, usz datasize, bool closeio) @extern("SDL_SaveFile_IO");
 
 <*
  Save all the data into a file path.
 
  @param file : `the path to write all available data into.`
  @param data : `the data to be written. If datasize is 0, may be NULL or a
-                invalid pointer.`
+				invalid pointer.`
  @param datasize : `the number of bytes to be written.`
  @return `true on success or false on failure; call SDL_GetError() for more
-          information.`
+		  information.`
 
 *>
 extern fn bool save_file(ZString file, void* data, usz datasize) @extern("SDL_SaveFile");
@@ -659,9 +658,9 @@ extern fn bool save_file(ZString file, void* data, usz datasize) @extern("SDL_Sa
  @param src : `the SDL_IOStream to read from.`
  @param value : `a pointer filled in with the data read.`
  @return `true on success or false on failure or EOF; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool read_u8(SDLIOStream* src, char* value) @extern("SDL_ReadU8");
+extern fn bool SDLIOStream.read_u8(&src, char* value) @extern("SDL_ReadU8");
 
 <*
  Use this function to read a signed byte from an SDL_IOStream.
@@ -677,9 +676,9 @@ extern fn bool read_u8(SDLIOStream* src, char* value) @extern("SDL_ReadU8");
  @param src : `the SDL_IOStream to read from.`
  @param value : `a pointer filled in with the data read.`
  @return `true on success or false on failure; call SDL_GetError() for more
-          information.`
+		  information.`
 *>
-extern fn bool read_s8(SDLIOStream* src, ichar* value) @extern("SDL_ReadS8");
+extern fn bool SDLIOStream.read_s8(&src, ichar* value) @extern("SDL_ReadS8");
 
 <*
  Use this function to read 16 bits of little-endian data from an
@@ -696,9 +695,9 @@ extern fn bool read_s8(SDLIOStream* src, ichar* value) @extern("SDL_ReadS8");
  @param src : `the stream from which to read data.`
  @param value : `a pointer filled in with the data read.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool read_u16le(SDLIOStream* src, ushort* value) @extern("SDL_ReadU16LE");
+extern fn bool SDLIOStream.read_u16le(&src, ushort* value) @extern("SDL_ReadU16LE");
 
 <*
  Use this function to read 16 bits of little-endian data from an
@@ -718,9 +717,9 @@ extern fn bool read_u16le(SDLIOStream* src, ushort* value) @extern("SDL_ReadU16L
  @param src : `the stream from which to read data.`
  @param value : `a pointer filled in with the data read.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool read_s16le(SDLIOStream* src, short* value) @extern("SDL_ReadS16LE");
+extern fn bool SDLIOStream.read_s16le(&src, short* value) @extern("SDL_ReadS16LE");
 
 <*
  Use this function to read 16 bits of big-endian data from an SDL_IOStream
@@ -740,9 +739,9 @@ extern fn bool read_s16le(SDLIOStream* src, short* value) @extern("SDL_ReadS16LE
  @param src : `the stream from which to read data.`
  @param value : `a pointer filled in with the data read.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool read_u16be(SDLIOStream* src, ushort* value) @extern("SDL_ReadU16BE");
+extern fn bool SDLIOStream.read_u16be(&src, ushort* value) @extern("SDL_ReadU16BE");
 
 <*
  Use this function to read 16 bits of big-endian data from an SDL_IOStream
@@ -762,9 +761,9 @@ extern fn bool read_u16be(SDLIOStream* src, ushort* value) @extern("SDL_ReadU16B
  @param src : `the stream from which to read data.`
  @param value : `a pointer filled in with the data read.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool read_s16be(SDLIOStream* src, short* value) @extern("SDL_ReadS16BE");
+extern fn bool SDLIOStream.read_s16be(&src, short* value) @extern("SDL_ReadS16BE");
 
 <*
  Use this function to read 32 bits of little-endian data from an
@@ -784,9 +783,9 @@ extern fn bool read_s16be(SDLIOStream* src, short* value) @extern("SDL_ReadS16BE
  @param src : `the stream from which to read data.`
  @param value : `a pointer filled in with the data read.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool read_u32le(SDLIOStream* src, uint* value) @extern("SDL_ReadU32LE");
+extern fn bool SDLIOStream.read_u32le(&src, uint* value) @extern("SDL_ReadU32LE");
 
 <*
  Use this function to read 32 bits of little-endian data from an
@@ -806,9 +805,9 @@ extern fn bool read_u32le(SDLIOStream* src, uint* value) @extern("SDL_ReadU32LE"
  @param src : `the stream from which to read data.`
  @param value : `a pointer filled in with the data read.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool read_s32le(SDLIOStream* src, int* value) @extern("SDL_ReadS32LE");
+extern fn bool SDLIOStream.read_s32le(&src, int* value) @extern("SDL_ReadS32LE");
 
 <*
  Use this function to read 32 bits of big-endian data from an SDL_IOStream
@@ -828,9 +827,9 @@ extern fn bool read_s32le(SDLIOStream* src, int* value) @extern("SDL_ReadS32LE")
  @param src : `the stream from which to read data.`
  @param value : `a pointer filled in with the data read.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool read_u32be(SDLIOStream* src, uint* value) @extern("SDL_ReadU32BE");
+extern fn bool SDLIOStream.read_u32be(&src, uint* value) @extern("SDL_ReadU32BE");
 
 <*
  Use this function to read 32 bits of big-endian data from an SDL_IOStream
@@ -850,9 +849,9 @@ extern fn bool read_u32be(SDLIOStream* src, uint* value) @extern("SDL_ReadU32BE"
  @param src : `the stream from which to read data.`
  @param value : `a pointer filled in with the data read.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool read_s32be(SDLIOStream* src, int* value) @extern("SDL_ReadS32BE");
+extern fn bool SDLIOStream.read_s32be(&src, int* value) @extern("SDL_ReadS32BE");
 
 <*
  Use this function to read 64 bits of little-endian data from an
@@ -872,9 +871,9 @@ extern fn bool read_s32be(SDLIOStream* src, int* value) @extern("SDL_ReadS32BE")
  @param src : `the stream from which to read data.`
  @param value : `a pointer filled in with the data read.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool read_u64le(SDLIOStream* src, ulong* value) @extern("SDL_ReadU64LE");
+extern fn bool SDLIOStream.read_u64le(&src, ulong* value) @extern("SDL_ReadU64LE");
 
 <*
  Use this function to read 64 bits of little-endian data from an
@@ -894,9 +893,9 @@ extern fn bool read_u64le(SDLIOStream* src, ulong* value) @extern("SDL_ReadU64LE
  @param src : `the stream from which to read data.`
  @param value : `a pointer filled in with the data read.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool read_s64le(SDLIOStream* src, long* value) @extern("SDL_ReadS64LE");
+extern fn bool SDLIOStream.read_s64le(&src, long* value) @extern("SDL_ReadS64LE");
 
 <*
  Use this function to read 64 bits of big-endian data from an SDL_IOStream
@@ -916,9 +915,9 @@ extern fn bool read_s64le(SDLIOStream* src, long* value) @extern("SDL_ReadS64LE"
  @param src : `the stream from which to read data.`
  @param value : `a pointer filled in with the data read.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool read_u64be(SDLIOStream* src, ulong* value) @extern("SDL_ReadU64BE");
+extern fn bool SDLIOStream.read_u64be(&src, ulong* value) @extern("SDL_ReadU64BE");
 
 <*
  Use this function to read 64 bits of big-endian data from an SDL_IOStream
@@ -938,9 +937,9 @@ extern fn bool read_u64be(SDLIOStream* src, ulong* value) @extern("SDL_ReadU64BE
  @param src : `the stream from which to read data.`
  @param value : `a pointer filled in with the data read.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool read_s64be(SDLIOStream* src, long* value) @extern("SDL_ReadS64BE");
+extern fn bool SDLIOStream.read_s64be(&src, long* value) @extern("SDL_ReadS64BE");
 
 /*
  Write endian functions
@@ -957,9 +956,9 @@ extern fn bool read_s64be(SDLIOStream* src, long* value) @extern("SDL_ReadS64BE"
  @param dst : `the SDL_IOStream to write to.`
  @param value : `the byte value to write.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool write_u8(SDLIOStream* dst, char value) @extern("SDL_WriteU8");
+extern fn bool SDLIOStream.write_u8(&dst, char value) @extern("SDL_WriteU8");
 
 <*
  Use this function to write a signed byte to an SDL_IOStream.
@@ -970,9 +969,9 @@ extern fn bool write_u8(SDLIOStream* dst, char value) @extern("SDL_WriteU8");
  @param dst : `the SDL_IOStream to write to.`
  @param value : `the byte value to write.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool write_s8(SDLIOStream* dst, ichar value) @extern("SDL_WriteS8");
+extern fn bool SDLIOStream.write_s8(&dst, ichar value) @extern("SDL_WriteS8");
 
 <*
  Use this function to write 16 bits in native format to an SDL_IOStream as
@@ -988,9 +987,9 @@ extern fn bool write_s8(SDLIOStream* dst, ichar value) @extern("SDL_WriteS8");
  @param dst : `the stream to which data will be written.`
  @param value : `the data to be written, in native format.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool write_u16le(SDLIOStream* dst, ushort value) @extern("SDL_WriteU16LE");
+extern fn bool SDLIOStream.write_u16le(&dst, ushort value) @extern("SDL_WriteU16LE");
 
 <*
  Use this function to write 16 bits in native format to an SDL_IOStream as
@@ -1006,9 +1005,9 @@ extern fn bool write_u16le(SDLIOStream* dst, ushort value) @extern("SDL_WriteU16
  @param dst : `the stream to which data will be written.`
  @param value : `the data to be written, in native format.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool write_s16le(SDLIOStream* dst, short value) @extern("SDL_WriteS16LE");
+extern fn bool SDLIOStream.write_s16le(&dst, short value) @extern("SDL_WriteS16LE");
 
 <*
  Use this function to write 16 bits in native format to an SDL_IOStream as
@@ -1023,9 +1022,9 @@ extern fn bool write_s16le(SDLIOStream* dst, short value) @extern("SDL_WriteS16L
  @param dst : `the stream to which data will be written.`
  @param value : `the data to be written, in native format.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool write_u16be(SDLIOStream* dst, ushort value) @extern("SDL_WriteU16BE");
+extern fn bool SDLIOStream.write_u16be(&dst, ushort value) @extern("SDL_WriteU16BE");
 
 <*
  Use this function to write 16 bits in native format to an SDL_IOStream as
@@ -1040,9 +1039,9 @@ extern fn bool write_u16be(SDLIOStream* dst, ushort value) @extern("SDL_WriteU16
  @param dst : `the stream to which data will be written.`
  @param value : `the data to be written, in native format.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool write_s16be(SDLIOStream* dst, short value) @extern("SDL_WriteS16BE");
+extern fn bool SDLIOStream.write_s16be(&dst, short value) @extern("SDL_WriteS16BE");
 
 <*
  Use this function to write 32 bits in native format to an SDL_IOStream as
@@ -1058,9 +1057,9 @@ extern fn bool write_s16be(SDLIOStream* dst, short value) @extern("SDL_WriteS16B
  @param dst : `the stream to which data will be written.`
  @param value : `the data to be written, in native format.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool write_u32le(SDLIOStream* dst, uint value) @extern("SDL_WriteU32LE");
+extern fn bool SDLIOStream.write_u32le(&dst, uint value) @extern("SDL_WriteU32LE");
 
 <*
  Use this function to write 32 bits in native format to an SDL_IOStream as
@@ -1076,9 +1075,9 @@ extern fn bool write_u32le(SDLIOStream* dst, uint value) @extern("SDL_WriteU32LE
  @param dst : `the stream to which data will be written.`
  @param value : `the data to be written, in native format.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool write_s32le(SDLIOStream* dst, int value) @extern("SDL_WriteS32LE");
+extern fn bool SDLIOStream.write_s32le(&dst, int value) @extern("SDL_WriteS32LE");
 
 <*
  Use this function to write 32 bits in native format to an SDL_IOStream as
@@ -1093,9 +1092,9 @@ extern fn bool write_s32le(SDLIOStream* dst, int value) @extern("SDL_WriteS32LE"
  @param dst : `the stream to which data will be written.`
  @param value : `the data to be written, in native format.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool write_u32be(SDLIOStream* dst, uint value) @extern("SDL_WriteU32BE");
+extern fn bool SDLIOStream.write_u32be(&dst, uint value) @extern("SDL_WriteU32BE");
 
 <*
  Use this function to write 32 bits in native format to an SDL_IOStream as
@@ -1110,9 +1109,9 @@ extern fn bool write_u32be(SDLIOStream* dst, uint value) @extern("SDL_WriteU32BE
  @param dst : `the stream to which data will be written.`
  @param value : `the data to be written, in native format.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool write_s32be(SDLIOStream* dst, int value) @extern("SDL_WriteS32BE");
+extern fn bool SDLIOStream.write_s32be(&dst, int value) @extern("SDL_WriteS32BE");
 
 <*
  Use this function to write 64 bits in native format to an SDL_IOStream as
@@ -1128,9 +1127,9 @@ extern fn bool write_s32be(SDLIOStream* dst, int value) @extern("SDL_WriteS32BE"
  @param dst : `the stream to which data will be written.`
  @param value : `the data to be written, in native format.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool write_u64le(SDLIOStream* dst, ulong value) @extern("SDL_WriteU64LE");
+extern fn bool SDLIOStream.write_u64le(&dst, ulong value) @extern("SDL_WriteU64LE");
 
 <*
  Use this function to write 64 bits in native format to an SDL_IOStream as
@@ -1146,9 +1145,9 @@ extern fn bool write_u64le(SDLIOStream* dst, ulong value) @extern("SDL_WriteU64L
  @param dst : `the stream to which data will be written.`
  @param value : `the data to be written, in native format.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool write_s64le(SDLIOStream* dst, long value) @extern("SDL_WriteS64LE");
+extern fn bool SDLIOStream.write_s64le(&dst, long value) @extern("SDL_WriteS64LE");
 
 <*
  Use this function to write 64 bits in native format to an SDL_IOStream as
@@ -1163,9 +1162,9 @@ extern fn bool write_s64le(SDLIOStream* dst, long value) @extern("SDL_WriteS64LE
  @param dst : `the stream to which data will be written.`
  @param value : `the data to be written, in native format.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool write_u64be(SDLIOStream* dst, ulong value) @extern("SDL_WriteU64BE");
+extern fn bool SDLIOStream.write_u64be(&dst, ulong value) @extern("SDL_WriteU64BE");
 
 <*
  Use this function to write 64 bits in native format to an SDL_IOStream as
@@ -1180,6 +1179,6 @@ extern fn bool write_u64be(SDLIOStream* dst, ulong value) @extern("SDL_WriteU64B
  @param dst : `the stream to which data will be written.`
  @param value : `the data to be written, in native format.`
  @return `true on successful write or false on failure; call SDL_GetError()
-          for more information.`
+		  for more information.`
 *>
-extern fn bool write_s64be(SDLIOStream* dst, long value) @extern("SDL_WriteS64BE");
+extern fn bool SDLIOStream.write_s64be(&dst, long value) @extern("SDL_WriteS64BE");
