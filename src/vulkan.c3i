@@ -89,7 +89,7 @@ extern fn bool load_library(ZString path) @extern("SDL_Vulkan_LoadLibrary");
  `vkGetInstanceProcAddr =
  (PFN_vkGetInstanceProcAddr)SDL_Vulkan_GetVkGetInstanceProcAddr();`
 
- @return `the function pointer for `vkGetInstanceProcAddr` or NULL on
+ @return `the function pointer for 'vkGetInstanceProcAddr' or NULL on
           failure; call SDL_GetError() for more information.`
 *>
 extern fn SDLFunctionPointer get_vk_get_instance_proc_addr() @extern("SDL_Vulkan_GetVkGetInstanceProcAddr");
@@ -186,8 +186,8 @@ extern fn void destroy_vksurface(VkInstance instance, VkSurfaceKHR surface, VkAl
  SDL_Vulkan_GetInstanceExtensions() enabled.
 
  @param instance : `the Vulkan instance handle.`
- @param physicalDevice : `a valid Vulkan physical device handle.`
- @param queueFamilyIndex : `a valid queue family index for the given physical
+ @param physical_device : `a valid Vulkan physical device handle.`
+ @param queue_family_index : `a valid queue family index for the given physical
                          device.`
  @return `true if supported, false if unsupported or an error occurred.`
 *>
