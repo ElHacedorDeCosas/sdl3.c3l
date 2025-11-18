@@ -39,11 +39,11 @@ enum SDLIOWhence : const CInt
 	END,  /**< Seek relative to the end of data */
 }
 
-alias Size_fnp = fn long(void* userdata);
-alias Seek_fnp = fn long(void* userdata, long offset, SDLIOWhence whence);
-alias ReedWrite_fnp = fn usz(void* userdata, void* ptr, usz size, SDLIOStatus* status);
-alias Flush_fnp = fn bool(void* userdata, SDLIOStatus* status);
-alias Close_fnp = fn bool(void* userdata);
+alias SDLIOStreamInterfaceSize = fn long(void* userdata);
+alias SDLIOStreamInterfaceSeek = fn long(void* userdata, long offset, SDLIOWhence whence);
+alias SDLIOStreamInterfaceReedWrite = fn usz(void* userdata, void* ptr, usz size, SDLIOStatus* status);
+alias SDLIOStreamInterfaceFlush = fn bool(void* userdata, SDLIOStatus* status);
+alias SDLIOStreamInterfaceClose = fn bool(void* userdata);
 
 <*
  The function pointers that drive an SDL_IOStream.
@@ -66,7 +66,7 @@ struct SDLIOStreamInterface
 	*
 	*  \return the total size of the data stream, or -1 on error.
 	*/
-	Size_fnp size;
+	SDLIOStreamInterfaceSize size;
 	// Sint64 (SDLCALL *size)(void *userdata);
 
 	/**
@@ -75,7 +75,7 @@ struct SDLIOStreamInterface
 	*
 	*  @return `the final offset in the data stream, or -1 on error.`
 	*/
-	Seek_fnp seek;
+	SDLIOStreamInterfaceSeek seek;
 	// Sint64 (SDLCALL *seek)(void *userdata, Sint64 offset, SDL_IOWhence whence);
 
 	/**
@@ -88,7 +88,7 @@ struct SDLIOStreamInterface
 	 *
 	 *  @retur `the number of bytes read`
 	 */
-	ReedWrite_fnp read;
+	SDLIOStreamInterfaceReedWrite read;
 	// size_t (SDLCALL *read)(void *userdata, void *ptr, size_t size, SDL_IOStatus *status);
 
 	/**
@@ -101,7 +101,7 @@ struct SDLIOStreamInterface
 	 *
 	 *  @return `the number of bytes written`
 	 */
-	ReedWrite_fnp write;
+	SDLIOStreamInterfaceReedWrite write;
 	// size_t (SDLCALL *write)(void *userdata, const void *ptr, size_t size, SDL_IOStatus *status);
 
 	/**
@@ -113,7 +113,7 @@ struct SDLIOStreamInterface
 	 *
 	 *  @return `true if successful or false on write error when flushing data.`
 	 */
-	Flush_fnp flush;
+	SDLIOStreamInterfaceFlush flush;
 	// bool (SDLCALL *flush)(void *userdata, SDL_IOStatus *status);
 
 	/**
@@ -127,7 +127,7 @@ struct SDLIOStreamInterface
 	 *
 	 *  \return true if successful or false on write error when flushing data.
 	 */
-	Close_fnp close;
+	SDLIOStreamInterfaceClose close;
 	// bool (SDLCALL *close)(void *userdata);
 }
 
