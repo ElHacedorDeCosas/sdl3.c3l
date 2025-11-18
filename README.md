@@ -4,23 +4,16 @@ Welcome to the [SDL3](https://github.com/libsdl-org/SDL) binding library for [C3
 
 ## Remaining files to bind
 
-- dialog
 - gpu
 - guid
 - haptic
 - hints
-- iostream
 - loadso
 - messagebox
-- mouse
-- pixels
 - platform
 - process
-- rect
 - render
-- sensor
 - storage
-- surface
 - system
 
 ## Contributions
