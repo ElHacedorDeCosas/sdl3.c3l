@@ -1,13 +1,29 @@
 <*
- SDL Scancode
+ Defines keyboard scancodes.
+
+ Please refer to the Best Keyboard Practices document for details on what
+ this information means and how best to use it.
+
+ https://wiki.libsdl.org/SDL3/BestKeyboardPractices
+
  For more information, see
  https://wiki.libsdl.org/SDL3/CategoryScancode
- TODO: add missing documentation
 *>
-module sdl::scancode;
+module sdl;
 
-import sdl::stdinc;
+<*
+ The SDL keyboard scancode representation.
+ This enum is available since SDL 3.2.0.
 
+ An SDL scancode is the physical representation of a key on the keyboard,
+ independent of language and keyboard mapping.
+
+ Values of this type are used to represent keyboard keys, among other places
+ in the `scancode` field of the SDL_KeyboardEvent structure.
+
+ The values in this enumeration are based on the USB usage page standard:
+ https://usb.org/sites/default/files/hut1_5.pdf
+*>
 enum SDLScancode : const
 {
     SCANCODE_UNKNOWN = 0,

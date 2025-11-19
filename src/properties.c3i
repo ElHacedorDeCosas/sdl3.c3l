@@ -1,50 +1,419 @@
 <*
- SDL Properties
+ A property is a variable that can be created and retrieved by name at
+ runtime.
+
+ All properties are part of a property group (SDL_PropertiesID). A property
+ group can be created with the SDL_CreateProperties function and destroyed
+ with the SDL_DestroyProperties function.
+
+ Properties can be added to and retrieved from a property group through the
+ following functions:
+
+ - SDL_SetPointerProperty and SDL_GetPointerProperty operate on `void*`
+   pointer types.
+ - SDL_SetStringProperty and SDL_GetStringProperty operate on string types.
+ - SDL_SetNumberProperty and SDL_GetNumberProperty operate on signed 64-bit
+   integer types.
+ - SDL_SetFloatProperty and SDL_GetFloatProperty operate on floating point
+   types.
+ - SDL_SetBooleanProperty and SDL_GetBooleanProperty operate on boolean
+   types.
+
+ Properties can be removed from a group by using SDL_ClearProperty.
+
  For more information, see
  https://wiki.libsdl.org/SDL3/CategoryProperties
- TODO: add missing documentation
 *>
-module sdl::properties;
+module sdl;
 
-import sdl::stdinc;
-
+<*
+ SDL properties ID
+ This datatype is available since SDL 3.2.0.
+*>
 typedef SDLPropertiesID = uint;
 
-enum SDLPropertyType : const
+<*
+ SDL property type
+ This enum is available since SDL 3.2.0.
+*>
+enum SDLPropertyType : const CInt
 {
     INVALID,
     POINTER,
     STRING,
     NUMBER,
     FLOAT,
-    BOOLEAN
+    BOOLEAN,
 }
 
-extern fn SDLPropertiesID get_global_properties() @extern("SDL_GetGlobalProperties");
-extern fn SDLPropertiesID create_properties() @extern("SDL_CreateProperties");
-extern fn bool copy_properties(SDLPropertiesID src, SDLPropertiesID dst) @extern("SDL_CopyProperties");
-extern fn bool SDLPropertiesID.lock_properties(SDLPropertiesID props) @extern("SDL_LockProperties");
-extern fn bool SDLPropertiesID.unlock_properties(SDLPropertiesID props) @extern("SDL_UnlockProperties");
+<*
+ Get the global SDL properties.
+ This function is available since SDL 3.2.0.
 
+ @return `a valid property ID on success or 0 on failure; call
+          SDL_GetError() for more information.`
+*>
+extern fn SDLPropertiesID get_global_properties() @extern("SDL_GetGlobalProperties");
+
+<*
+ Create a group of properties.
+ This function is available since SDL 3.2.0.
+
+ All properties are automatically destroyed when SDL_Quit() is called.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @return `an ID for a new group of properties, or 0 on failure; call
+          SDL_GetError() for more information.`
+*>
+extern fn SDLPropertiesID create_properties() @extern("SDL_CreateProperties");
+
+<*
+ Copy a group of properties.
+ This function is available since SDL 3.2.0.
+
+ Copy all the properties from one group of properties to another, with the
+ exception of properties requiring cleanup (set using
+ SDL_SetPointerPropertyWithCleanup()), which will not be copied. Any
+ property that already exists on `dst` will be overwritten.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param src : `the properties to copy.`
+ @param dst : `the destination properties.`
+ @return `true on success or false on failure; call SDL_GetError() for more
+          information.`
+*>
+extern fn bool SDLPropertiesID.copy_to(src, SDLPropertiesID dst) @extern("SDL_CopyProperties");
+
+<*
+ Lock a group of properties.
+ This function is available since SDL 3.2.0.
+
+ Obtain a multi-threaded lock for these properties. Other threads will wait
+ while trying to lock these properties until they are unlocked. Properties
+ must be unlocked before they are destroyed.
+
+ The lock is automatically taken when setting individual properties, this
+ function is only needed when you want to set several properties atomically
+ or want to guarantee that properties being queried aren't freed in another
+ thread.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param props : `the properties to lock.`
+ @return `true on success or false on failure; call SDL_GetError() for more
+          information.`
+*>
+extern fn bool SDLPropertiesID.lock(props) @extern("SDL_LockProperties");
+
+<*
+ Unlock a group of properties.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param props : `the properties to unlock.`
+*>
+extern fn bool SDLPropertiesID.unlock(props) @extern("SDL_UnlockProperties");
+
+<*
+ A callback used to free resources when a property is deleted.
+ This datatype is available since SDL 3.2.0.
+
+ This should release any resources associated with `value` that are no
+ longer needed.
+
+ This callback is set per-property. Different properties in the same group
+ can have different cleanup callbacks.
+
+ This callback will be called _during_ SDL_SetPointerPropertyWithCleanup if
+ the function fails for any reason.
+
+ threadsafety: This callback may fire without any locks held; if this is a
+               concern, the app should provide its own locking.
+
+ @param userdata : `an app-defined pointer passed to the callback.`
+ @param value : `the pointer assigned to the property to clean up.`
+*>
 alias SDLCleanupPropertyCallback = fn void(void* userdata, void* value);
 
-extern fn bool SDLPropertiesID.set_pointer_property_with_cleanup(SDLPropertiesID props, ZString name, void* value, SDLCleanupPropertyCallback cleanup, void* userdata) @extern("SDL_SetPointerPropertyWithCleanup");
-extern fn bool SDLPropertiesID.set_pointer_property(SDLPropertiesID props, ZString name, void* value) @extern("SDL_SetPointerProperty");
-extern fn bool SDLPropertiesID.set_string_property(SDLPropertiesID props, ZString name, ZString value) @extern("SDL_SetStringProperty");
-extern fn bool SDLPropertiesID.set_number_property(SDLPropertiesID props, ZString name, long value) @extern("SDL_SetNumberProperty");
-extern fn bool SDLPropertiesID.set_float_property(SDLPropertiesID props, ZString name, float value) @extern("SDL_SetFloatProperty");
-extern fn bool SDLPropertiesID.set_boolean_property(SDLPropertiesID props, ZString name, bool value) @extern("SDL_SetBooleanProperty");
-extern fn bool SDLPropertiesID.has_property(SDLPropertiesID props, ZString name) @extern("SDL_HasProperty");
-extern fn SDLPropertyType SDLPropertiesID.get_property_type(SDLPropertiesID props, ZString name) @extern("SDL_GetPropertyType");
-extern fn void* SDLPropertiesID.get_pointer_property(SDLPropertiesID props, ZString name, void* default_value) @extern("SDL_GetPointerProperty");
-extern fn ZString SDLPropertiesID.get_string_property(SDLPropertiesID props, ZString name, ZString default_value) @extern("SDL_GetStringProperty");
-extern fn long SDLPropertiesID.get_number_property(SDLPropertiesID props, ZString name, long default_value) @extern("SDL_GetNumberProperty");
-extern fn float SDLPropertiesID.get_float_property(SDLPropertiesID props, ZString name, float default_value) @extern("SDL_GetFloatProperty");
-extern fn bool SDLPropertiesID.get_boolean_property(SDLPropertiesID props, ZString name, bool default_value) @extern("SDL_GetBooleanProperty");
-extern fn bool SDLPropertiesID.clean_property(SDLPropertiesID props, ZString name) @extern("SDL_ClearProperty");
+<*
+ Set a pointer property in a group of properties with a cleanup function
+ that is called when the property is deleted.
+ This function is available since SDL 3.2.0.
 
+ The cleanup function is also called if setting the property fails for any
+ reason.
+
+ For simply setting basic data types, like numbers, bools, or strings, use
+ SDL_SetNumberProperty, SDL_SetBooleanProperty, or SDL_SetStringProperty
+ instead, as those functions will handle cleanup on your behalf. This
+ function is only for more complex, custom data.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param props : `the properties to modify.`
+ @param name : `the name of the property to modify.`
+ @param value : `the new value of the property, or NULL to delete the property.`
+ @param cleanup : `the function to call when this property is deleted, or NULL
+                   if no cleanup is necessary.`
+ @param userdata : `a pointer that is passed to the cleanup function.`
+ @return `true on success or false on failure; call SDL_GetError() for more
+          information.`
+*>
+extern fn bool SDLPropertiesID.set_pointer_with_cleanup(props, ZString name, void* value, SDLCleanupPropertyCallback cleanup, void* userdata) @extern("SDL_SetPointerPropertyWithCleanup");
+
+<*
+ Set a pointer property in a group of properties.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param props : `the properties to modify.`
+ @param name : `the name of the property to modify.`
+ @param value : `the new value of the property, or NULL to delete the property.`
+ @return `true on success or false on failure; call SDL_GetError() for more
+          information.`
+*>
+extern fn bool SDLPropertiesID.set_pointer(props, ZString name, void* value) @extern("SDL_SetPointerProperty");
+
+<*
+ Set a string property in a group of properties.
+ This function is available since SDL 3.2.0.
+
+ This function makes a copy of the string; the caller does not have to
+ preserve the data after this call completes.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param props : `the properties to modify.`
+ @param name : `the name of the property to modify.`
+ @param value : `the new value of the property, or NULL to delete the property.`
+ @return `true on success or false on failure; call SDL_GetError() for more
+          information.`
+*>
+extern fn bool SDLPropertiesID.set_string(props, ZString name, ZString value) @extern("SDL_SetStringProperty");
+
+<*
+ Set an integer property in a group of properties.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param props : `the properties to modify.`
+ @param name : `the name of the property to modify.`
+ @param value : `the new value of the property.`
+ @return `true on success or false on failure; call SDL_GetError() for more
+          information.`
+*>
+extern fn bool SDLPropertiesID.set_number(props, ZString name, long value) @extern("SDL_SetNumberProperty");
+
+<*
+ Set a floating point property in a group of properties.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param props : `the properties to modify.`
+ @param name : `the name of the property to modify.`
+ @param value : `the new value of the property.`
+ @return `true on success or false on failure; call SDL_GetError() for more
+          information.`
+*>
+extern fn bool SDLPropertiesID.set_float(props, ZString name, float value) @extern("SDL_SetFloatProperty");
+
+<*
+ Set a boolean property in a group of properties.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param props : `the properties to modify.`
+ @param name : `the name of the property to modify.`
+ @param value : `the new value of the property.`
+ @return `true on success or false on failure; call SDL_GetError() for more
+          information.`
+*>
+extern fn bool SDLPropertiesID.set_boolean(props, ZString name, bool value) @extern("SDL_SetBooleanProperty");
+
+<*
+ Return whether a property exists in a group of properties.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param props : `the properties to query.`
+ @param name : `the name of the property to query.`
+ @return `true if the property exists, or false if it doesn't.`
+
+*>
+extern fn bool SDLPropertiesID.has_property(props, ZString name) @extern("SDL_HasProperty");
+
+<*
+ Get the type of a property in a group of properties.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param props : `the properties to query.`
+ @param name : `the name of the property to query.`
+ @return `the type of the property, or SDL_PROPERTY_TYPE_INVALID if it is
+          not set.`
+*>
+extern fn SDLPropertyType SDLPropertiesID.get_type(props, ZString name) @extern("SDL_GetPropertyType");
+
+<*
+ Get a pointer property from a group of properties.
+ This function is available since SDL 3.2.0.
+
+ By convention, the names of properties that SDL exposes on objects will
+ start with "SDL.", and properties that SDL uses internally will start with
+ "SDL.internal.". These should be considered read-only and should not be
+ modified by applications.
+
+ threadsafety: It is safe to call this function from any thread, although
+               the data returned is not protected and could potentially be
+               freed if you call SDL_SetPointerProperty() or
+               SDL_ClearProperty() on these properties from another thread.
+               If you need to avoid this, use SDL_LockProperties() and
+               SDL_UnlockProperties().
+
+ @param props : `the properties to query.`
+ @param name : `the name of the property to query.`
+ @param default_value : `the default value of the property.`
+ @return `the value of the property, or 'default_value' if it is not set or
+          not a pointer property.`
+*>
+extern fn void* SDLPropertiesID.get_pointer(props, ZString name, void* default_value) @extern("SDL_GetPointerProperty");
+
+<*
+ Get a string property from a group of properties.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread, although
+               the data returned is not protected and could potentially be
+               freed if you call SDL_SetStringProperty() or
+               SDL_ClearProperty() on these properties from another thread.
+               If you need to avoid this, use SDL_LockProperties() and
+               SDL_UnlockProperties().
+
+ @param props : `the properties to query.`
+ @param name : `the name of the property to query.`
+ @param default_value : `the default value of the property.`
+ @return `the value of the property, or 'default_value' if it is not set or
+          not a string property.`
+*>
+extern fn ZString SDLPropertiesID.get_string(props, ZString name, ZString default_value) @extern("SDL_GetStringProperty");
+
+<*
+ Get a number property from a group of properties.
+ This function is available since SDL 3.2.0.
+
+ You can use SDL_GetPropertyType() to query whether the property exists and
+ is a number property.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param props : `the properties to query.`
+ @param name : `the name of the property to query.`
+ @param default_value : `the default value of the property.`
+ @return `the value of the property, or 'default_value' if it is not set or
+          not a number property.`
+*>
+extern fn long SDLPropertiesID.get_number(props, ZString name, long default_value) @extern("SDL_GetNumberProperty");
+
+<*
+ Get a floating point property from a group of properties.
+ This function is available since SDL 3.2.0.
+
+ You can use SDL_GetPropertyType() to query whether the property exists and
+ is a floating point property.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param props : `the properties to query.`
+ @param name : `the name of the property to query.`
+ @param default_value : `the default value of the property.`
+ @return `the value of the property, or 'default_value' if it is not set or
+          not a float property.`
+*>
+extern fn float SDLPropertiesID.get_float(props, ZString name, float default_value) @extern("SDL_GetFloatProperty");
+
+<*
+ Get a boolean property from a group of properties.
+ This function is available since SDL 3.2.0.
+
+ You can use SDL_GetPropertyType() to query whether the property exists and
+ is a boolean property.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param props : `the properties to query.`
+ @param name : `the name of the property to query.`
+ @param default_value : `the default value of the property.`
+ @return `the value of the property, or 'default_value' if it is not set or
+          not a boolean property.`
+*>
+extern fn bool SDLPropertiesID.get_boolean(props, ZString name, bool default_value) @extern("SDL_GetBooleanProperty");
+
+<*
+ Clear a property from a group of properties.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param props : `the properties to modify.`
+ @param name : `the name of the property to clear.`
+ @return `true on success or false on failure; call SDL_GetError() for more
+          information.`
+*>
+extern fn bool SDLPropertiesID.clean_property(props, ZString name) @extern("SDL_ClearProperty");
+
+<*
+ A callback used to enumerate all the properties in a group of properties.
+ This datatype is available since SDL 3.2.0.
+
+ This callback is called from SDL_EnumerateProperties(), and is called once
+ per property in the set.
+
+ threadsafety: SDL_EnumerateProperties holds a lock on `props` during this
+               callback.
+
+ @param userdata : `an app-defined pointer passed to the callback.`
+ @param props : `the SDL_PropertiesID that is being enumerated.`
+ @param name : `the next property name in the enumeration.`
+*>
 alias SDLEnumeratePropertiesCallback = fn void(void* userdata, SDLPropertiesID props, ZString name);
 
-extern fn bool SDLPropertiesID.enumerate_properties(SDLPropertiesID props, SDLEnumeratePropertiesCallback callback, void* userdata) @extern("SDL_EnumerateProperties");
-extern fn void SDLPropertiesID.destroy_properties(SDLPropertiesID props) @extern("SDL_DestroyProperties");
+<*
+ Enumerate the properties contained in a group of properties.
+ This function is available since SDL 3.2.0.
 
+ The callback function is called for each property in the group of
+ properties. The properties are locked during enumeration.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param props : `the properties to query.`
+ @param callback : `the function to call for each property.`
+ @param userdata : `a pointer that is passed to 'callback'.`
+ @return `true on success or false on failure; call SDL_GetError() for more
+          information.`
+*>
+extern fn bool SDLPropertiesID.enumerate(props, SDLEnumeratePropertiesCallback callback, void* userdata) @extern("SDL_EnumerateProperties");
+
+<*
+ Destroy a group of properties.
+ This function is available since SDL 3.2.0.
+
+ All properties are deleted and their cleanup functions will be called, if
+ any.
+
+ threadsafety: This function should not be called while these properties are
+               locked or other threads might be setting or getting values
+               from these properties.
+
+ @param props : `the properties to destroy.`
+*>
+extern fn void SDLPropertiesID.destroy(props) @extern("SDL_DestroyProperties");

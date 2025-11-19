@@ -1,14 +1,62 @@
 <*
- SDL Log Handling
+ Simple log messages with priorities and categories. A message's
+ SDL_LogPriority signifies how important the message is. A message's
+ SDL_LogCategory signifies from what domain it belongs to. Every category
+ has a minimum priority specified: when a message belongs to that category,
+ it will only be sent out if it has that minimum priority or higher.
+
+ SDL's own logs are sent below the default priority threshold, so they are
+ quiet by default.
+
+ You can change the log verbosity programmatically using
+ SDL_SetLogPriority() or with SDL_SetHint(SDL_HINT_LOGGING, ..), or with
+ the "SDL_LOGGING" environment variable. This variable is a comma separated
+ set of category=level tokens that define the default logging levels for SDL
+ applications.
+
+ The category can be a numeric category, one of "app", "error", "assert",
+ "system", "audio", "video", "render", "input", "test", or `*` for any
+ unspecified category.
+
+ The level can be a numeric level, one of "trace", "verbose", "debug",
+ "info", "warn", "error", "critical", or "quiet" to disable that category.
+
+ You can omit the category if you want to set the logging level for all
+ categories.
+
+ If this hint isn't set, the default log levels are equivalent to:
+
+ `app=info,assert=warn,test=verbose,*=error`
+
+ Here's where the messages go on different platforms:
+
+ - Windows: debug output stream
+ - Android: log output
+ - Others: standard error output (stderr)
+
+ You don't need to have a newline (`\n`) on the end of messages, the
+ functions will do that for you. For consistent behavior cross-platform, you
+ shouldn't have any newlines in messages, such as to log multiple lines in
+ one call; unusual platform-specific behavior can be observed in such usage.
+ Do one log call per line instead, with no newlines in messages.
+
+ Each log call is atomic, so you won't see log messages cut off one another
+ when logging from multiple threads.
+
  For more information, see
  https://wiki.libsdl.org/SDL3/CategoryLog
- TODO: add missing documentation
 *>
-module sdl::log;
+module sdl;
 
-import sdl::stdinc;
+<*
+ The predefined log categories
+ This enum is available since SDL 3.2.0.
 
-enum SDLLogCategory
+ By default the application and gpu categories are enabled at the INFO
+ level, the assert category is enabled at the WARN level, test is enabled at
+ the VERBOSE level and all other categories are enabled at the ERROR level.
+*>
+enum SDLLogCategory : const CInt
 {
     APPLICATION,
     ERROR,
@@ -36,7 +84,11 @@ enum SDLLogCategory
     SDL_LOG_CATEGORY_CUSTOM
 }
 
-enum SDLLogPriority
+<*
+ The predefined log priorities
+ This enum is available since SDL 3.2.0.
+*>
+enum SDLLogPriority : const CInt
 {
     INVALID,
     TRACE,
@@ -49,27 +101,245 @@ enum SDLLogPriority
     COUNT
 }
 
-extern fn void set_log_priorities(SDLLogPriority priority) @extern("SDL_SetLogPriorities");
-extern fn void set_log_priority(CInt category, SDLLogPriority priority) @extern("SDL_SetLogPriority");
-extern fn SDLLogPriority get_log_priority(CInt category) @extern("SDL_GetLogPriority");
-extern fn void reset_log_priorities() @extern("SDL_ResetLogPriorities");
-extern fn bool set_log_priority_prefix(SDLLogPriority priority, ZString prefix) @extern("SDL_SetLogPriorityPrefix");
-extern fn void log_(ZString fmt, ...) @extern("SDL_Log");
-extern fn void log_trace(CInt category, ZString fmt, ...) @extern("SDL_LogTrace");
-extern fn void log_verbose(CInt category, ZString fmt, ...) @extern("SDL_LogVerbose");
-extern fn void log_debug(CInt category, ZString fmt, ...) @extern("SDL_LogDebug");
-extern fn void log_info(CInt category, ZString fmt, ...) @extern("SDL_LogInfo");
-extern fn void log_warn(CInt category, ZString fmt, ...) @extern("SDL_LogWarn");
-extern fn void log_error(CInt category, ZString fmt, ...) @extern("SDL_LogError");
-extern fn void log_critical(CInt category, ZString fmt, ...) @extern("SDL_LogCritical");
-extern fn void log_message(CInt category, SDLLogPriority priority, ZString fmt, ...) @extern("SDL_LogMessage");
+<*
+ Set the priority of all log categories.
+ This function is available since SDL 3.2.0.
 
-/* I'm not sure how to declare this function.
-extern fn void log_message_v(CInt category, SDLLogPriority priority,) @extern("SDL_LogMessageV");
+ threadsafety: It is safe to call this function from any thread.
+
+ @param priority : `the SDL_LogPriority to assign.`
+*>
+extern fn void set_log_priorities(SDLLogPriority priority) @extern("SDL_SetLogPriorities");
+
+<*
+ Set the priority of a particular log category.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param category : `the category to assign a priority to.`
+ @param priority : `the SDL_LogPriority to assign.`
+*>
+extern fn void set_log_priority(SDLLogCategory category, SDLLogPriority priority) @extern("SDL_SetLogPriority");
+
+<*
+ Get the priority of a particular log category.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param category : `the category to query.`
+ @return `the SDL_LogPriority for the requested category.`
+*>
+extern fn SDLLogPriority get_log_priority(SDLLogCategory category) @extern("SDL_GetLogPriority");
+
+<*
+ Reset all priorities to default.
+ This function is available since SDL 3.2.0.
+
+ This is called by SDL_Quit().
+
+ threadsafety: It is safe to call this function from any thread.
+
+*>
+extern fn void reset_log_priorities() @extern("SDL_ResetLogPriorities");
+
+<*
+ Set the text prepended to log messages of a given priority.
+ This function is available since SDL 3.2.0.
+
+ By default SDL_LOG_PRIORITY_INFO and below have no prefix, and
+ SDL_LOG_PRIORITY_WARN and higher have a prefix showing their priority, e.g.
+ "WARNING: ".
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param priority : `the SDL_LogPriority to modify.`
+ @param prefix : `the prefix to use for that log priority, or NULL to use no
+                  prefix.`
+ @return `true on success or false on failure; call SDL_GetError() for more
+          information.`
+*>
+extern fn bool set_log_priority_prefix(SDLLogPriority priority, ZString prefix) @extern("SDL_SetLogPriorityPrefix");
+
+<*
+ Log a message with SDL_LOG_CATEGORY_APPLICATION and SDL_LOG_PRIORITY_INFO.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param fmt : `a printf() style message format string.`
+ @param ... : `additional parameters matching % tokens in the 'fmt' string, if
+               any.`
+*>
+extern fn void log_(ZString fmt, ...) @extern("SDL_Log");
+
+<*
+ Log a message with SDL_LOG_PRIORITY_TRACE.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param category : `the category of the message.`
+ @param fmt : `a printf() style message format string.`
+ @param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
+*>
+extern fn void log_trace(SDLLogCategory category, ZString fmt, ...) @extern("SDL_LogTrace");
+
+<*
+ Log a message with SDL_LOG_PRIORITY_VERBOSE.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param category : `the category of the message.`
+ @param fmt : `a printf() style message format string.`
+ @param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
+*>
+extern fn void log_verbose(SDLLogCategory category, ZString fmt, ...) @extern("SDL_LogVerbose");
+
+<*
+ Log a message with SDL_LOG_PRIORITY_DEBUG.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param category : `the category of the message.`
+ @param fmt : `a printf() style message format string.`
+ @param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
+*>
+extern fn void log_debug(SDLLogCategory category, ZString fmt, ...) @extern("SDL_LogDebug");
+
+<*
+ Log a message with SDL_LOG_PRIORITY_INFO.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param category : `the category of the message.`
+ @param fmt : `a printf() style message format string.`
+ @param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
+*>
+extern fn void log_info(SDLLogCategory category, ZString fmt, ...) @extern("SDL_LogInfo");
+
+<*
+ Log a message with SDL_LOG_PRIORITY_WARN.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param category : `the category of the message.`
+ @param fmt : `a printf() style message format string.`
+ @param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
+*>
+extern fn void log_warn(SDLLogCategory category, ZString fmt, ...) @extern("SDL_LogWarn");
+
+<*
+ Log a message with SDL_LOG_PRIORITY_ERROR.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param category : `the category of the message.`
+ @param fmt : `a printf() style message format string.`
+ @param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
+*>
+extern fn void log_error(SDLLogCategory category, ZString fmt, ...) @extern("SDL_LogError");
+
+<*
+ Log a message with SDL_LOG_PRIORITY_CRITICAL.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param category : `the category of the message.`
+ @param fmt : `a printf() style message format string.`
+ @param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
+*>
+extern fn void log_critical(SDLLogCategory category, ZString fmt, ...) @extern("SDL_LogCritical");
+
+<*
+ Log a message with the specified category and priority.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param category : `the category of the message.`
+ @param priority : `the priority of the message.`
+ @param fmt : `a printf() style message format string.`
+ @param ... : `additional parameters matching % tokens in the **fmt** string,
+               if any.`
+*>
+extern fn void log_message(SDLLogCategory category, SDLLogPriority priority, ZString fmt, ...) @extern("SDL_LogMessage");
+
+/* TODO: c3 don't have va_list type
+<*
+ Log a message with the specified category and priority.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param category : `the category of the message.`
+ @param priority : `the priority of the message.`
+ @param fmt : `a printf() style message format string.`
+ @param ap : `a variable argument list.`
+*>
+extern fn void log_message_v(SDLLogCategory category, SDLLogPriority priority, void* ab) @extern("SDL_LogMessageV");
 */
 
-alias SDLLogOutputFunction = fn void (void* userdata, CInt category, SDLLogPriority priority, ZString message);
+<*
+ The prototype for the log output callback function.
+ This datatype is available since SDL 3.2.0.
 
+ This function is called by SDL when there is new text to be logged. A mutex
+ is held so that this function is never called by more than one thread at
+ once.
+
+ @param userdata : `what was passed as 'userdata' to
+                 SDL_SetLogOutputFunction().`
+ @param category : `the category of the message.`
+ @param priority : `the priority of the message.`
+ @param message : `the message being output.`
+*>
+alias SDLLogOutputFunction = fn void (void* userdata, SDLLogCategory category, SDLLogPriority priority, ZString message);
+
+<*
+ Get the default log output function.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @return `the default log output callback.`
+*>
 extern fn SDLLogOutputFunction get_default_log_output_function() @extern("SDL_GetDefaultLogOutputFunction");
+
+<*
+ Get the current log output function.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param callback : `an SDL_LogOutputFunction filled in with the current log
+                    callback.`
+ @param userdata : `a pointer filled in with the pointer that is passed to
+                    'callback'.`
+*>
 extern fn void get_log_output_function(SDLLogOutputFunction* callback, void** userdata) @extern("SDL_GetLogOutputFunction");
+
+<*
+ Replace the default log output function with one of your own.
+ This function is available since SDL 3.2.0.
+
+ threadsafety: It is safe to call this function from any thread.
+
+ @param callback : `an SDL_LogOutputFunction to call instead of the default.`
+ @param userdata : `a pointer that is passed to 'callback'.`
+*>
 extern fn void set_log_output_function(SDLLogOutputFunction callback, void* userdata) @extern("SDL_SetLogOutputFunction");
