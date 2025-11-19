@@ -539,23 +539,23 @@ extern fn usz SDLIOStream.write(&context, void* ptr, usz size) @extern("SDL_Writ
 *>
 extern fn usz SDLIOStream.printf(&context, ZString fmt, args...) @extern("SDL_IOprintf");
 
-// TODO: Don't think C3 can pass C va_args
-// <*
-//  Print to an SDL_IOStream data stream.
-//  This function is available since SDL 3.2.0.
+/* TODO: c3 don't have va_list type
+<*
+ Print to an SDL_IOStream data stream.
+ This function is available since SDL 3.2.0.
 
-//  This function does formatted printing to the stream.
+ This function does formatted printing to the stream.
 
-//  threadsafety: This function is not thread safe.
+ threadsafety: This function is not thread safe.
 
-//  @param context : `a pointer to an SDL_IOStream structure.`
-//  @param fmt : `a printf() style format string.`
-//  @param ap : `a variable argument list.`
-//  @return `the number of bytes written or 0 on failure; call SDL_GetError()
-//           for more information.`
-// *>
-// extern fn usz io_vprintf(SDLIOStream* context, ZString fmt, void* ap) @extern("SDL_IOvprintf");
-// extern SDL_DECLSPEC size_t SDLCALL SDL_IOvprintf(SDL_IOStream *context, SDL_PRINTF_FORMAT_STRING const char *fmt, va_list ap) SDL_PRINTF_VARARG_FUNCV(2);
+ @param context : `a pointer to an SDL_IOStream structure.`
+ @param fmt : `a printf() style format string.`
+ @param ap : `a variable argument list.`
+ @return `the number of bytes written or 0 on failure; call SDL_GetError()
+          for more information.`
+*>
+extern fn usz io_vprintf(SDLIOStream* context, ZString fmt, void* ap) @extern("SDL_IOvprintf");
+*/
 
 <*
  Flush any buffered data in the stream.
