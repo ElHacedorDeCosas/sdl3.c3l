@@ -5,9 +5,6 @@ Welcome to the [SDL3](https://github.com/libsdl-org/SDL) binding library for [C3
 ## Remaining files to bind
 
 - gpu
-- haptic
-- render
-- system
 
 ## Contributions
 
