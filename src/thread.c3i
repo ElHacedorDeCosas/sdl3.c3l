@@ -30,7 +30,7 @@ enum SDLThreadState
 alias SDLThreadFunction = fn CInt(void* data);
 
 extern fn SDLThread* create_thread_runtime(SDLThreadFunction func, ZString name, void* data, SDLFunctionPointer pfn_begin_thread, SDLFunctionPointer pfn_end_thread) @extern("SDL_CreateThreadRuntime") @local;
-extern fn SDLThread* create_thread_with_properties_runtime(SDLPropThreadCreate props, SDLFunctionPointer pfn_begin_thread, SDLFunctionPointer pfn_end_thread) @extern("SDL_CreateThreadWithPropertiesRuntime") @local;
+extern fn SDLThread* create_thread_with_properties_runtime(SDLPropertiesID props, SDLFunctionPointer pfn_begin_thread, SDLFunctionPointer pfn_end_thread) @extern("SDL_CreateThreadWithPropertiesRuntime") @local;
 
 
 macro SDLThread* create_thread(SDLThreadFunction func, ZString name, void* data)
@@ -42,7 +42,7 @@ macro SDLThread* create_thread(SDLThreadFunction func, ZString name, void* data)
 	$endif
 }
 
-macro SDLThread* create_thread_with_properties(SDLPropThreadCreate props)
+macro SDLThread* create_thread_with_properties(SDLPropertiesID props)
 {
 	$if env::WIN32:
 		return create_thread_with_properties_runtime(props, _beginthreadex, _endthreadex);
@@ -51,10 +51,13 @@ macro SDLThread* create_thread_with_properties(SDLPropThreadCreate props)
 	$endif
 }
 
-const PROP_THREAD_CREATE_ENTRY_FUNCTION_POINTER  = "SDL.thread.create.entry_function";
-const PROP_THREAD_CREATE_NAME_STRING             = "SDL.thread.create.name";
-const PROP_THREAD_CREATE_USERDATA_POINTER        = "SDL.thread.create.userdata";
-const PROP_THREAD_CREATE_STACKSIZE_NUMBER        = "SDL.thread.create.stacksize";
+enum SDLPropThreadCreate : const inline ZString
+{
+	ENTRY_FUNCTION_POINTER  = "SDL.thread.create.entry_function",
+	NAME_STRING             = "SDL.thread.create.name",
+	USERDATA_POINTER        = "SDL.thread.create.userdata",
+	STACKSIZE_NUMBER        = "SDL.thread.create.stacksize",
+}
 
 extern fn ZString SDLThread.get_name(&thread) @extern("SDL_GetThreadName");
 extern fn SDLThreadID get_current_thread_id() @extern("SDL_GetCurrentThreadID");

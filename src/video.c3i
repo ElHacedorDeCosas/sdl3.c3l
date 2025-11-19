@@ -521,8 +521,11 @@ extern fn SDLDisplayID get_primary_display() @extern("SDL_GetPrimaryDisplay");
 *>
 extern fn SDLPropertiesID SDLDisplayID.get_properties(display_id) @extern("SDL_GetDisplayProperties");
 
-const PROP_DISPLAY_HDR_ENABLED_BOOLEAN             = "SDL.display.HDR_enabled";
-const PROP_DISPLAY_KMSDRM_PANEL_ORIENTATION_NUMBER = "SDL.display.KMSDRM.panel_orientation";
+enum SDLPropDisplay : const inline ZString
+{
+	HDR_ENABLED_BOOLEAN             = "SDL.display.HDR_enabled",
+	KMSDRM_PANEL_ORIENTATION_NUMBER = "SDL.display.KMSDRM.panel_orientation",
+}
 
 <*
  Get the name of a display in UTF-8 encoding.
@@ -1144,41 +1147,44 @@ extern fn SDLWindow* create_popup_window(SDLWindow* parent, CInt offset_x, CInt 
 *>
 extern fn SDLWindow* create_window_with_properties(SDLPropertiesID props) @extern("SDL_CreateWindowWithProperties");
 
-const PROP_WINDOW_CREATE_ALWAYS_ON_TOP_BOOLEAN               = "SDL.window.create.always_on_top";
-const PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN                  = "SDL.window.create.borderless";
-const PROP_WINDOW_CREATE_CONSTRAIN_POPUP_BOOLEAN             = "SDL.window.create.constrain_popup";
-const PROP_WINDOW_CREATE_FOCUSABLE_BOOLEAN                   = "SDL.window.create.focusable";
-const PROP_WINDOW_CREATE_EXTERNAL_GRAPHICS_CONTEXT_BOOLEAN   = "SDL.window.create.external_graphics_context";
-const PROP_WINDOW_CREATE_FLAGS_NUMBER                        = "SDL.window.create.flags";
-const PROP_WINDOW_CREATE_FULLSCREEN_BOOLEAN                  = "SDL.window.create.fullscreen";
-const PROP_WINDOW_CREATE_HEIGHT_NUMBER                       = "SDL.window.create.height";
-const PROP_WINDOW_CREATE_HIDDEN_BOOLEAN                      = "SDL.window.create.hidden";
-const PROP_WINDOW_CREATE_HIGH_PIXEL_DENSITY_BOOLEAN          = "SDL.window.create.high_pixel_density";
-const PROP_WINDOW_CREATE_MAXIMIZED_BOOLEAN                   = "SDL.window.create.maximized";
-const PROP_WINDOW_CREATE_MENU_BOOLEAN                        = "SDL.window.create.menu";
-const PROP_WINDOW_CREATE_METAL_BOOLEAN                       = "SDL.window.create.metal";
-const PROP_WINDOW_CREATE_MINIMIZED_BOOLEAN                   = "SDL.window.create.minimized";
-const PROP_WINDOW_CREATE_MODAL_BOOLEAN                       = "SDL.window.create.modal";
-const PROP_WINDOW_CREATE_MOUSE_GRABBED_BOOLEAN               = "SDL.window.create.mouse_grabbed";
-const PROP_WINDOW_CREATE_OPENGL_BOOLEAN                      = "SDL.window.create.opengl";
-const PROP_WINDOW_CREATE_PARENT_POINTER                      = "SDL.window.create.parent";
-const PROP_WINDOW_CREATE_RESIZABLE_BOOLEAN                   = "SDL.window.create.resizable";
-const PROP_WINDOW_CREATE_TITLE_STRING                        = "SDL.window.create.title";
-const PROP_WINDOW_CREATE_TRANSPARENT_BOOLEAN                 = "SDL.window.create.transparent";
-const PROP_WINDOW_CREATE_TOOLTIP_BOOLEAN                     = "SDL.window.create.tooltip";
-const PROP_WINDOW_CREATE_UTILITY_BOOLEAN                     = "SDL.window.create.utility";
-const PROP_WINDOW_CREATE_VULKAN_BOOLEAN                      = "SDL.window.create.vulkan";
-const PROP_WINDOW_CREATE_WIDTH_NUMBER                        = "SDL.window.create.width";
-const PROP_WINDOW_CREATE_X_NUMBER                            = "SDL.window.create.x";
-const PROP_WINDOW_CREATE_Y_NUMBER                            = "SDL.window.create.y";
-const PROP_WINDOW_CREATE_COCOA_WINDOW_POINTER                = "SDL.window.create.cocoa.window";
-const PROP_WINDOW_CREATE_COCOA_VIEW_POINTER                  = "SDL.window.create.cocoa.view";
-const PROP_WINDOW_CREATE_WAYLAND_SURFACE_ROLE_CUSTOM_BOOLEAN = "SDL.window.create.wayland.surface_role_custom";
-const PROP_WINDOW_CREATE_WAYLAND_CREATE_EGL_WINDOW_BOOLEAN   = "SDL.window.create.wayland.create_egl_window";
-const PROP_WINDOW_CREATE_WAYLAND_WL_SURFACE_POINTER          = "SDL.window.create.wayland.wl_surface";
-const PROP_WINDOW_CREATE_WIN32_HWND_POINTER                  = "SDL.window.create.win32.hwnd";
-const PROP_WINDOW_CREATE_WIN32_PIXEL_FORMAT_HWND_POINTER     = "SDL.window.create.win32.pixel_format_hwnd";
-const PROP_WINDOW_CREATE_X11_WINDOW_NUMBER                   = "SDL.window.create.x11.window";
+enum SDLPropWindowCreate : const inline ZString
+{
+	ALWAYS_ON_TOP_BOOLEAN               = "SDL.window.create.always_on_top",
+	BORDERLESS_BOOLEAN                  = "SDL.window.create.borderless",
+	CONSTRAIN_POPUP_BOOLEAN             = "SDL.window.create.constrain_popup",
+	FOCUSABLE_BOOLEAN                   = "SDL.window.create.focusable",
+	EXTERNAL_GRAPHICS_CONTEXT_BOOLEAN   = "SDL.window.create.external_graphics_context",
+	FLAGS_NUMBER                        = "SDL.window.create.flags",
+	FULLSCREEN_BOOLEAN                  = "SDL.window.create.fullscreen",
+	HEIGHT_NUMBER                       = "SDL.window.create.height",
+	HIDDEN_BOOLEAN                      = "SDL.window.create.hidden",
+	HIGH_PIXEL_DENSITY_BOOLEAN          = "SDL.window.create.high_pixel_density",
+	MAXIMIZED_BOOLEAN                   = "SDL.window.create.maximized",
+	MENU_BOOLEAN                        = "SDL.window.create.menu",
+	METAL_BOOLEAN                       = "SDL.window.create.metal",
+	MINIMIZED_BOOLEAN                   = "SDL.window.create.minimized",
+	MODAL_BOOLEAN                       = "SDL.window.create.modal",
+	MOUSE_GRABBED_BOOLEAN               = "SDL.window.create.mouse_grabbed",
+	OPENGL_BOOLEAN                      = "SDL.window.create.opengl",
+	PARENT_POINTER                      = "SDL.window.create.parent",
+	RESIZABLE_BOOLEAN                   = "SDL.window.create.resizable",
+	TITLE_STRING                        = "SDL.window.create.title",
+	TRANSPARENT_BOOLEAN                 = "SDL.window.create.transparent",
+	TOOLTIP_BOOLEAN                     = "SDL.window.create.tooltip",
+	UTILITY_BOOLEAN                     = "SDL.window.create.utility",
+	VULKAN_BOOLEAN                      = "SDL.window.create.vulkan",
+	WIDTH_NUMBER                        = "SDL.window.create.width",
+	X_NUMBER                            = "SDL.window.create.x",
+	Y_NUMBER                            = "SDL.window.create.y",
+	COCOA_WINDOW_POINTER                = "SDL.window.create.cocoa.window",
+	COCOA_VIEW_POINTER                  = "SDL.window.create.cocoa.view",
+	WAYLAND_SURFACE_ROLE_CUSTOM_BOOLEAN = "SDL.window.create.wayland.surface_role_custom",
+	WAYLAND_CREATE_EGL_WINDOW_BOOLEAN   = "SDL.window.create.wayland.create_egl_window",
+	WAYLAND_WL_SURFACE_POINTER          = "SDL.window.create.wayland.wl_surface",
+	WIN32_HWND_POINTER                  = "SDL.window.create.win32.hwnd",
+	WIN32_PIXEL_FORMAT_HWND_POINTER     = "SDL.window.create.win32.pixel_format_hwnd",
+	X11_WINDOW_NUMBER                   = "SDL.window.create.x11.window",
+}
 
 <*
  Get the numeric ID of a window.
@@ -1343,42 +1349,44 @@ extern fn SDLWindow* SDLWindow.get_parent(&window) @extern("SDL_GetWindowParent"
 *>
 extern fn SDLPropertiesID SDLWindow.get_properties(&window) @extern("SDL_GetWindowProperties");
 
-const PROP_WINDOW_SHAPE_POINTER                               = "SDL.window.shape";
-const PROP_WINDOW_HDR_ENABLED_BOOLEAN                         = "SDL.window.HDR_enabled";
-const PROP_WINDOW_SDR_WHITE_LEVEL_FLOAT                       = "SDL.window.SDR_white_level";
-const PROP_WINDOW_HDR_HEADROOM_FLOAT                          = "SDL.window.HDR_headroom";
-const PROP_WINDOW_ANDROID_WINDOW_POINTER                      = "SDL.window.android.window";
-const PROP_WINDOW_ANDROID_SURFACE_POINTER                     = "SDL.window.android.surface";
-const PROP_WINDOW_UIKIT_WINDOW_POINTER                        = "SDL.window.uikit.window";
-const PROP_WINDOW_UIKIT_METAL_VIEW_TAG_NUMBER                 = "SDL.window.uikit.metal_view_tag";
-const PROP_WINDOW_UIKIT_OPENGL_FRAMEBUFFER_NUMBER             = "SDL.window.uikit.opengl.framebuffer";
-const PROP_WINDOW_UIKIT_OPENGL_RENDERBUFFER_NUMBER            = "SDL.window.uikit.opengl.renderbuffer";
-const PROP_WINDOW_UIKIT_OPENGL_RESOLVE_FRAMEBUFFER_NUMBER     = "SDL.window.uikit.opengl.resolve_framebuffer";
-const PROP_WINDOW_KMSDRM_DEVICE_INDEX_NUMBER                  = "SDL.window.kmsdrm.dev_index";
-const PROP_WINDOW_KMSDRM_DRM_FD_NUMBER                        = "SDL.window.kmsdrm.drm_fd";
-const PROP_WINDOW_KMSDRM_GBM_DEVICE_POINTER                   = "SDL.window.kmsdrm.gbm_dev";
-const PROP_WINDOW_COCOA_WINDOW_POINTER                        = "SDL.window.cocoa.window";
-const PROP_WINDOW_COCOA_METAL_VIEW_TAG_NUMBER                 = "SDL.window.cocoa.metal_view_tag";
-const PROP_WINDOW_OPENVR_OVERLAY_ID                           = "SDL.window.openvr.overlay_id";
-const PROP_WINDOW_VIVANTE_DISPLAY_POINTER                     = "SDL.window.vivante.display";
-const PROP_WINDOW_VIVANTE_WINDOW_POINTER                      = "SDL.window.vivante.window";
-const PROP_WINDOW_VIVANTE_SURFACE_POINTER                     = "SDL.window.vivante.surface";
-const PROP_WINDOW_WIN32_HWND_POINTER                          = "SDL.window.win32.hwnd";
-const PROP_WINDOW_WIN32_HDC_POINTER                           = "SDL.window.win32.hdc";
-const PROP_WINDOW_WIN32_INSTANCE_POINTER                      = "SDL.window.win32.instance";
-const PROP_WINDOW_WAYLAND_DISPLAY_POINTER                     = "SDL.window.wayland.display";
-const PROP_WINDOW_WAYLAND_SURFACE_POINTER                     = "SDL.window.wayland.surface";
-const PROP_WINDOW_WAYLAND_VIEWPORT_POINTER                    = "SDL.window.wayland.viewport";
-const PROP_WINDOW_WAYLAND_EGL_WINDOW_POINTER                  = "SDL.window.wayland.egl_window";
-const PROP_WINDOW_WAYLAND_XDG_SURFACE_POINTER                 = "SDL.window.wayland.xdg_surface";
-const PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_POINTER                = "SDL.window.wayland.xdg_toplevel";
-const PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_EXPORT_HANDLE_STRING   = "SDL.window.wayland.xdg_toplevel_export_handle";
-const PROP_WINDOW_WAYLAND_XDG_POPUP_POINTER                   = "SDL.window.wayland.xdg_popup";
-const PROP_WINDOW_WAYLAND_XDG_POSITIONER_POINTER              = "SDL.window.wayland.xdg_positioner";
-const PROP_WINDOW_X11_DISPLAY_POINTER                         = "SDL.window.x11.display";
-const PROP_WINDOW_X11_SCREEN_NUMBER                           = "SDL.window.x11.screen";
-const PROP_WINDOW_X11_WINDOW_NUMBER                           = "SDL.window.x11.window";
-
+enum SDLPropWindow : const inline ZString
+{
+	SHAPE_POINTER                               = "SDL.window.shape",
+	HDR_ENABLED_BOOLEAN                         = "SDL.window.HDR_enabled",
+	SDR_WHITE_LEVEL_FLOAT                       = "SDL.window.SDR_white_level",
+	HDR_HEADROOM_FLOAT                          = "SDL.window.HDR_headroom",
+	ANDROID_WINDOW_POINTER                      = "SDL.window.android.window",
+	ANDROID_SURFACE_POINTER                     = "SDL.window.android.surface",
+	UIKIT_WINDOW_POINTER                        = "SDL.window.uikit.window",
+	UIKIT_METAL_VIEW_TAG_NUMBER                 = "SDL.window.uikit.metal_view_tag",
+	UIKIT_OPENGL_FRAMEBUFFER_NUMBER             = "SDL.window.uikit.opengl.framebuffer",
+	UIKIT_OPENGL_RENDERBUFFER_NUMBER            = "SDL.window.uikit.opengl.renderbuffer",
+	UIKIT_OPENGL_RESOLVE_FRAMEBUFFER_NUMBER     = "SDL.window.uikit.opengl.resolve_framebuffer",
+	KMSDRM_DEVICE_INDEX_NUMBER                  = "SDL.window.kmsdrm.dev_index",
+	KMSDRM_DRM_FD_NUMBER                        = "SDL.window.kmsdrm.drm_fd",
+	KMSDRM_GBM_DEVICE_POINTER                   = "SDL.window.kmsdrm.gbm_dev",
+	COCOA_WINDOW_POINTER                        = "SDL.window.cocoa.window",
+	COCOA_METAL_VIEW_TAG_NUMBER                 = "SDL.window.cocoa.metal_view_tag",
+	OPENVR_OVERLAY_ID                           = "SDL.window.openvr.overlay_id",
+	VIVANTE_DISPLAY_POINTER                     = "SDL.window.vivante.display",
+	VIVANTE_WINDOW_POINTER                      = "SDL.window.vivante.window",
+	VIVANTE_SURFACE_POINTER                     = "SDL.window.vivante.surface",
+	WIN32_HWND_POINTER                          = "SDL.window.win32.hwnd",
+	WIN32_HDC_POINTER                           = "SDL.window.win32.hdc",
+	WIN32_INSTANCE_POINTER                      = "SDL.window.win32.instance",
+	WAYLAND_DISPLAY_POINTER                     = "SDL.window.wayland.display",
+	WAYLAND_SURFACE_POINTER                     = "SDL.window.wayland.surface",
+	WAYLAND_VIEWPORT_POINTER                    = "SDL.window.wayland.viewport",
+	WAYLAND_EGL_WINDOW_POINTER                  = "SDL.window.wayland.egl_window",
+	WAYLAND_XDG_SURFACE_POINTER                 = "SDL.window.wayland.xdg_surface",
+	WAYLAND_XDG_TOPLEVEL_POINTER                = "SDL.window.wayland.xdg_toplevel",
+	WAYLAND_XDG_TOPLEVEL_EXPORT_HANDLE_STRING   = "SDL.window.wayland.xdg_toplevel_export_handle",
+	WAYLAND_XDG_POPUP_POINTER                   = "SDL.window.wayland.xdg_popup",
+	WAYLAND_XDG_POSITIONER_POINTER              = "SDL.window.wayland.xdg_positioner",
+	X11_DISPLAY_POINTER                         = "SDL.window.x11.display",
+	X11_SCREEN_NUMBER                           = "SDL.window.x11.screen",
+	X11_WINDOW_NUMBER                           = "SDL.window.x11.window",
+}
 
 <*
  Get the window flags.

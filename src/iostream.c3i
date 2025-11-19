@@ -234,10 +234,13 @@ typedef SDLIOStream = void;
 *>
 extern fn SDLIOStream* io_from_file(ZString file, ZString mode) @extern("SDL_IOFromFile");
 
-const PROP_IOSTREAM_WINDOWS_HANDLE_POINTER 	= "SDL.iostream.windows.handle";
-const PROP_IOSTREAM_STDIO_FILE_POINTER 	    = "SDL.iostream.stdio.file";
-const PROP_IOSTREAM_FILE_DESCRIPTOR_NUMBER 	= "SDL.iostream.file_descriptor";
-const PROP_IOSTREAM_ANDROID_AASSET_POINTER 	= "SDL.iostream.android.aasset";
+enum SDLPropIOStream : const inline ZString
+{
+	WINDOWS_HANDLE_POINTER 	= "SDL.iostream.windows.handle",
+	STDIO_FILE_POINTER 	    = "SDL.iostream.stdio.file",
+	FILE_DESCRIPTOR_NUMBER 	= "SDL.iostream.file_descriptor",
+	ANDROID_AASSET_POINTER 	= "SDL.iostream.android.aasset",
+}
 
 <*
  Use this function to prepare a read-write memory buffer for use with
@@ -271,8 +274,11 @@ const PROP_IOSTREAM_ANDROID_AASSET_POINTER 	= "SDL.iostream.android.aasset";
 *>
 extern fn SDLIOStream* io_from_mem(void* mem, usz size) @extern("SDL_IOFromMem");
 
-const PROP_IOSTREAM_MEMORY_POINTER         = "SDL.iostream.memory.base";
-const PROP_IOSTREAM_MEMORY_SIZE_NUMBER     = "SDL.iostream.memory.size";
+enum SDLPropIOStreamMemory : const inline ZString
+{
+	POINTER         = "SDL.iostream.memory.base",
+	SIZE_NUMBER     = "SDL.iostream.memory.size",
+}
 
 <*
  Use this function to prepare a read-only memory buffer for use with
@@ -331,8 +337,11 @@ extern fn SDLIOStream* io_from_const_mem(void* mem, usz size) @extern("SDL_IOFro
 *>
 extern fn SDLIOStream* io_from_dynamic_mem() @extern("SDL_IOFromDynamicMem");
 
-const PROP_IOSTREAM_DYNAMIC_MEMORY_POINTER   = "SDL.iostream.dynamic.memory";
-const PROP_IOSTREAM_DYNAMIC_CHUNKSIZE_NUMBER = "SDL.iostream.dynamic.chunksize";
+enum SDLPropIOStreamDynamic : const inline ZString
+{
+	MEMORY_POINTER   = "SDL.iostream.dynamic.memory",
+	CHUNKSIZE_NUMBER = "SDL.iostream.dynamic.chunksize",
+}
 
 <*
  Create a custom SDL_IOStream.

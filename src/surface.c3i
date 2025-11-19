@@ -188,11 +188,14 @@ extern fn void SDLSurface.destroy(&surface) @extern("SDL_DestroySurface");
 *>
 extern fn SDLPropertiesID SDLSurface.get_properties(&surface) @extern("SDL_GetSurfaceProperties");
 
-const PROP_SURFACE_SDR_WHITE_POINT_FLOAT   = "SDL.surface.SDR_white_point";
-const PROP_SURFACE_HDR_HEADROOM_FLOAT      = "SDL.surface.HDR_headroom";
-const PROP_SURFACE_TONEMAP_OPERATOR_STRING = "SDL.surface.tonemap";
-const PROP_SURFACE_HOTSPOT_X_NUMBER        = "SDL.surface.hotspot.x";
-const PROP_SURFACE_HOTSPOT_Y_NUMBER        = "SDL.surface.hotspot.y";
+enum SDLPropSurface : const inline ZString
+{
+	SDR_WHITE_POINT_FLOAT   = "SDL.surface.SDR_white_point",
+	HDR_HEADROOM_FLOAT      = "SDL.surface.HDR_headroom",
+	TONEMAP_OPERATOR_STRING = "SDL.surface.tonemap",
+	HOTSPOT_X_NUMBER        = "SDL.surface.hotspot.x",
+	HOTSPOT_Y_NUMBER        = "SDL.surface.hotspot.y",
+}
 
 <*
  Set the colorspace used by a surface.

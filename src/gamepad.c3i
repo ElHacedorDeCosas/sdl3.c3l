@@ -610,11 +610,14 @@ extern fn SDLGamepad* get_gamepad_from_player_index(int player_index) @extern("S
 *>
 extern fn SDLPropertiesID SDLGamepad.get_properties(&gamepad) @extern("SDL_GetGamepadProperties");
 
-const PROP_GAMEPAD_CAP_MONO_LED_BOOLEAN       = PROP_JOYSTICK_CAP_MONO_LED_BOOLEAN;
-const PROP_GAMEPAD_CAP_RGB_LED_BOOLEAN        = PROP_JOYSTICK_CAP_RGB_LED_BOOLEAN;
-const PROP_GAMEPAD_CAP_PLAYER_LED_BOOLEAN     = PROP_JOYSTICK_CAP_PLAYER_LED_BOOLEAN;
-const PROP_GAMEPAD_CAP_RUMBLE_BOOLEAN         = PROP_JOYSTICK_CAP_RUMBLE_BOOLEAN;
-const PROP_GAMEPAD_CAP_TRIGGER_RUMBLE_BOOLEAN = PROP_JOYSTICK_CAP_TRIGGER_RUMBLE_BOOLEAN;
+enum SDLPropGamepadCap : const inline ZString
+{
+	MONO_LED_BOOLEAN       = SDLPropJoystickCap.MONO_LED_BOOLEAN,
+	RGB_LED_BOOLEAN        = SDLPropJoystickCap.RGB_LED_BOOLEAN,
+	PLAYER_LED_BOOLEAN     = SDLPropJoystickCap.PLAYER_LED_BOOLEAN,
+	RUMBLE_BOOLEAN         = SDLPropJoystickCap.RUMBLE_BOOLEAN,
+	TRIGGER_RUMBLE_BOOLEAN = SDLPropJoystickCap.TRIGGER_RUMBLE_BOOLEAN,
+}
 
 <*
  Get the instance ID of an opened gamepad.

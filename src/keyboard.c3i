@@ -360,11 +360,14 @@ enum SDLCapitalization
 *>
 extern fn bool start_text_input_with_properties(SDLWindow* window, SDLPropertiesID props) @extern("SDL_StartTextInputWithProperties");
 
-const PROP_TEXTINPUT_TYPE_NUMBER                  = "SDL.textinput.type";
-const PROP_TEXTINPUT_CAPITALIZATION_NUMBER        = "SDL.textinput.capitalization";
-const PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN          = "SDL.textinput.autocorrect";
-const PROP_TEXTINPUT_MULTILINE_BOOLEAN            = "SDL.textinput.multiline";
-const PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER     = "SDL.textinput.android.inputtype";
+enum SDLPropTextinput : const inline ZString
+{
+	TYPE_NUMBER                  = "SDL.textinput.type",
+	CAPITALIZATION_NUMBER        = "SDL.textinput.capitalization",
+	AUTOCORRECT_BOOLEAN          = "SDL.textinput.autocorrect",
+	MULTILINE_BOOLEAN            = "SDL.textinput.multiline",
+	ANDROID_INPUTTYPE_NUMBER     = "SDL.textinput.android.inputtype",
+}
 
 <*
  Check whether or not Unicode text input events are enabled for a window.

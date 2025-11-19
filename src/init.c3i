@@ -368,15 +368,18 @@ extern fn bool set_app_metadata(ZString appname, ZString appversion, ZString app
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool set_app_metadata_property(SDLPropAppMetadata name, ZString value) @extern("SDL_SetAppMetadataProperty");
+extern fn bool set_app_metadata_property(ZString name, ZString value) @extern("SDL_SetAppMetadataProperty");
 
-const PROP_APP_METADATA_NAME_STRING         = "SDL.app.metadata.name";
-const PROP_APP_METADATA_VERSION_STRING      = "SDL.app.metadata.version";
-const PROP_APP_METADATA_IDENTIFIER_STRING   = "SDL.app.metadata.identifier";
-const PROP_APP_METADATA_CREATOR_STRING      = "SDL.app.metadata.creator";
-const PROP_APP_METADATA_COPYRIGHT_STRING    = "SDL.app.metadata.copyright";
-const PROP_APP_METADATA_URL_STRING          = "SDL.app.metadata.url";
-const PROP_APP_METADATA_TYPE_STRING         = "SDL.app.metadata.type";
+enum SDLPropAppMetadata : const inline ZString
+{
+	NAME_STRING         = "SDL.app.metadata.name",
+	VERSION_STRING      = "SDL.app.metadata.version",
+	IDENTIFIER_STRING   = "SDL.app.metadata.identifier",
+	CREATOR_STRING      = "SDL.app.metadata.creator",
+	COPYRIGHT_STRING    = "SDL.app.metadata.copyright",
+	URL_STRING          = "SDL.app.metadata.url",
+	TYPE_STRING         = "SDL.app.metadata.type",
+}
 
 <*
  Get metadata about your app.
@@ -395,4 +398,4 @@ const PROP_APP_METADATA_TYPE_STRING         = "SDL.app.metadata.type";
  @return `the current value of the metadata property, or the default if it
           is not set, NULL for properties with no default.`
 *>
-extern fn ZString get_app_metadata_property(SDLPropAppMetadata name) @extern("SDL_GetAppMetadataProperty");
+extern fn ZString get_app_metadata_property(ZString name) @extern("SDL_GetAppMetadataProperty");
