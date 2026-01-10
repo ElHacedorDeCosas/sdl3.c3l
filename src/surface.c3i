@@ -24,12 +24,13 @@ module sdl;
 
  These are generally considered read-only.
 *>
-typedef SDLSurfaceFlags = uint;
-
-const SURFACE_PREALLOCATED    = 0x00000001u; /**< Surface uses preallocated pixel memory */
-const SURFACE_LOCK_NEEDED     = 0x00000002u; /**< Surface needs to be locked to access pixels */
-const SURFACE_LOCKED          = 0x00000004u; /**< Surface is currently locked */
-const SURFACE_SIMD_ALIGNED    = 0x00000008u; /**< Surface uses pixel memory allocated with SDL_aligned_alloc() */
+bitstruct SDLSurfaceFlags : uint
+{
+	bool preallocated : 0; // 0x00000001u /**< Surface uses preallocated pixel memory */
+	bool lock_needed  : 1; // 0x00000002u /**< Surface needs to be locked to access pixels */
+	bool locked       : 2; // 0x00000004u /**< Surface is currently locked */
+	bool simd_aligned : 3; // 0x00000008u /**< Surface uses pixel memory allocated with SDL_aligned_alloc() */
+}
 
 <*
  Evaluates to true if the surface needs to be locked before access.
@@ -95,9 +96,9 @@ struct SDLSurface
     CInt h;                      /**< The height of the surface, read-only. */
     CInt pitch;                  /**< The distance in bytes between rows of pixels, read-only */
     void* pixels;               /**< A pointer to the pixels of the surface, the pixels are writeable if non-NULL */
- 
+
     CInt refcount;               /**< Application reference count, used when freeing surface */
- 
+
     void* reserved;             /**< Reserved for internal use */
 }
 
@@ -507,7 +508,7 @@ extern fn bool SDLSurface.has_rle(&surface) @extern("SDL_SurfaceHasRLE");
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLSurface.set_colorKey(&surface, bool enabled, uint key) @extern("SDL_SetSurfaceColorKey");
+extern fn bool SDLSurface.set_color_key(&surface, bool enabled, uint key) @extern("SDL_SetSurfaceColorKey");
 
 <*
  Returns whether the surface has a color key.
@@ -520,7 +521,7 @@ extern fn bool SDLSurface.set_colorKey(&surface, bool enabled, uint key) @extern
  @param surface : `the SDL_Surface structure to query.`
  @return `true if the surface has a color key, false otherwise.`
 *>
-extern fn bool SDLSurface.has_colorKey(&surface) @extern("SDL_SurfaceHasColorKey");
+extern fn bool SDLSurface.has_color_key(&surface) @extern("SDL_SurfaceHasColorKey");
 
 <*
  Get the color key (transparent pixel) for a surface.
@@ -538,7 +539,7 @@ extern fn bool SDLSurface.has_colorKey(&surface) @extern("SDL_SurfaceHasColorKey
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLSurface.get_colorKey(&surface, uint* key) @extern("SDL_GetSurfaceColorKey");
+extern fn bool SDLSurface.get_color_key(&surface, uint* key) @extern("SDL_GetSurfaceColorKey");
 
 <*
  Set an additional color value multiplied into blit operations.
@@ -559,7 +560,7 @@ extern fn bool SDLSurface.get_colorKey(&surface, uint* key) @extern("SDL_GetSurf
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLSurface.set_colorMod(&surface, char r, char g, char b) @extern("SDL_SetSurfaceColorMod");
+extern fn bool SDLSurface.set_color_mod(&surface, char r, char g, char b) @extern("SDL_SetSurfaceColorMod");
 
 <*
  Get the additional color value multiplied into blit operations.
@@ -574,7 +575,7 @@ extern fn bool SDLSurface.set_colorMod(&surface, char r, char g, char b) @extern
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLSurface.get_colorMod(&surface, char* r, char* g, char* b) @extern("SDL_GetSurfaceColorMod");
+extern fn bool SDLSurface.get_color_mod(&surface, char* r, char* g, char* b) @extern("SDL_GetSurfaceColorMod");
 
 <*
  Set an additional alpha value used in blit operations.
@@ -592,7 +593,7 @@ extern fn bool SDLSurface.get_colorMod(&surface, char* r, char* g, char* b) @ext
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLSurface.set_alphaMod(&surface, char alpha) @extern("SDL_SetSurfaceAlphaMod");
+extern fn bool SDLSurface.set_alpha_mod(&surface, char alpha) @extern("SDL_SetSurfaceAlphaMod");
 
 <*
  Get the additional alpha value used in blit operations.
@@ -605,7 +606,7 @@ extern fn bool SDLSurface.set_alphaMod(&surface, char alpha) @extern("SDL_SetSur
  @return `true on success or false on failure; call SDL_GetError() for more
           information.`
 *>
-extern fn bool SDLSurface.get_alphaMod(&surface, char* alpha) @extern("SDL_GetSurfaceAlphaMod");
+extern fn bool SDLSurface.get_alpha_mod(&surface, char* alpha) @extern("SDL_GetSurfaceAlphaMod");
 
 <*
  Set the blend mode used for blit operations.
